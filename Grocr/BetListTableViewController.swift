@@ -23,7 +23,7 @@
 import UIKit
 import Firebase
 
-class GroceryListTableViewController: UITableViewController {
+class BetListTableViewController: UITableViewController {
 
   // MARK: Constants
   let listToUsers = "ListToUsers"
