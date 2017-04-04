@@ -17,8 +17,9 @@ struct BetItem {
   let ref: FIRDatabaseReference?
   var completed: Bool
   let amount: String
+  var category: String
   
-  init(name: String, challenger: String, completed: Bool, key: String = "", amount: String = "0") {
+  init(name: String, challenger: String, completed: Bool, key: String = "", amount: String = "0", category: String = "Other") {
     self.key = key
     self.name = name
     self.challenger = challenger
@@ -26,6 +27,7 @@ struct BetItem {
     self.completed = completed
     self.ref = nil
     self.amount = amount
+    self.category = category
   }
   
   init(snapshot: FIRDataSnapshot) {
@@ -36,6 +38,7 @@ struct BetItem {
     completed = snapshotValue["completed"] as! Bool
     ref = snapshot.ref
     amount = snapshotValue["amount"] as! String
+    category = "Hello"
    // challengee = ""
   }
   
@@ -44,7 +47,8 @@ struct BetItem {
       "name": name,
       "challenger": challenger,
       "completed": completed,
-      "amount": amount
+      "amount": amount,
+      "category": category
       //"challengee": challengee
     ]
   }
