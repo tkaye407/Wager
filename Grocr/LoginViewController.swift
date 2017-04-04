@@ -26,6 +26,7 @@ class LoginViewController: UIViewController {
   
   // MARK: Constants
   let loginToList = "LoginToList"
+  let test = 1
   
   // MARK: Outlets
   @IBOutlet weak var textFieldLoginEmail: UITextField!
