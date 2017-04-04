@@ -1,9 +1,8 @@
 //
 //  BetItem.swift
-//  Grocr
+//  WagerApp
 //
-//  Created by Tyler Kaye on 4/2/17.
-//  Copyright © 2017 Razeware LLC. All rights reserved.
+//  Created by Tyler Kaye, Michael Swart, Richard Bush, and William Chance on 4/2/17.
 //
 
 import Foundation
