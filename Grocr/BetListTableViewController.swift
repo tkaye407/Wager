@@ -29,8 +29,11 @@ class BetListTableViewController: UITableViewController {
     
     user = User(uid: "FakeId", email: "hungry@person.food")
     
-    ref.observe(.value, with: { snapshot in
+    let new_ref = ref.queryOrdered(byChild: "category").queryEqual(toValue: "SPORTZZZ")
+    new_ref.observe(.value, with: { snapshot in
       var newItems: [BetItem] = []
+      
+      
       for item in snapshot.children {
         let betItem = BetItem(snapshot: item as! FIRDataSnapshot)
         newItems.append(betItem)
