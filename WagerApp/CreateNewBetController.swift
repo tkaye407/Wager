@@ -32,7 +32,8 @@ class CreateNewBetController: UIViewController {
   
   @IBAction func CreateNewBetPressed(_ sender: AnyObject) {
     let betItemRef = ref.childByAutoId()
-    let betItem = BetItem(name: reasonText.text!, challenger: "abc", completed: false)
+    //let amt:Int? = Int(amountText.text!)
+    let betItem = BetItem(name: reasonText.text!, challenger: "abc", completed: false, amount: amountText.text!)
     betItemRef.setValue(betItem.toAnyObject())
   }
 

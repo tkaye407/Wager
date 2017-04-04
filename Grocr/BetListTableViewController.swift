@@ -40,13 +40,7 @@ class BetListTableViewController: UITableViewController {
     super.viewDidLoad()
     
     tableView.allowsMultipleSelectionDuringEditing = false
-    
-    userCountBarButtonItem = UIBarButtonItem(title: "1",
-                                             style: .plain,
-                                             target: self,
-                                             action: #selector(userCountButtonDidTouch))
-    userCountBarButtonItem.tintColor = UIColor.white
-    navigationItem.leftBarButtonItem = userCountBarButtonItem
+  
     
     user = User(uid: "FakeId", email: "hungry@person.food")
     
@@ -73,8 +67,7 @@ class BetListTableViewController: UITableViewController {
     
     cell.textLabel?.text = betItem.name
     cell.detailTextLabel?.text = betItem.challenger
-    
-    toggleCellCheckbox(cell, isCompleted: betItem.completed)
+    cell.detailTextLabel?.text = betItem.amount
     
     return cell
   }
@@ -89,51 +82,6 @@ class BetListTableViewController: UITableViewController {
       tableView.reloadData()
     }
   }
-  
-  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    guard let cell = tableView.cellForRow(at: indexPath) else { return }
-    var betItem = items[indexPath.row]
-    let toggledCompletion = !betItem.completed
-    
-    toggleCellCheckbox(cell, isCompleted: toggledCompletion)
-    betItem.completed = toggledCompletion
-    tableView.reloadData()
-  }
-  
-  func toggleCellCheckbox(_ cell: UITableViewCell, isCompleted: Bool) {
-    if !isCompleted {
-      cell.accessoryType = .none
-      cell.textLabel?.textColor = UIColor.black
-      cell.detailTextLabel?.textColor = UIColor.black
-    } else {
-      cell.accessoryType = .checkmark
-      cell.textLabel?.textColor = UIColor.gray
-      cell.detailTextLabel?.textColor = UIColor.gray
-    }
-  }
-  
-  // MARK: Add Item
-  
-  @IBAction func addButtonDidTouch(_ sender: AnyObject) {
-    let alert = UIAlertController(title: "New Bet", message: "Enter Description", preferredStyle: .alert)
-    
-    let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
-        guard let textField = alert.textFields?.first,
-          let text = textField.text else { return }
-        
-        let betItem = BetItem(name: text, challenger: self.user.email, completed: false)
-        let betItemRef = self.ref.child(text.lowercased())
-        betItemRef.setValue(betItem.toAnyObject())
-    }
-    let cancelAction = UIAlertAction(title: "Cancel", style: .default)
-    alert.addTextField()
-    alert.addAction(saveAction)
-    alert.addAction(cancelAction)
-    present(alert, animated: true, completion: nil)
-  }
-  
-  func userCountButtonDidTouch() {
-    performSegue(withIdentifier: listToUsers, sender: nil)
-  }
+
   
 }
