@@ -10,14 +10,9 @@ import Firebase
 
 class BetListTableViewController: UITableViewController {
 
-  /*enum UIAlertControllerStyle : Int {
-    case ActionSheet
-    case Alert
-    case Cancel
-  }*/
   
   var channelName = ""
-    @IBAction func ShowChannel(_ sender: Any) {
+    @IBAction func ChannelSelect(_ sender: Any) {
       
       let alertController = UIAlertController(title: "Pick A Channel", message: "select one", preferredStyle: .alert)
       
@@ -32,7 +27,6 @@ class BetListTableViewController: UITableViewController {
       }
       )
       alertController.addAction(callAll)
-      var total = ""
       for item in self.channels {
         let newVal = UIAlertAction(title: item, style: .default, handler: {
           action in
