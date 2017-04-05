@@ -12,11 +12,12 @@ class CreateNewBetController: UIViewController,  UIPickerViewDelegate, UIPickerV
 
   @IBOutlet weak var reasonText: UITextField!
   let ref = FIRDatabase.database().reference(withPath: "Bets")
+  let cRef = FIRDatabase.database().reference(withPath: "Categories")
   @IBOutlet weak var amountText: UITextField!
-  var items: [BetItem] = []
   var user: User!
   @IBOutlet weak var catPicker: UIPickerView!
   var pickerData: [String] = [String]()
+
   
   @IBAction func CreateNewBetPressed(_ sender: AnyObject) {
     let betItemRef = ref.childByAutoId()
@@ -32,13 +33,23 @@ class CreateNewBetController: UIViewController,  UIPickerViewDelegate, UIPickerV
     FIRAuth.auth()!.addStateDidChangeListener { auth, user in
       guard let user = user else { return }
       self.user = User(authData: user)
-        
-      self.pickerData = ["Baseball", "Basketball", "Football", "Fighting", "School"]
       
-      // Connect data:
-      self.catPicker.delegate = self
-      self.catPicker.dataSource = self
     }
+    //self.pickerData = ["Baseball", "Basketball", "Football", "Fighting", "School"]
+    
+    // Connect data:
+    self.catPicker.delegate = self
+    self.catPicker.dataSource = self
+    
+    cRef.observe(.value, with: { snapshot in
+      for item in snapshot.children {
+        let currCat = item as! FIRDataSnapshot
+        let snapshotValue = currCat.value as! String
+        self.pickerData.append(snapshotValue)
+      }
+      self.catPicker.reloadAllComponents();
+    })
+
   }
   
   func numberOfComponents(in pickerView: UIPickerView) -> Int {
