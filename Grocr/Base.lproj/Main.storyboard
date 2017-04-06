@@ -242,30 +242,45 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="detailButton" indentationWidth="10" reuseIdentifier="ItemCell" textLabel="UnY-ve-PAJ" detailTextLabel="266-7a-Aig" rowHeight="60" style="IBUITableViewCellStyleSubtitle" id="en3-w1-wtA">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="detailDisclosureButton" indentationWidth="10" reuseIdentifier="ItemCell" rowHeight="60" id="en3-w1-wtA" customClass="BetTableViewCell" customModule="Grocr" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="22" width="375" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="en3-w1-wtA" id="l9k-nz-0Yb">
-                                    <rect key="frame" x="0.0" y="0.0" width="328" height="59.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="308" height="59.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="UnY-ve-PAJ">
-                                            <rect key="frame" x="15" y="13" width="33.5" height="20.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Amount" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="24Y-Uv-Ivt">
+                                            <rect key="frame" x="240" y="7" width="60" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="266-7a-Aig">
-                                            <rect key="frame" x="15" y="33.5" width="44" height="14.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Challenger: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V2W-ry-6xK">
+                                            <rect key="frame" x="25" y="30" width="207" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Bet: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rHt-DC-gsF">
+                                            <rect key="frame" x="16" y="8" width="224" height="21"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                            <color key="textColor" red="0.18823529411764706" green="0.45490196078431372" blue="0.31764705882352939" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="V2W-ry-6xK" firstAttribute="top" secondItem="rHt-DC-gsF" secondAttribute="bottom" constant="5" id="8PK-cW-it0"/>
+                                        <constraint firstItem="V2W-ry-6xK" firstAttribute="leading" secondItem="l9k-nz-0Yb" secondAttribute="leadingMargin" constant="20" id="LOu-eI-wPM"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="24Y-Uv-Ivt" secondAttribute="trailing" id="Ps0-VV-VQq"/>
+                                        <constraint firstAttribute="topMargin" secondItem="rHt-DC-gsF" secondAttribute="top" constant="4" id="Twd-xg-0Bu"/>
+                                        <constraint firstItem="24Y-Uv-Ivt" firstAttribute="top" secondItem="rHt-DC-gsF" secondAttribute="top" id="iwN-yd-m77"/>
+                                        <constraint firstAttribute="leadingMargin" secondItem="rHt-DC-gsF" secondAttribute="leading" constant="-5" id="wE0-4Y-YbS"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="betAmountLabel" destination="24Y-Uv-Ivt" id="zuN-aZ-7dl"/>
+                                    <outlet property="betChallengerLabel" destination="V2W-ry-6xK" id="76S-Mb-fVG"/>
+                                    <outlet property="betNameLabel" destination="rHt-DC-gsF" id="OHa-pD-OGz"/>
                                     <segue destination="7nr-Lc-mbm" kind="show" identifier="toIndividualBet" id="NQl-yW-VlT"/>
                                 </connections>
                             </tableViewCell>

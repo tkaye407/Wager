@@ -95,12 +95,12 @@ class BetListTableViewController: UITableViewController {
   }
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell", for: indexPath)
+    let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell", for: indexPath) as! BetTableViewCell
     let betItem = items[indexPath.row]
     
-    cell.textLabel?.text = betItem.name
-    cell.detailTextLabel?.text = betItem.challenger
-    cell.detailTextLabel?.text = betItem.amount
+    cell.betNameLabel.text = betItem.name
+    cell.betChallengerLabel.text = betItem.challenger
+    cell.betAmountLabel.text = "$" + betItem.amount
     
     return cell
   }
