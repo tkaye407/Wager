@@ -19,6 +19,7 @@ class BetViewController: UIViewController {
   
   var bet: BetItem!
   var betName = "shit"
+  var user: User!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +38,11 @@ class BetViewController: UIViewController {
         self.takeBetButton.setTitle("Accepted", for: UIControlState.normal)
         self.takeBetButton.isEnabled = false;
       }
+      
+      FIRAuth.auth()!.addStateDidChangeListener { auth, user in
+        guard let user = user else { return }
+        self.user = User(authData: user)
+      }
 
         // Do any additional setup after loading the view.
     }
@@ -49,6 +55,7 @@ class BetViewController: UIViewController {
       
       let bRef  = FIRDatabase.database().reference().child("Bets").child(bet.key)
       bRef.updateChildValues(["completed":true])
+      bRef.updateChildValues(["challengee":user.email])
       
     }
   }
