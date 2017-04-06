@@ -456,10 +456,10 @@
             </objects>
             <point key="canvasLocation" x="1991.2" y="398.95052473763121"/>
         </scene>
-        <!--ProfileTab-->
+        <!--Profile-->
         <scene sceneID="2lW-mf-nKI">
             <objects>
-                <viewController id="uzT-6q-WAv" sceneMemberID="viewController">
+                <viewController id="uzT-6q-WAv" customClass="ProfileViewController" customModule="Grocr" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Ese-Cn-Zmr"/>
                         <viewControllerLayoutGuide type="bottom" id="Snk-Rb-Gcp"/>
@@ -478,8 +478,11 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="ProfileTab" image="profileIcon" id="qh4-yc-xdW"/>
+                    <tabBarItem key="tabBarItem" title="Profile" image="profileIcon" id="qh4-yc-xdW"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="UserNameLabel" destination="otW-JU-VQU" id="P5T-7b-Jtg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q9x-RM-9fn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
