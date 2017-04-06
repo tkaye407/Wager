@@ -48,6 +48,7 @@ class BetListTableViewController: UITableViewController {
   var channels: [String] = []
   var user: User!
   var userCountBarButtonItem: UIBarButtonItem!
+  var selectedBet: BetItem?
   
   // MARK: UIViewController Lifecycle
   
@@ -114,6 +115,21 @@ class BetListTableViewController: UITableViewController {
       tableView.reloadData()
     }
   }
-
   
+  func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    let indexPath = tableView.indexPathForSelectedRow!
+    selectedBet = items[indexPath.row]
+    self.performSegue(withIdentifier: "toIndividualBet", sender: self);
+  }
+  
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if (segue.identifier == "toIndividualBet") {
+        let vc = segue.destination as! BetViewController
+        // Pass the selected object to the new view controller.
+        if let indexPath = self.tableView.indexPathForSelectedRow {
+          let selectedBet = items[indexPath.row]
+          vc.bet = selectedBet
+      }
+    }
+  }
 }
