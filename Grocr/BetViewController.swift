@@ -9,24 +9,47 @@
 import UIKit
 
 class BetViewController: UIViewController {
-  @IBOutlet weak var betNameLabel: UILabel!
-  @IBOutlet weak var betDescriptionLabel: UILabel!
-  @IBOutlet weak var betChallengerLabel: UILabel!
-  @IBOutlet weak var betCategoryLabel: UILabel!
+  @IBOutlet weak var nameLabel: UILabel!
+  @IBOutlet weak var descriptionLabel: UILabel!
+  @IBOutlet weak var challengerLabel: UILabel!
+  @IBOutlet weak var categoryLabel: UILabel!
+  @IBOutlet weak var takeBetButton: UIButton!
+  
+  
   var bet: BetItem!
   var betName = "shit"
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.nameLabel.text = bet.name
+        self.categoryLabel.text = bet.category
+        self.challengerLabel.text = bet.challenger
+        self.descriptionLabel.text = bet.amount
       
-        self.betNameLabel.text = bet.name
-        self.betCategoryLabel.text = bet.category
-        self.betChallengerLabel.text = bet.challenger
-        self.betDescriptionLabel.text = bet.amount
+      if (!bet.completed) {
+        self.takeBetButton.setTitle("Take Bet", for:UIControlState.normal)
+        self.takeBetButton.layer.cornerRadius = 20
+
+
+      }
+      else {
+        self.takeBetButton.setTitle("Accepted", for: UIControlState.normal)
+        self.takeBetButton.isEnabled = false;
+      }
 
         // Do any additional setup after loading the view.
     }
-
+  
+  @IBAction func takeBet(_ sender: Any) {
+    if (!bet.completed) {
+      self.nameLabel.text = "SHIT"
+      self.takeBetButton.setTitle("Accepted", for: UIControlState.normal)
+      self.takeBetButton.isEnabled = false;
+      self.bet.completed = true
+      
+    }
+  }
+ 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

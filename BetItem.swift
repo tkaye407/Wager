@@ -38,7 +38,7 @@ struct BetItem {
     completed = snapshotValue["completed"] as! Bool
     ref = snapshot.ref
     amount = snapshotValue["amount"] as! String
-    category = "Hello"
+    category = snapshotValue["category"] as! String
    // challengee = ""
   }
   
