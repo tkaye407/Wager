@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class BetViewController: UIViewController {
   @IBOutlet weak var nameLabel: UILabel!
@@ -42,10 +43,12 @@ class BetViewController: UIViewController {
   
   @IBAction func takeBet(_ sender: Any) {
     if (!bet.completed) {
-      self.nameLabel.text = "SHIT"
       self.takeBetButton.setTitle("Accepted", for: UIControlState.normal)
       self.takeBetButton.isEnabled = false;
       self.bet.completed = true
+      
+      let bRef  = FIRDatabase.database().reference().child("Bets").child(bet.key)
+      bRef.updateChildValues(["completed":true])
       
     }
   }
