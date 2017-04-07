@@ -10,6 +10,7 @@ import Firebase
 
 class BetListTableViewController: UITableViewController {
 
+    @IBOutlet weak var ChannelsButton: UIButton!
   
   var channelName = ""
     @IBAction func ChannelSelect(_ sender: Any) {
@@ -20,23 +21,85 @@ class BetListTableViewController: UITableViewController {
       
       present(alertController, animated: true, completion: nil)
       
+      //all channels
       let callAll = UIAlertAction(title: "All", style: .default, handler: {
         action in
         self.channelName = ""
-        self.viewDidLoad()
+        self.ChannelsButton.setTitle("All", for: .normal)
+        self.reloadRows()
       }
       )
       alertController.addAction(callAll)
+      
+      //handle individual channels
       for item in self.channels {
         let newVal = UIAlertAction(title: item, style: .default, handler: {
           action in
           self.channelName = item
+            self.ChannelsButton.setTitle(item, for: .normal)
           self.reloadRows()
         })
         alertController.addAction(newVal)
       }
+      
+      //cancel
+      let callCancel = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+      alertController.addAction(callCancel)
     }
   
+  
+  
+    @IBOutlet weak var TypeButton: UIButton!
+    var betType = "all"
+    @IBAction func WagerTypeSetter(_ sender: Any) {
+      
+      let alertController = UIAlertController(title: "Pick A Bet Type", message: "select one", preferredStyle: .alert)
+      
+      let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+      
+      present(alertController, animated: true, completion: nil)
+      
+      let callAll = UIAlertAction(title: "All Bet Types", style: .default, handler: {
+        action in
+        self.betType = "all"
+        self.TypeButton.setTitle("All Bet Types", for: .normal)
+        self.reloadRows()
+      }
+      )
+      alertController.addAction(callAll)
+      
+      let callPosed = UIAlertAction(title: "Posed Bets", style: .default, handler: {
+        action in
+        self.betType = "posed"
+        self.TypeButton.setTitle("Posed Bets", for: .normal)
+        self.reloadRows()
+      }
+      )
+      alertController.addAction(callPosed)
+      
+      let callCurrent = UIAlertAction(title: "Active Bets", style: .default, handler: {
+        action in
+        self.betType = "active"
+        self.TypeButton.setTitle("Active Bets", for: .normal)
+        self.reloadRows()
+      }
+      )
+      alertController.addAction(callCurrent)
+      
+      let callComplete = UIAlertAction(title: "Completed Bets", style: .default, handler: {
+        action in
+        self.betType = "complete"
+        self.TypeButton.setTitle("Completed Bets", for: .normal)
+        self.reloadRows()
+      }
+      )
+      alertController.addAction(callComplete)
+      
+      //cancel
+      let callCancel = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+      alertController.addAction(callCancel)
+      
+    }
   
   // MARK: Constants
   let listToUsers = "ListToUsers"
@@ -58,10 +121,11 @@ class BetListTableViewController: UITableViewController {
     new_ref.observe(.value, with: { snapshot in
       var newItems: [BetItem] = []
       
-      
       for item in snapshot.children {
         let betItem = BetItem(snapshot: item as! FIRDataSnapshot)
-        newItems.append(betItem)
+        if (self.betType == "all") {newItems.append(betItem) }
+        else if(self.betType == "posed" && !betItem.completed) {newItems.append(betItem) }
+        else if(self.betType == "active" && betItem.completed) {newItems.append(betItem) }
       }
       self.items = newItems
       self.tableView.reloadData()
@@ -76,7 +140,7 @@ class BetListTableViewController: UITableViewController {
     super.viewDidLoad()
     
     tableView.allowsMultipleSelectionDuringEditing = false
-    channels = []
+    //channels = []
     refChannel.observe(.value, with: { snapshot in
       for item in snapshot.children {
         let currCat = item as! FIRDataSnapshot
