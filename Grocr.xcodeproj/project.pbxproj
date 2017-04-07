@@ -21,6 +21,7 @@
 		FF389D011E91D99D00EF0DF9 /* BetItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF389D001E91D99D00EF0DF9 /* BetItem.swift */; };
 		FF9317FE1E95B3880060FDCB /* BetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9317FD1E95B3880060FDCB /* BetViewController.swift */; };
 		FF9D7E361E96AE9A00B37448 /* BetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9D7E351E96AE9A00B37448 /* BetTableViewCell.swift */; };
+		FFD3FDE91E981BF8009A1AC2 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD3FDE81E981BF8009A1AC2 /* Profile.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		FF389D001E91D99D00EF0DF9 /* BetItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BetItem.swift; path = ../BetItem.swift; sourceTree = "<group>"; };
 		FF9317FD1E95B3880060FDCB /* BetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BetViewController.swift; sourceTree = "<group>"; };
 		FF9D7E351E96AE9A00B37448 /* BetTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BetTableViewCell.swift; sourceTree = "<group>"; };
+		FFD3FDE81E981BF8009A1AC2 /* Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,6 +141,7 @@
 			children = (
 				FF389D001E91D99D00EF0DF9 /* BetItem.swift */,
 				BB7DA5101B42C8100018B530 /* User.swift */,
+				FFD3FDE81E981BF8009A1AC2 /* Profile.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -293,6 +296,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FF9D7E361E96AE9A00B37448 /* BetTableViewCell.swift in Sources */,
+				FFD3FDE91E981BF8009A1AC2 /* Profile.swift in Sources */,
 				BB2385641B3DD5AB0079CD01 /* LoginViewController.swift in Sources */,
 				BB2385841B3DD8660079CD01 /* BetListTableViewController.swift in Sources */,
 				FF9317FE1E95B3880060FDCB /* BetViewController.swift in Sources */,
