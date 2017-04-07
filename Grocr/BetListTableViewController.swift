@@ -9,6 +9,13 @@ import UIKit
 import Firebase
 
 class BetListTableViewController: UITableViewController {
+  
+    let BET_TYPE_ALL = 0
+    let BET_TYPE_POSED = 1
+    let BET_TYPE_ACTIVE = 2
+    let BET_TYPE_COMPLETED = 3
+  
+  
 
     @IBOutlet weak var ChannelsButton: UIButton!
   
@@ -50,7 +57,7 @@ class BetListTableViewController: UITableViewController {
   
   
     @IBOutlet weak var TypeButton: UIButton!
-    var betType = "all"
+    var betType = 0
     @IBAction func WagerTypeSetter(_ sender: Any) {
       
       let alertController = UIAlertController(title: "Pick A Bet Type", message: "select one", preferredStyle: .alert)
@@ -61,7 +68,7 @@ class BetListTableViewController: UITableViewController {
       
       let callAll = UIAlertAction(title: "All Bet Types", style: .default, handler: {
         action in
-        self.betType = "all"
+        self.betType = self.BET_TYPE_ALL
         self.TypeButton.setTitle("All Bet Types", for: .normal)
         self.reloadRows()
       }
@@ -70,7 +77,7 @@ class BetListTableViewController: UITableViewController {
       
       let callPosed = UIAlertAction(title: "Posed Bets", style: .default, handler: {
         action in
-        self.betType = "posed"
+        self.betType = self.BET_TYPE_POSED
         self.TypeButton.setTitle("Posed Bets", for: .normal)
         self.reloadRows()
       }
@@ -79,7 +86,7 @@ class BetListTableViewController: UITableViewController {
       
       let callCurrent = UIAlertAction(title: "Active Bets", style: .default, handler: {
         action in
-        self.betType = "active"
+        self.betType = self.BET_TYPE_ACTIVE
         self.TypeButton.setTitle("Active Bets", for: .normal)
         self.reloadRows()
       }
@@ -88,7 +95,7 @@ class BetListTableViewController: UITableViewController {
       
       let callComplete = UIAlertAction(title: "Completed Bets", style: .default, handler: {
         action in
-        self.betType = "complete"
+        self.betType = self.BET_TYPE_COMPLETED
         self.TypeButton.setTitle("Completed Bets", for: .normal)
         self.reloadRows()
       }
@@ -123,9 +130,9 @@ class BetListTableViewController: UITableViewController {
       
       for item in snapshot.children {
         let betItem = BetItem(snapshot: item as! FIRDataSnapshot)
-        if (self.betType == "all") {newItems.append(betItem) }
-        else if(self.betType == "posed" && !betItem.completed) {newItems.append(betItem) }
-        else if(self.betType == "active" && betItem.completed) {newItems.append(betItem) }
+        if (self.betType == self.BET_TYPE_ALL) {newItems.append(betItem) }
+        else if(self.betType == self.BET_TYPE_POSED && !betItem.completed) {newItems.append(betItem) }
+        else if(self.betType == self.BET_TYPE_COMPLETED && betItem.completed) {newItems.append(betItem) }
       }
       self.items = newItems
       self.tableView.reloadData()
@@ -163,8 +170,8 @@ class BetListTableViewController: UITableViewController {
     let betItem = items[indexPath.row]
     
     cell.betNameLabel.text = betItem.name
-    cell.betChallengerLabel.text = betItem.challenger
-    cell.betAmountLabel.text = "$" + betItem.amount
+    cell.betChallengerLabel.text = betItem.challenger_name
+    cell.betAmountLabel.text = String(betItem.amount)
     
     return cell
   }
