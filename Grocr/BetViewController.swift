@@ -25,8 +25,8 @@ class BetViewController: UIViewController {
         super.viewDidLoad()
         self.nameLabel.text = bet.name
         self.categoryLabel.text = bet.category
-        self.challengerLabel.text = bet.challenger
-        self.descriptionLabel.text = bet.amount
+        self.challengerLabel.text = bet.challenger_uid
+        self.descriptionLabel.text = bet.amount.description
       
       if (!bet.completed) {
         self.takeBetButton.setTitle("Take Bet", for:UIControlState.normal)
@@ -55,7 +55,7 @@ class BetViewController: UIViewController {
       
       let bRef  = FIRDatabase.database().reference().child("Bets").child(bet.key)
       bRef.updateChildValues(["completed":true])
-      bRef.updateChildValues(["challengee":user.email])
+      bRef.updateChildValues(["challengee_name":user.email])
       
     }
   }
