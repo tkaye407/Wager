@@ -15,6 +15,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var profileImageView: UIImageView!
   
   
+  //MARK: Properties
+  var user: User!
+  var profile: Profile?
+  
+  
   override func viewDidLoad() {
     super.viewDidLoad()
   
@@ -64,8 +69,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
   }
   
-  //MARK: Properties
-  var user: User!
+
   
   //MARK: Actions
     
@@ -80,5 +84,10 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
       // Make sure ViewController is notified when the user picks an image.
       imagePickerController.delegate = self
       present(imagePickerController, animated: true, completion: nil)
+  }
+  
+  @IBAction func unwindEditProfile(sender: UIStoryboardSegue) {
+    if let sourceViewController = sender.source as? ProfileEditorViewController, let profile = sourceViewController.profile {
+    }
   }
 }
