@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import os.log
 
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
   
@@ -20,12 +21,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
   var profile: Profile?
   
   
+  
   override func viewDidLoad() {
     super.viewDidLoad()
   
     self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width / 2;
     self.profileImageView.clipsToBounds = true;
-    
+    self.profile = Profile()
     FIRAuth.auth()!.addStateDidChangeListener { auth, user in
       guard let user = user else { return }
       self.user = User(authData: user)
@@ -69,12 +71,29 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
   }
   
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    super.prepare(for: segue, sender: sender)
+    switch(segue.identifier ?? "") {
+      case "editProfile":
+        guard let navController = segue.destination as? UINavigationController else {
+          fatalError("Unexpected destination: \(segue.destination)")
+        }
+        guard let profileEditorViewController = navController.topViewController as? ProfileEditorViewController else {
+          fatalError("Unexpected destination: \(segue.destination)")
+        }
+    
+        profileEditorViewController.profile = profile
+    default:
+      fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
+    }
+  }
+  
 
   
   //MARK: Actions
-    
+  
   @IBAction func selectImageFromPhotoLibrary(_ sender: UITapGestureRecognizer) {
-      
+    
       // UIImagePickerController is a view controller that lets a user pick media from their photo library.
       let imagePickerController = UIImagePickerController()
       
@@ -88,6 +107,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
   
   @IBAction func unwindEditProfile(sender: UIStoryboardSegue) {
     if let sourceViewController = sender.source as? ProfileEditorViewController, let profile = sourceViewController.profile {
+      self.UserNameLabel.text = profile.firstName + profile.lastName
     }
   }
 }

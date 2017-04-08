@@ -564,7 +564,7 @@
                     <navigationItem key="navigationItem" title="Profile" id="qkA-aQ-TxL">
                         <barButtonItem key="rightBarButtonItem" systemItem="edit" id="QMJ-1h-EZ7">
                             <connections>
-                                <segue destination="T3W-SQ-HDL" kind="presentation" id="lKg-GA-kGF"/>
+                                <segue destination="T3W-SQ-HDL" kind="presentation" identifier="editProfile" id="lKg-GA-kGF"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -758,7 +758,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="t1y-7F-scM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3944.8000000000002" y="1181.5592203898052"/>
+            <point key="canvasLocation" x="3943" y="1567"/>
         </scene>
     </scenes>
     <resources>
