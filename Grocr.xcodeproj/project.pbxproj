@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		071917E61E92FA2200EAFF5F /* CreateNewBetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071917E51E92FA2200EAFF5F /* CreateNewBetController.swift */; };
+		07C23C311E9C39A000A0DA27 /* NewProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C23C301E9C39A000A0DA27 /* NewProfileViewController.swift */; };
 		7A025E331E9568940086099C /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A025E321E9568940086099C /* ProfileViewController.swift */; };
 		7A24CB171E9877DF007345B4 /* ProfileEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A24CB161E9877DF007345B4 /* ProfileEditorViewController.swift */; };
 		941A68C9047CFC613264BFB7 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F599D9265F4B40571F432E78 /* libPods.a */; };
@@ -27,6 +28,7 @@
 
 /* Begin PBXFileReference section */
 		071917E51E92FA2200EAFF5F /* CreateNewBetController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateNewBetController.swift; path = WagerApp/CreateNewBetController.swift; sourceTree = SOURCE_ROOT; };
+		07C23C301E9C39A000A0DA27 /* NewProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewProfileViewController.swift; sourceTree = "<group>"; };
 		7A025E321E9568940086099C /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		7A24CB161E9877DF007345B4 /* ProfileEditorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileEditorViewController.swift; sourceTree = "<group>"; };
 		9BA2A2DB5BA4733818152B9B /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 				FF9317FD1E95B3880060FDCB /* BetViewController.swift */,
 				BB2385631B3DD5AB0079CD01 /* LoginViewController.swift */,
 				7A025E321E9568940086099C /* ProfileViewController.swift */,
+				07C23C301E9C39A000A0DA27 /* NewProfileViewController.swift */,
 				BB2385831B3DD8660079CD01 /* BetListTableViewController.swift */,
 				071917E51E92FA2200EAFF5F /* CreateNewBetController.swift */,
 				7A24CB161E9877DF007345B4 /* ProfileEditorViewController.swift */,
@@ -307,6 +310,7 @@
 				BB7DA5111B42C8100018B530 /* User.swift in Sources */,
 				071917E61E92FA2200EAFF5F /* CreateNewBetController.swift in Sources */,
 				7A025E331E9568940086099C /* ProfileViewController.swift in Sources */,
+				07C23C311E9C39A000A0DA27 /* NewProfileViewController.swift in Sources */,
 				FF389D011E91D99D00EF0DF9 /* BetItem.swift in Sources */,
 				BB2385621B3DD5AB0079CD01 /* AppDelegate.swift in Sources */,
 			);

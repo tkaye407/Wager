@@ -19,7 +19,16 @@ class ProfileEditorViewController: UIViewController {
     @IBOutlet weak var venmoIDTextField: UITextField!
     @IBOutlet weak var genderTextField: UITextField!
   
+<<<<<<< HEAD
     var profile: Profile?
+=======
+    @IBAction func SignOut(_ sender: Any) {
+        do {
+            try! FIRAuth.auth()!.signOut()
+        }
+    }
+  var profile: Profile?
+>>>>>>> mike
   
     //Mark: Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
