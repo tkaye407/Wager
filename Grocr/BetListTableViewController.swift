@@ -21,9 +21,6 @@ class BetListTableViewController: UITableViewController {
     @IBAction func ChannelSelect(_ sender: Any) {
       
       let alertController = UIAlertController(title: "Pick A Channel", message: "select one", preferredStyle: .alert)
-      
-      let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-      
       present(alertController, animated: true, completion: nil)
       
       //all channels
@@ -60,7 +57,7 @@ class BetListTableViewController: UITableViewController {
       
       let alertController = UIAlertController(title: "Pick A Bet Type", message: "select one", preferredStyle: .alert)
       
-      let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+      /*let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)*/
       
       present(alertController, animated: true, completion: nil)
       

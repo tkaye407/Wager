@@ -23,7 +23,6 @@ class CreateNewBetController: UIViewController,  UIPickerViewDelegate, UIPickerV
     let betItemRef = ref.childByAutoId()
     //let amt:Int? = Int(amountText.text!)
     let cat = pickerData[catPicker.selectedRow(inComponent: 0)]
-    //let betItem = BetItem(name: reasonText.text!, challenger: user.email ?? "abc", completed: false, amount: amountText.text!, category: cat)
     let betItem = BetItem(name: reasonText.text!, description: "none yet", challenger_uid: user.uid , challenger_name: user.email, date_opened: 1/*NSDate()*/, date_closed: 1/*NSDate()*/, category: cat, amount: Float((amountText.text!))! )
     
     betItemRef.setValue(betItem.toAnyObject())

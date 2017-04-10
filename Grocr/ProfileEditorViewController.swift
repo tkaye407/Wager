@@ -19,6 +19,11 @@ class ProfileEditorViewController: UIViewController {
     @IBOutlet weak var venmoIDTextField: UITextField!
     @IBOutlet weak var genderTextField: UITextField!
   
+    @IBAction func SignOut(_ sender: Any) {
+        do {
+            try! FIRAuth.auth()!.signOut()
+        }
+    }
   var profile: Profile?
   
     //Mark: Navigation
