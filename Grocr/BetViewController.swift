@@ -28,11 +28,9 @@ class BetViewController: UIViewController {
         self.challengerLabel.text = bet.challenger_uid
         self.descriptionLabel.text = bet.amount.description
       
-      if (!bet.completed) {
+      if (!bet.accepted) {
         self.takeBetButton.setTitle("Take Bet", for:UIControlState.normal)
         self.takeBetButton.layer.cornerRadius = 20
-
-
       }
       else {
         self.takeBetButton.setTitle("Accepted", for: UIControlState.normal)
@@ -54,8 +52,9 @@ class BetViewController: UIViewController {
       self.bet.completed = true
       
       let bRef  = FIRDatabase.database().reference().child("Bets").child(bet.key)
-      bRef.updateChildValues(["completed":true])
+      bRef.updateChildValues(["accepted":true])
       bRef.updateChildValues(["challengee_name":user.email])
+      bRef.updateChildValues(["challengee_uid":user.uid])
       
     }
   }

@@ -14,8 +14,6 @@ class BetListTableViewController: UITableViewController {
     let BET_TYPE_POSED = 1
     let BET_TYPE_ACTIVE = 2
     let BET_TYPE_COMPLETED = 3
-  
-  
 
     @IBOutlet weak var ChannelsButton: UIButton!
   
@@ -131,7 +129,8 @@ class BetListTableViewController: UITableViewController {
       for item in snapshot.children {
         let betItem = BetItem(snapshot: item as! FIRDataSnapshot)
         if (self.betType == self.BET_TYPE_ALL) {newItems.append(betItem) }
-        else if(self.betType == self.BET_TYPE_POSED && !betItem.completed) {newItems.append(betItem) }
+        else if(self.betType == self.BET_TYPE_POSED && !betItem.accepted) {newItems.append(betItem) }
+        else if(self.betType == self.BET_TYPE_ACTIVE && betItem.accepted && !betItem.completed) {newItems.append(betItem) }
         else if(self.betType == self.BET_TYPE_COMPLETED && betItem.completed) {newItems.append(betItem) }
       }
       self.items = newItems
