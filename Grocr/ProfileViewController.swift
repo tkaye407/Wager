@@ -18,12 +18,15 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var pnlLabel: UILabel!
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var genderLabel: UILabel!
+    @IBOutlet weak var signOutButton: UIButton!
     
     
     //MARK: Properties
     var user: User!
     var profile: Profile?
-    
+    let pRef = FIRDatabase.database().reference(withPath: "Profiles")
+
+  
     
     
     override func viewDidLoad() {
@@ -34,12 +37,17 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         FIRAuth.auth()!.addStateDidChangeListener { auth, user in
             guard let user = user else { return }
             self.user = User(authData: user)
-            self.UserNameLabel.text = user.email
-        }
+            if user != nil {
+              self.pRef.queryOrdered(byChild: "userID").queryEqual(toValue: "-KhOzyN7afL73GdNyZ6B").observe(.value, with:{ snapshot in
+                for item in snapshot.children {
+                  self.profile = Profile(snapshot: item as! FIRDataSnapshot)
+                }
+              })
+          }
+      }
         calculatePNL()
       
-      
-    }
+  }
     //MARK: UIImagePickerControllerDelegate
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         // Dismiss the picker if the user canceled.
@@ -116,6 +124,24 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             self.genderLabel.text = profile.gender
         }
     }
+  
+  
+  @IBAction func signOutTouched(_ sender: Any) {
+    do {
+      let ref = FIRDatabase.database().reference()
+      ref.child("Users").child(self.user.uid).removeAllObservers()
+      try FIRAuth.auth()?.signOut()
+      print("FIRUSER - \(FIRAuth.auth()?.currentUser)")
+      
+      self.navigationController?.performSegue(withIdentifier: "signOutSegue", sender: self.navigationController)
+      
+    } catch let logOutError {
+      
+      print("Error Logging User Out - \(logOutError)")
+    }
+  }
+  
+  
     //Mark: Private Methods
     private func calculatePNL() {
       let pnl = 0.0

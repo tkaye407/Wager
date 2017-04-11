@@ -67,6 +67,8 @@ class LoginViewController: UIViewController {
         self.performSegue(withIdentifier: self.loginToList, sender: nil)
       }
     }
+    self.navigationController?.navigationBar.topItem?.leftBarButtonItem = nil;
+
   }
   
 }

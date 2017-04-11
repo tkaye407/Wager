@@ -20,15 +20,25 @@ class BetViewController: UIViewController {
   var bet: BetItem!
   var betName = "shit"
   var user: User!
+  var bet_usr_id: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
+      FIRAuth.auth()!.addStateDidChangeListener { auth, user in
+        guard let user = user else { return }
+        self.user = User(authData: user)
+      }
+      
         self.nameLabel.text = bet.name
         self.categoryLabel.text = bet.category
         self.challengerLabel.text = bet.challenger_uid
         self.descriptionLabel.text = bet.amount.description
       
-      if (!bet.accepted) {
+      if (user.uid == bet_usr_id) {
+        self.takeBetButton.setTitle("Delete Bet?", for: UIControlState.normal)
+        self.takeBetButton.backgroundColor = UIColor.red
+      }
+      else if (!bet.accepted) {
         self.takeBetButton.setTitle("Take Bet", for:UIControlState.normal)
         self.takeBetButton.layer.cornerRadius = 20
       }
@@ -44,9 +54,12 @@ class BetViewController: UIViewController {
 
         // Do any additional setup after loading the view.
     }
-  
+
   @IBAction func takeBet(_ sender: Any) {
-    if (!bet.completed) {
+    if (self.takeBetButton.titleLabel?.text == "Delete Bet?" && 1==1) {
+      // DELETE THE BET and NAVIGATE AWAY
+    }
+    else if (!bet.completed) {
       self.takeBetButton.setTitle("Accepted", for: UIControlState.normal)
       self.takeBetButton.isEnabled = false;
       self.bet.completed = true
