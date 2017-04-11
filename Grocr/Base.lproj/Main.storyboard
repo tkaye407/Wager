@@ -1012,8 +1012,8 @@
         <image name="testProfilePhoto" width="360" height="360"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="YGd-c0-b6a"/>
-        <segue reference="yUp-bl-tG5"/>
         <segue reference="sTM-qw-YuI"/>
+        <segue reference="YGd-c0-b6a"/>
+        <segue reference="Zkz-bK-f84"/>
     </inferredMetricsTieBreakers>
 </document>
