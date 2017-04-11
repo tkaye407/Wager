@@ -20,21 +20,20 @@ class BetViewController: UIViewController {
   var bet: BetItem!
   var betName = "shit"
   var user: User!
-  var bet_usr_id: String?
+  var profile: Profile!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-      FIRAuth.auth()!.addStateDidChangeListener { auth, user in
-        guard let user = user else { return }
-        self.user = User(authData: user)
-      }
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        self.user = appDelegate.user
+        self.profile = appDelegate.profile
       
         self.nameLabel.text = bet.name
         self.categoryLabel.text = bet.category
         self.challengerLabel.text = bet.challenger_uid
         self.descriptionLabel.text = bet.amount.description
       
-      if (user.uid == bet_usr_id) {
+      if (user.uid == "") {
         self.takeBetButton.setTitle("Delete Bet?", for: UIControlState.normal)
         self.takeBetButton.backgroundColor = UIColor.red
       }
@@ -47,11 +46,6 @@ class BetViewController: UIViewController {
         self.takeBetButton.isEnabled = false;
       }
       
-      FIRAuth.auth()!.addStateDidChangeListener { auth, user in
-        guard let user = user else { return }
-        self.user = User(authData: user)
-      }
-
         // Do any additional setup after loading the view.
     }
 

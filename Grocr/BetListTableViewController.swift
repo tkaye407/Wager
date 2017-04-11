@@ -136,20 +136,7 @@ class BetListTableViewController: UITableViewController {
       self.items = newItems
       self.tableView.reloadData()
     })
-    FIRAuth.auth()!.addStateDidChangeListener { auth, user in
-      guard let user = user else { return }
-      self.user = User(authData: user)
-    }
-    
-    if user != nil {
-      pRef.queryOrdered(byChild: "userID").queryEqual(toValue: "-KhOzyN7afL73GdNyZ6B").observe(.value, with:{ snapshot in
-        for item in snapshot.children {
-          self.profile = Profile(snapshot: item as! FIRDataSnapshot)
-        }
-      })
-
-    }
-  }
+}
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -163,6 +150,23 @@ class BetListTableViewController: UITableViewController {
         self.channels.append(snapshotValue)
       }
     })
+    
+    FIRAuth.auth()!.addStateDidChangeListener { auth, user in
+      guard let user = user else { return }
+      self.user = User(authData: user)
+      self.pRef.queryOrdered(byChild: "userID").queryEqual(toValue: user.uid).observe(.value, with:{ snapshot in
+        for item in snapshot.children {
+          self.profile = Profile(snapshot: item as! FIRDataSnapshot)
+        }
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.user = self.user as? User!
+        appDelegate.profile = self.profile as? Profile!
+      })
+      
+
+
+    }
+    
     
     reloadRows()
   }
@@ -212,7 +216,6 @@ class BetListTableViewController: UITableViewController {
     }
     else if (segue.identifier == "toProfileController") {
       let vc = segue.destination as! ProfileViewController
-      vc.profile = self.profile
     }
   }
 }

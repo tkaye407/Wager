@@ -28,21 +28,18 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        self.user = appDelegate.user
+        self.profile = appDelegate.profile
         self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width / 2;
         self.profileImageView.clipsToBounds = true;
-        FIRAuth.auth()!.addStateDidChangeListener { auth, user in
-            guard let user = user else { return }
-            self.user = User(authData: user)
-            if user != nil {
-              self.pRef.queryOrdered(byChild: "userID").queryEqual(toValue: user.uid).observe(.value, with:{ snapshot in
-                for item in snapshot.children {
-                  self.profile = Profile(snapshot: item as! FIRDataSnapshot)
-                }
-              })
-          }
-      }
+
         calculatePNL()
+        self.UserNameLabel.text = profile?.firstName
+        self.venmoIDLabel.text = profile?.venmoID
+        self.emailLabel.text = profile?.email
+        self.genderLabel.text = profile?.gender
+      
       
   }
     //MARK: UIImagePickerControllerDelegate
