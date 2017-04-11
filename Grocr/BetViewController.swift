@@ -60,8 +60,8 @@ class BetViewController: UIViewController {
       
       let bRef  = FIRDatabase.database().reference().child("Bets").child(bet.key)
       bRef.updateChildValues(["accepted":true])
-      bRef.updateChildValues(["challengee_name":user.email])
-      bRef.updateChildValues(["challengee_uid":user.uid])
+      bRef.updateChildValues(["challengee_name":profile.firstName + " " + profile.lastName])
+      bRef.updateChildValues(["challengee_uid":profile.key])
       
     }
   }
