@@ -19,7 +19,8 @@ class ProfileEditorViewController: UIViewController {
     @IBOutlet weak var venmoIDTextField: UITextField!
     @IBOutlet weak var genderTextField: UITextField!
   
-    var profile: Profile?
+  
+  var profile: Profile?
   
     //Mark: Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -40,7 +41,13 @@ class ProfileEditorViewController: UIViewController {
         let userID = "ex"
         let pnl = Float(0.0)*/
       
-      profile = Profile(firstName: firstNameTextField.text ?? (profile?.firstName)!, lastName: lastNameTextField.text ?? (profile?.lastName)!)
+      profile = Profile(firstName: firstNameTextField.text ?? (profile?.firstName)!, lastName: lastNameTextField.text ?? (profile?.lastName)!, email: emailTextField.text ?? "", venmoID: venmoIDTextField.text ?? "", gender: genderTextField.text ?? "")
     }
     
+    
+    @IBAction func cancel(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
+    }
+  
+  
 }

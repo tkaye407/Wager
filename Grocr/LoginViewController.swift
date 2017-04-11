@@ -24,7 +24,7 @@ class LoginViewController: UIViewController {
                            password: textFieldLoginPassword.text!)
   }
   
-  @IBAction func signUpDidTouch(_ sender: AnyObject) {
+  /*@IBAction func signUpDidTouch(_ sender: AnyObject) {
     let alert = UIAlertController(title: "Register",
                                   message: "Register",
                                   preferredStyle: .alert)
@@ -57,7 +57,7 @@ class LoginViewController: UIViewController {
     alert.addAction(cancelAction)
     
     present(alert, animated: true, completion: nil)
-  }
+  }*/
   
   override func viewDidLoad() {
     super.viewDidLoad()
