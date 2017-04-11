@@ -26,9 +26,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     var profile: Profile?
     let pRef = FIRDatabase.database().reference(withPath: "Profiles")
 
-  
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         

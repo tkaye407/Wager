@@ -42,6 +42,20 @@ class ProfileEditorViewController: UIViewController {
             os_log("The save button was not pressed, cancelling", log: OSLog.default, type: .debug)
             return
         }
+<<<<<<< HEAD
+      
+      
+        // Update the database with new profile information
+        /* let firstName = firstNameTextField.text ?? ""
+        let lastName = lastNameTextField.text ?? "" //replace this with profile.lastName
+        let email = emailTextField.text ?? ""
+        let age:Int? = Int(ageTextField.text!)
+        let venmoID = venmoIDTextField.text ?? ""
+        let gender = genderTextField.text ?? ""
+        let key = "example"
+        let userID = "ex"
+        let pnl = Float(0.0)*/
+=======
       // Update the database with new profile information
       //let ref  = FIRDatabase.database().reference().child("Profiles").child((profile?.key)!)
       let ref  = FIRDatabase.database().reference().child("Profiles").child("-KhOzyN7afL73GdNyZ6B")
@@ -71,6 +85,7 @@ class ProfileEditorViewController: UIViewController {
       if (gender != profile?.gender && gender != "")  {
         ref.updateChildValues(["gender":gender])
       }
+>>>>>>> 71be85d229306ea83882af6b0107c91cfade83b4
       
       let age = Int(ageTextField.text!) //replace this with profile.lastName
       if (age != nil && age != profile?.age)  {
