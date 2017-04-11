@@ -109,11 +109,14 @@ class BetListTableViewController: UITableViewController {
   // MARK: Properties 
   let ref = FIRDatabase.database().reference(withPath: "Bets")
   let refChannel = FIRDatabase.database().reference(withPath: "Categories")
+  let pRef = FIRDatabase.database().reference(withPath: "Profiles")
+
   var items: [BetItem] = []
   var channels: [String] = []
   var user: User!
   var userCountBarButtonItem: UIBarButtonItem!
   var selectedBet: BetItem?
+  var profile: Profile?
   
   // MARK: UIViewController Lifecycle
   
@@ -136,6 +139,15 @@ class BetListTableViewController: UITableViewController {
     FIRAuth.auth()!.addStateDidChangeListener { auth, user in
       guard let user = user else { return }
       self.user = User(authData: user)
+    }
+    
+    if user != nil {
+      pRef.queryOrdered(byChild: "userID").queryEqual(toValue: "-KhOzyN7afL73GdNyZ6B").observe(.value, with:{ snapshot in
+        for item in snapshot.children {
+          self.profile = Profile(snapshot: item as! FIRDataSnapshot)
+        }
+      })
+
     }
   }
   
@@ -197,6 +209,10 @@ class BetListTableViewController: UITableViewController {
           let selectedBet = items[indexPath.row]
           vc.bet = selectedBet
       }
+    }
+    else if (segue.identifier == "toProfileController") {
+      let vc = segue.destination as! ProfileViewController
+      vc.profile = self.profile
     }
   }
 }

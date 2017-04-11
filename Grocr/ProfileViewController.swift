@@ -29,13 +29,14 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width / 2;
         self.profileImageView.clipsToBounds = true;
-        self.profile = Profile()
         FIRAuth.auth()!.addStateDidChangeListener { auth, user in
             guard let user = user else { return }
             self.user = User(authData: user)
             self.UserNameLabel.text = user.email
         }
         calculatePNL()
+      
+      
     }
     //MARK: UIImagePickerControllerDelegate
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
