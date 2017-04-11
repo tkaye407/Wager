@@ -35,7 +35,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             guard let user = user else { return }
             self.user = User(authData: user)
             if user != nil {
-              self.pRef.queryOrdered(byChild: "userID").queryEqual(toValue: "-KhOzyN7afL73GdNyZ6B").observe(.value, with:{ snapshot in
+              self.pRef.queryOrdered(byChild: "userID").queryEqual(toValue: user.uid).observe(.value, with:{ snapshot in
                 for item in snapshot.children {
                   self.profile = Profile(snapshot: item as! FIRDataSnapshot)
                 }
