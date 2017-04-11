@@ -30,6 +30,8 @@ class ProfileEditorViewController: UIViewController {
             os_log("The save button was not pressed, cancelling", log: OSLog.default, type: .debug)
             return
         }
+      
+      
         // Update the database with new profile information
         /* let firstName = firstNameTextField.text ?? ""
         let lastName = lastNameTextField.text ?? "" //replace this with profile.lastName

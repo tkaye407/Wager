@@ -23,9 +23,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     //MARK: Properties
     var user: User!
     var profile: Profile?
-    
-    
-    
+  
     override func viewDidLoad() {
         super.viewDidLoad()
         
