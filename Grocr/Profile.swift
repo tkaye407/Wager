@@ -13,15 +13,15 @@ struct Profile {
   
   let key: String
   let userID: String
-  let firstName: String
-  let lastName: String
-  let email: String
-  let pnl: Float
+  var firstName: String
+  var lastName: String
+  var email: String
+  var pnl: Float
   //let picture: UIImage
-  let age: Int
-  let venmoID: String
-  let gender: String
-  let username: String
+  var age: Int
+  var venmoID: String
+  var gender: String
+  var username: String
 
   init(firstName: String = "FirstName", lastName: String = "LastName", email: String = "email", pnl: Float = 0.0,  age: Int = 0, venmoID: String = "",  gender: String = "", key: String = "", userID: String = "", username: String = "" ) {
       self.userID = userID
