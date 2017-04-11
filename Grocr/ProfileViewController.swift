@@ -38,12 +38,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         }
         calculatePNL()
       
-      let ref = FIRDatabase.database().reference(withPath: "Profiles")
-      ref.queryOrdered(byChild: "userID").queryEqual(toValue: "-KhOzyN7afL73GdNyZ6B").observe(.value, with:{ snapshot in
-        for item in snapshot.children {
-          self.profile = Profile(snapshot: item as! FIRDataSnapshot)
-        }
-      })
+      
     }
     //MARK: UIImagePickerControllerDelegate
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
