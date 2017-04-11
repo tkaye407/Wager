@@ -44,9 +44,10 @@ class ProfileEditorViewController: UIViewController {
       profile = Profile(firstName: firstNameTextField.text ?? (profile?.firstName)!, lastName: lastNameTextField.text ?? (profile?.lastName)!, email: emailTextField.text ?? "", venmoID: venmoIDTextField.text ?? "", gender: genderTextField.text ?? "")
     }
     
+    
     @IBAction func cancel(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
     }
-    
+  
   
 }
