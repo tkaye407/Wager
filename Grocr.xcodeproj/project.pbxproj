@@ -11,6 +11,7 @@
 		07C23C311E9C39A000A0DA27 /* NewProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C23C301E9C39A000A0DA27 /* NewProfileViewController.swift */; };
 		7A025E331E9568940086099C /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A025E321E9568940086099C /* ProfileViewController.swift */; };
 		7A24CB171E9877DF007345B4 /* ProfileEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A24CB161E9877DF007345B4 /* ProfileEditorViewController.swift */; };
+		7A7C53AF1E9C09130016C05C /* RatingControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A7C53AE1E9C09130016C05C /* RatingControl.swift */; };
 		941A68C9047CFC613264BFB7 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F599D9265F4B40571F432E78 /* libPods.a */; };
 		BB2385621B3DD5AB0079CD01 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2385611B3DD5AB0079CD01 /* AppDelegate.swift */; };
 		BB2385641B3DD5AB0079CD01 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2385631B3DD5AB0079CD01 /* LoginViewController.swift */; };
@@ -31,6 +32,7 @@
 		07C23C301E9C39A000A0DA27 /* NewProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewProfileViewController.swift; sourceTree = "<group>"; };
 		7A025E321E9568940086099C /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		7A24CB161E9877DF007345B4 /* ProfileEditorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileEditorViewController.swift; sourceTree = "<group>"; };
+		7A7C53AE1E9C09130016C05C /* RatingControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingControl.swift; sourceTree = "<group>"; };
 		9BA2A2DB5BA4733818152B9B /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		A898E3AE11425E4495FAC93A /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		BB23855C1B3DD5AB0079CD01 /* Grocr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Grocr.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -147,6 +149,7 @@
 			children = (
 				FF389D001E91D99D00EF0DF9 /* BetItem.swift */,
 				BB7DA5101B42C8100018B530 /* User.swift */,
+				7A7C53AE1E9C09130016C05C /* RatingControl.swift */,
 				FFD3FDE81E981BF8009A1AC2 /* Profile.swift */,
 			);
 			name = Models;
@@ -305,6 +308,7 @@
 				7A24CB171E9877DF007345B4 /* ProfileEditorViewController.swift in Sources */,
 				FFD3FDE91E981BF8009A1AC2 /* Profile.swift in Sources */,
 				BB2385641B3DD5AB0079CD01 /* LoginViewController.swift in Sources */,
+				7A7C53AF1E9C09130016C05C /* RatingControl.swift in Sources */,
 				BB2385841B3DD8660079CD01 /* BetListTableViewController.swift in Sources */,
 				FF9317FE1E95B3880060FDCB /* BetViewController.swift in Sources */,
 				BB7DA5111B42C8100018B530 /* User.swift in Sources */,
