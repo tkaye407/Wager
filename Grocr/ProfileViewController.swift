@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import os.log
 
-class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var UserNameLabel: UILabel!
     @IBOutlet weak var profileImageView: UIImageView!
@@ -19,27 +19,52 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var genderLabel: UILabel!
     @IBOutlet weak var signOutButton: UIButton!
+    @IBOutlet weak var betsTableView: UITableView!
+  
     
     
     //MARK: Properties
     var user: User!
     var profile: Profile?
     let pRef = FIRDatabase.database().reference(withPath: "Profiles")
+    let bRef = FIRDatabase.database().reference(withPath: "Bets")
+    var bets: [BetItem] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
+      
+        // SET THE APP DELEGATE VALUES
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         self.user = appDelegate.user
         self.profile = appDelegate.profile
+      
+        // SET THE DELEGATE AND DATA SOURCE TO SELF
+        betsTableView.delegate = self
+        betsTableView.dataSource = self
+      
+        // CORNERS ON THE BUTTON
         self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width / 2;
         self.profileImageView.clipsToBounds = true;
 
+        // CALCULATE THE TEXT
         calculatePNL()
         self.UserNameLabel.text = profile?.firstName
         self.venmoIDLabel.text = profile?.venmoID
         self.emailLabel.text = profile?.email
         self.genderLabel.text = profile?.gender
       
+        // Set Bets
+        self.betsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        let new_ref = bRef.queryOrdered(byChild: "challenger_uid").queryEqual(toValue: self.profile?.key)
+        new_ref.observe(.value, with: { snapshot in
+          var newItems: [BetItem] = []
+          for item in snapshot.children {
+            let betItem = BetItem(snapshot: item as! FIRDataSnapshot)
+            newItems.append(betItem)
+          }
+          self.bets = newItems
+          self.betsTableView.reloadData()
+        })
       
   }
     //MARK: UIImagePickerControllerDelegate
@@ -146,4 +171,25 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         pnlLabel.textColor = UIColor.red
         }
     }
+  
+    // MARK: TABLE VIEW DELEGATE AND DATASOURCE
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+      return bets.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+      //let cell = tableView.dequeueReusableCell(withIdentifier: "betCell", for: indexPath) as! BetTableViewCell
+      let betItem = bets[indexPath.row]
+      let cell:UITableViewCell = self.betsTableView.dequeueReusableCell(withIdentifier: "cell")! as UITableViewCell
+      
+      cell.textLabel?.text =  betItem.name
+      return cell
+      //cell.betNameLabel.text = betItem.name
+      //cell.betChallengerLabel.text = betItem.challenger_name
+      //cell.betAmountLabel.text = String(betItem.amount)
+      
+      return cell
+    }
+    
+
 }
