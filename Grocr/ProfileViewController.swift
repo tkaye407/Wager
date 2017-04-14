@@ -20,6 +20,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var genderLabel: UILabel!
     @IBOutlet weak var signOutButton: UIButton!
     @IBOutlet weak var betsTableView: UITableView!
+    @IBOutlet weak var ageLabel: UILabel!
   
     
     
@@ -42,16 +43,17 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         betsTableView.delegate = self
         betsTableView.dataSource = self
       
-        // CORNERS ON THE BUTTON
+        // CORNERS ON THE PROFILE IMAGE
         self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width / 2;
         self.profileImageView.clipsToBounds = true;
 
         // CALCULATE THE TEXT
         calculatePNL()
-        self.UserNameLabel.text = profile?.firstName
+        self.UserNameLabel.text = (profile?.firstName)! + " " + (profile?.lastName)!
         self.venmoIDLabel.text = profile?.venmoID
         self.emailLabel.text = profile?.email
         self.genderLabel.text = profile?.gender
+        self.ageLabel.text = String(profile!.age)
       
         // Set Bets
         self.betsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")

@@ -32,7 +32,7 @@ class ProfileEditorViewController: UIViewController {
     lastNameTextField.text = profile?.lastName
     emailTextField.text = profile?.email
     ageTextField.keyboardType = UIKeyboardType.decimalPad
-    ageTextField.text = "\(profile?.age)"
+    ageTextField.text = String(profile!.age)
     venmoIDTextField.text = profile?.venmoID
     genderTextField.text = profile?.gender
   }
@@ -69,7 +69,7 @@ class ProfileEditorViewController: UIViewController {
         profile.email = email
       }
       
-      let venmoID = profile?.venmoID ?? "" //replace this with profile.lastName
+      let venmoID = venmoIDTextField.text ?? "" //replace this with profile.lastName
       if (venmoID != profile?.venmoID && venmoID != "")  {
         ref.updateChildValues(["venmoID":venmoID])
         profile.venmoID = venmoID
