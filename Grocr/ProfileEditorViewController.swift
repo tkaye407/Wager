@@ -20,16 +20,19 @@ class ProfileEditorViewController: UIViewController {
     @IBOutlet weak var genderTextField: UITextField!
   
   
-  var profile: Profile?
+  var profile: Profile!
+  
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    self.profile = appDelegate.profile
     
     firstNameTextField.text = profile?.firstName
     lastNameTextField.text = profile?.lastName
     emailTextField.text = profile?.email
     ageTextField.keyboardType = UIKeyboardType.decimalPad
-    ageTextField.text = "\(profile?.age)"
+    ageTextField.text = String(profile!.age)
     venmoIDTextField.text = profile?.venmoID
     genderTextField.text = profile?.gender
   }
@@ -45,38 +48,47 @@ class ProfileEditorViewController: UIViewController {
 
       // Update the database with new profile information
       //let ref  = FIRDatabase.database().reference().child("Profiles").child((profile?.key)!)
-      let ref  = FIRDatabase.database().reference().child("Profiles").child("-KhOzyN7afL73GdNyZ6B")
+      let ref  = FIRDatabase.database().reference().child("Profiles").child(self.profile.key)
 
       
       let firstName = firstNameTextField.text ?? ""
       if (firstName != profile?.lastName && firstName != "") {
         ref.updateChildValues(["firstName":firstName])
+        profile.firstName = firstName
       }
       
       let lastName = lastNameTextField.text ?? "" //replace this with profile.lastName
       if (lastName != profile?.lastName && lastName != "")  {
         ref.updateChildValues(["lastName":lastName])
+        profile.lastName = lastName
       }
       
       let email = emailTextField.text ?? "" //replace this with profile.lastName
       if (email != profile?.email && email != "")  {
         ref.updateChildValues(["email":email])
+        profile.email = email
       }
       
-      let venmoID = profile?.venmoID ?? "" //replace this with profile.lastName
+      let venmoID = venmoIDTextField.text ?? "" //replace this with profile.lastName
       if (venmoID != profile?.venmoID && venmoID != "")  {
         ref.updateChildValues(["venmoID":venmoID])
+        profile.venmoID = venmoID
       }
       
       let gender = genderTextField.text ?? "" //replace this with profile.lastName
       if (gender != profile?.gender && gender != "")  {
         ref.updateChildValues(["gender":gender])
+        profile.gender = gender
       }
       
       let age = Int(ageTextField.text!) //replace this with profile.lastName
       if (age != nil && age != profile?.age)  {
         ref.updateChildValues(["age":age ?? 0])
+        profile.age = age!
       }
+      
+      let appDelegate = UIApplication.shared.delegate as! AppDelegate
+      appDelegate.profile = self.profile
     }
     
     

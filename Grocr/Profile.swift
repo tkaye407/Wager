@@ -13,16 +13,17 @@ struct Profile {
   
   let key: String
   let userID: String
-  let firstName: String
-  let lastName: String
-  let email: String
-  let pnl: Float
+  var firstName: String
+  var lastName: String
+  var email: String
+  var pnl: Float
   //let picture: UIImage
-  let age: Int
-  let venmoID: String
-  let gender: String
+  var age: Int
+  var venmoID: String
+  var gender: String
+  var username: String
 
-  init(firstName: String = "FirstName", lastName: String = "LastName", email: String = "email", pnl: Float = 0.0,  age: Int = 0, venmoID: String = "",  gender: String = "", key: String = "", userID: String = "") {
+  init(firstName: String = "FirstName", lastName: String = "LastName", email: String = "email", pnl: Float = 0.0,  age: Int = 0, venmoID: String = "",  gender: String = "", key: String = "", userID: String = "", username: String = "" ) {
       self.userID = userID
       self.key = key
       self.firstName = firstName
@@ -33,6 +34,7 @@ struct Profile {
       self.age = age
       self.venmoID = venmoID
       self.gender = gender
+      self.username = username
   }
   
   init(snapshot: FIRDataSnapshot) {
@@ -46,6 +48,7 @@ struct Profile {
     age       = snapshotValue["age"] as! Int
     venmoID   = snapshotValue["venmoID"] as! String
     gender    = snapshotValue["gender"] as! String
+    username  = snapshotValue["username"] as! String
     //picture   =
   }
   
@@ -59,7 +62,8 @@ struct Profile {
       "pnl":        pnl,
       "age":        age,
       "venmoID":    venmoID,
-      "gender":     gender
+      "gender":     gender,
+      "username":   username
     ]
   }
   

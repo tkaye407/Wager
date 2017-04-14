@@ -15,29 +15,32 @@ class CreateNewBetController: UIViewController,  UIPickerViewDelegate, UIPickerV
   let cRef = FIRDatabase.database().reference(withPath: "Categories")
   @IBOutlet weak var amountText: UITextField!
   var user: User!
+  var profile: Profile!
   @IBOutlet weak var catPicker: UIPickerView!
   var pickerData: [String] = [String]()
+  let MAX_BET = Float(500.0)
 
   
   @IBAction func CreateNewBetPressed(_ sender: AnyObject) {
     let betItemRef = ref.childByAutoId()
     //let amt:Int? = Int(amountText.text!)
     let cat = pickerData[catPicker.selectedRow(inComponent: 0)]
-    let betItem = BetItem(name: reasonText.text!, description: "none yet", challenger_uid: "FAKEUSER ID" /*user.uid*/ , challenger_name: user.email, date_opened: 1/*NSDate()*/, date_closed: 1/*NSDate()*/, category: cat, amount: Float((amountText.text!))! )
-    
-    betItemRef.setValue(betItem.toAnyObject())
-    
+
+    let amount_as_float = Float(amountText.text!)
+    if (reasonText.text! != "" && amount_as_float != nil && amount_as_float! <= MAX_BET) {
+      let betItem = BetItem(name: reasonText.text!, description: "", challenger_uid: self.profile.key, challenger_name: self.profile.firstName + " " + self.profile.lastName, date_opened: Date().timeIntervalSinceReferenceDate, date_closed: Date().timeIntervalSinceReferenceDate, category: cat, amount: amount_as_float!)
+      betItemRef.setValue(betItem.toAnyObject())
+    }
+    // SHOULD DO SOMETHInG iF abOVE IF does not work
     
   }
 
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    FIRAuth.auth()!.addStateDidChangeListener { auth, user in
-      guard let user = user else { return }
-      self.user = User(authData: user)
-      
-    }
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    self.user = appDelegate.user
+    self.profile = appDelegate.profile
     //self.pickerData = ["Baseball", "Basketball", "Football", "Fighting", "School"]
     
     // Connect data:
@@ -52,6 +55,8 @@ class CreateNewBetController: UIViewController,  UIPickerViewDelegate, UIPickerV
       }
       self.catPicker.reloadAllComponents();
     })
+    
+    amountText.keyboardType = UIKeyboardType.numberPad
 
   }
   

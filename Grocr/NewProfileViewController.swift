@@ -31,7 +31,7 @@ class NewProfileViewController: UIViewController {
             FIRAuth.auth()!.signIn(withEmail: self.EmailText.text!, password: self.PasswordText.text!)
           
           let newProfRef = self.ref.childByAutoId()
-          let profItem = Profile(firstName: self.FirstNameText.text!, lastName: self.LastNameText.text!, email: self.EmailText.text!, pnl: 0, age: Int((self.AgeText.text!))!, venmoID: self.VenmoIdText.text!, gender: self.GenderText.text!, key: (user?.uid)!, userID: (user?.uid)! /*self.UsernameText.text!*/)
+          let profItem = Profile(firstName: self.FirstNameText.text!, lastName: self.LastNameText.text!, email: self.EmailText.text!, pnl: 0, age: Int((self.AgeText.text!))!, venmoID: self.VenmoIdText.text!, gender: self.GenderText.text!, key: (user?.uid)!, userID: (user?.uid)! /*self.UsernameText.text!*/, username: self.UsernameText.text!)
           newProfRef.setValue(profItem.toAnyObject())
         }
         else {

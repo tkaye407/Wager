@@ -21,19 +21,20 @@ struct BetItem {
   let challengee_name: String
   let amount: Float
   var category: String
-  let date_opened: Int//NSDate
-  let date_closed: Int//NSDate
+  let date_opened: Double
+  let date_closed: Double
   
   var accepted: Bool
   var completed: Bool
   var confirmed: Bool
+  var paid: Bool
   
   var winner: Bool //True means that challenger won
   var arbitration: Bool
   
   
   init(key: String = "", name: String, description: String, challenger_uid: String,
-       challenger_name: String, date_opened: Int/*NSDate*/, date_closed: Int/*NSDate*/, category: String, amount: Float, challengee_uid: String = "", challengee_name: String = "", accepted: Bool = false, completed: Bool = false, confirmed: Bool = false, winner: Bool = true, arbitration: Bool = false) {
+       challenger_name: String, date_opened: Double, date_closed: Double, category: String, amount: Float, challengee_uid: String = "", challengee_name: String = "", accepted: Bool = false, completed: Bool = false, confirmed: Bool = false, winner: Bool = true, arbitration: Bool = false) {
     self.ref = nil
     
     self.key = key
@@ -51,6 +52,7 @@ struct BetItem {
     self.accepted = accepted
     self.completed = completed
     self.confirmed = confirmed
+    self.paid = false
     
     self.winner = winner
     self.arbitration = arbitration
@@ -70,13 +72,14 @@ struct BetItem {
     challengee_name = snapshotValue["challengee_name"] as! String
     amount = snapshotValue["amount"] as! Float
     category = snapshotValue["category"] as! String
-    date_opened = snapshotValue["date_opened"] as! Int//NSDate
-    date_closed = snapshotValue["date_closed"] as! Int //NSDate
+    date_opened = snapshotValue["date_opened"] as! Double
+    date_closed = snapshotValue["date_closed"] as! Double
     
     accepted = snapshotValue["accepted"] as! Bool
     completed = snapshotValue["completed"] as! Bool
     confirmed = snapshotValue["confirmed"] as! Bool
-    
+    paid = snapshotValue["paid"] as! Bool
+
     winner = snapshotValue["winner"] as! Bool
     arbitration = snapshotValue["arbitration"] as! Bool
 
@@ -98,6 +101,7 @@ struct BetItem {
       "accepted": accepted,
       "completed": completed,
       "confirmed": confirmed,
+      "paid": paid,
       
       "winner": winner,
       "arbitration": arbitration
