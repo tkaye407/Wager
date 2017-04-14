@@ -68,9 +68,7 @@ class LoginViewController: UIViewController {
       }
     }
     self.navigationController?.navigationBar.topItem?.leftBarButtonItem = nil;
-
   }
-  
 }
 
 extension LoginViewController: UITextFieldDelegate {
