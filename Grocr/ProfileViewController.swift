@@ -30,6 +30,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     let pRef = FIRDatabase.database().reference(withPath: "Profiles")
     let bRef = FIRDatabase.database().reference(withPath: "Bets")
     var bets: [BetItem] = []
+    var items: [BetItem] = []
+    var selectedBet: BetItem?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +50,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.profileImageView.clipsToBounds = true;
 
         // CALCULATE THE TEXT
-        calculatePNL()
+
         self.UserNameLabel.text = (profile?.firstName)! + " " + (profile?.lastName)!
         self.venmoIDLabel.text = profile?.venmoID
         self.emailLabel.text = profile?.email
@@ -67,6 +69,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
           self.bets = newItems
           self.betsTableView.reloadData()
         })
+      
+        calculatePNL()
       
   }
     //MARK: UIImagePickerControllerDelegate
@@ -116,6 +120,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                 fatalError("Unexpected destination: \(segue.destination)")
             }
             profileEditorViewController.profile = profile
+        case "toIndividualBet":
+            let vc = segue.destination as! BetViewController
+            // Pass the selected object to the new view controller.
+            if let indexPath = betsTableView.indexPathForSelectedRow {
+              let selectedBet = bets[indexPath.row]
+              vc.bet = selectedBet
+            }
         default:
             fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
         }
@@ -166,6 +177,10 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     //Mark: Private Methods
     private func calculatePNL() {
       let pnl = 0.0
+      
+      for item in self.bets {
+        print(item.amount)
+      }
       if pnl >= 0.0 {
         pnlLabel.textColor = UIColor.green
       }
@@ -173,6 +188,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         pnlLabel.textColor = UIColor.red
         }
     }
+  
   
     // MARK: TABLE VIEW DELEGATE AND DATASOURCE
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -190,8 +206,17 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
       //cell.betChallengerLabel.text = betItem.challenger_name
       //cell.betAmountLabel.text = String(betItem.amount)
       
-      return cell
     }
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+      return true
+    }
+  
     
+    func tableView(_ tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+      let indexPath = tableView.indexPathForSelectedRow!
+      selectedBet = bets[indexPath.row]
+      self.performSegue(withIdentifier: "toIndividualBet", sender: self);
+    }
+  
 
 }
