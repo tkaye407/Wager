@@ -38,8 +38,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
       
         // SET THE APP DELEGATE VALUES
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        self.user = appDelegate.user
-        self.profile = appDelegate.profile
+        if self.profile == nil && self.user == nil {
+          self.user = appDelegate.user
+          self.profile = appDelegate.profile
+        }
+      
       
         // SET THE DELEGATE AND DATA SOURCE TO SELF
         betsTableView.delegate = self
@@ -176,16 +179,19 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
   
     //Mark: Private Methods
     private func calculatePNL() {
-      let pnl = 0.0
+      var pnl = Float(0.0)
       
       for item in self.bets {
-        print(item.amount)
+        pnl = pnl + item.amount
       }
+      pnl = -10.0
       if pnl >= 0.0 {
         pnlLabel.textColor = UIColor.green
+        pnlLabel.text = String(pnl)
       }
       else {
         pnlLabel.textColor = UIColor.red
+        pnlLabel.text = String(pnl)
         }
     }
   
