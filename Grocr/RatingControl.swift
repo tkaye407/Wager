@@ -1,6 +1,6 @@
 //
 //  RatingControl.swift
-//  FoodTracker
+//  Wager
 //
 //  Created by William Chance on 3/31/17.
 //  Copyright © 2017 William Chance. All rights reserved.
@@ -12,13 +12,13 @@ import UIKit
   //MARK: Properties
   private var ratingButtons = [UIButton]()
   
-  var rating = 0 {
+  var rating = 3 {
     didSet {
       updateButtonSelectionStates()
     }
   }
   
-  @IBInspectable var starSize: CGSize = CGSize(width: 44.0, height: 44.0) {
+  @IBInspectable var starSize: CGSize = CGSize(width: 30.0, height: 30.0) {
     didSet {
       setupButtons()
     }
@@ -29,7 +29,7 @@ import UIKit
       setupButtons()
     }
   }
-  
+    
   
   //MARK: Initialization
   override init(frame: CGRect) {
@@ -73,7 +73,7 @@ import UIKit
       button.widthAnchor.constraint(equalToConstant: starSize.width).isActive = true
       
       // Setup the button action
-      button.addTarget(self, action: #selector(RatingControl.ratingButtonTapped(button:)), for: .touchUpInside)
+      //button.addTarget(self, action: #selector(RatingControl.ratingButtonTapped(button:)), for: .touchUpInside)
       
       // Add the button to the stack
       addArrangedSubview(button)

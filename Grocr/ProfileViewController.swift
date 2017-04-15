@@ -20,7 +20,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var genderLabel: UILabel!
     @IBOutlet weak var signOutButton: UIButton!
     @IBOutlet weak var betsTableView: UITableView!
-    @IBOutlet weak var ageLabel: UILabel!
+    @IBOutlet weak var ratingView: RatingControl!
+  @IBOutlet weak var ratingLabel: UILabel!
   
     
     
@@ -32,6 +33,16 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     var bets: [BetItem] = []
     var items: [BetItem] = []
     var selectedBet: BetItem?
+  
+  func setProfile() {
+    self.UserNameLabel.text = (profile?.firstName)! + " " + (profile?.lastName)!
+    self.venmoIDLabel.text = profile?.venmoID
+    self.emailLabel.text = profile?.email
+    self.genderLabel.text = (profile?.gender)! + " - " + String(profile!.age)
+    self.ratingView.rating = Int(round(profile!.rating))
+    self.ratingLabel.text = String(profile!.rating)
+    calculatePNL()
+  }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,13 +61,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.profileImageView.clipsToBounds = true;
 
         // CALCULATE THE TEXT
+      setProfile()
 
-        self.UserNameLabel.text = (profile?.firstName)! + " " + (profile?.lastName)!
-        self.venmoIDLabel.text = profile?.venmoID
-        self.emailLabel.text = profile?.email
-        self.genderLabel.text = profile?.gender
-        self.ageLabel.text = String(profile!.age)
-      
         // Set Bets
         self.betsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         let new_ref = bRef.queryOrdered(byChild: "challenger_uid").queryEqual(toValue: self.profile?.key)
@@ -150,11 +156,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     @IBAction func unwindEditProfile(sender: UIStoryboardSegue) {
         if let sourceViewController = sender.source as? ProfileEditorViewController, let profile = sourceViewController.profile {
-            self.UserNameLabel.text = profile.firstName + " " + profile.lastName
-            self.venmoIDLabel.text = profile.venmoID
-            self.emailLabel.text = profile.email
-            self.genderLabel.text = profile.gender
+            self.profile = profile
+            setProfile()
         }
+      setProfile()
+      
     }
   
   
