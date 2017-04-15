@@ -21,7 +21,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var signOutButton: UIButton!
     @IBOutlet weak var betsTableView: UITableView!
     @IBOutlet weak var ratingView: RatingControl!
-  @IBOutlet weak var ratingLabel: UILabel!
+    @IBOutlet weak var ratingLabel: UILabel!
+    @IBOutlet weak var challengerControl: UISegmentedControl!
+    @IBOutlet weak var completedController: UISegmentedControl!
   
     
     
@@ -223,6 +225,64 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
       selectedBet = bets[indexPath.row]
       self.performSegue(withIdentifier: "toIndividualBet", sender: self);
     }
+  
+  
+  // MARK: Segment Control Methods
+
+  @IBAction func challengerChanged(_ sender: UISegmentedControl) {
+    switch challengerControl.selectedSegmentIndex
+    {
+      case 0:
+
+        let new_ref = bRef.queryOrdered(byChild: "challenger_uid").queryEqual(toValue: self.profile?.key)
+        new_ref.observe(.value, with: { snapshot in
+          var newItems: [BetItem] = []
+          for item in snapshot.children {
+            let betItem = BetItem(snapshot: item as! FIRDataSnapshot)
+            newItems.append(betItem)
+          }
+          self.bets = newItems
+          self.betsTableView.reloadData()
+        })
+      
+      case 1:
+
+        let new_ref = bRef.queryOrdered(byChild: "challengee_uid").queryEqual(toValue: self.profile?.key)
+        new_ref.observe(.value, with: { snapshot in
+          var newItems: [BetItem] = []
+          for item in snapshot.children {
+            let betItem = BetItem(snapshot: item as! FIRDataSnapshot)
+            newItems.append(betItem)
+          }
+          self.bets = newItems
+          self.betsTableView.reloadData()
+        })
+    
+      default:
+        break
+    }
+  }
+  
+  @IBAction func completedChanged(_ sender: UISegmentedControl) {
+    switch completedController.selectedSegmentIndex
+    {
+    case 0:
+        venmoIDLabel.text = "Open"
+//      var newItems: [BetItem] = []
+//      for bet in self.bets {
+//        if ((bet.accepted || bet.completed) && !(bet.confirmed && )
+//        newItems.append(betItem)
+//      }
+//      self.bets = newItems
+//      self.betsTableView.reloadData()
+
+    
+    case 1:
+      venmoIDLabel.text = "Complete"
+    default:
+      break
+    }
+  }
   
 
 }
