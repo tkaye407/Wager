@@ -66,7 +66,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.profileImageView.clipsToBounds = true;
 
         // CALCULATE THE TEXT
-      setProfile()
+        setProfile()
 
         // Set Bets
         self.betsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
@@ -191,8 +191,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
       
       for item in self.bets {
         pnl = pnl + item.amount
+        print(item.amount)
       }
-      pnl = -10.0
       if pnl >= 0.0 {
         pnlLabel.textColor = UIColor.green
         pnlLabel.text = String(pnl)
