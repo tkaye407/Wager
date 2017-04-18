@@ -665,6 +665,7 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Profile" id="qkA-aQ-TxL">
                         <barButtonItem key="rightBarButtonItem" systemItem="edit" id="QMJ-1h-EZ7">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <segue destination="T3W-SQ-HDL" kind="presentation" identifier="editProfile" id="lKg-GA-kGF"/>
                             </connections>
