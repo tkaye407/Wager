@@ -15,6 +15,10 @@ class BetViewController: UIViewController {
   @IBOutlet weak var categoryLabel: UILabel!
   @IBOutlet weak var takeBetButton: UIButton!
   @IBOutlet weak var challengerButton: UIButton!
+  @IBOutlet weak var amountLabel: UILabel!
+  @IBOutlet weak var challengeeButton: UIButton!
+  @IBOutlet weak var dateOpenedLabel: UILabel!
+  @IBOutlet weak var dateClosedLabel: UILabel!
   
   
   var bet: BetItem!
@@ -33,7 +37,18 @@ class BetViewController: UIViewController {
         self.nameLabel.text = bet.name
         self.categoryLabel.text = bet.category
         self.challengerButton.setTitle(bet.challenger_name, for: UIControlState.normal)
-        self.descriptionLabel.text = bet.amount.description
+        self.descriptionLabel.text = bet.description
+        self.amountLabel.text = bet.amount.description
+        self.dateOpenedLabel.text = bet.date_opened.description
+        if (bet.challengee_uid != "" && bet.challengee_uid != "") {
+          self.challengeeButton.setTitle(bet.challengee_name, for: UIControlState.normal)
+          self.challengeeButton.isEnabled = true
+        }
+        else {
+          self.challengeeButton.isEnabled = false
+          self.challengeeButton.setTitle("Not Taken", for: UIControlState.normal)
+        }
+      
       
       if (self.profile.key == self.bet.challenger_uid) {
         self.takeBetButton.setTitle("Delete Bet?", for: UIControlState.normal)
@@ -196,14 +211,17 @@ class BetViewController: UIViewController {
     // Dispose of any resources that can be recreated.
   }
   
+  @IBAction func challengeeClicked(_ sender: Any) {
+    performSegue(withIdentifier: "betToChallengee", sender: self)
+  }
   
   @IBAction func challengerClicked(_ sender: Any) {
-    performSegue(withIdentifier: "betToProfile", sender: self)
+    performSegue(withIdentifier: "betToChallenger", sender: self)
 
   }
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if (segue.identifier == "betToProfile") {
+    if (segue.identifier == "betToChallenger") {
       let pRef = FIRDatabase.database().reference().child("Profiles")
       pRef.child(bet.challenger_uid).observeSingleEvent(of: .value, with: { (snapshot) in
         // Get user value
@@ -217,6 +235,21 @@ class BetViewController: UIViewController {
         print(error.localizedDescription)
       }
     }
+    if (segue.identifier == "betToChallengee") {
+      let pRef = FIRDatabase.database().reference().child("Profiles")
+      pRef.child(bet.challengee_uid).observeSingleEvent(of: .value, with: { (snapshot) in
+        // Get user value
+        self.newProfile = Profile(snapshot: snapshot)
+        let vc = segue.destination as! ProfileViewController
+        vc.profile = self.newProfile
+        vc.setProfile()
+        vc.betsTableView.reloadData()
+      })
+      { (error) in
+        print(error.localizedDescription)
+      }
+    }
+
   }
 
   

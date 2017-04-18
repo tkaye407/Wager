@@ -37,7 +37,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     var selectedBet: BetItem?
   
   func setProfile() {
-    self.UserNameLabel.text = (profile?.firstName)! + " " + (profile?.lastName)!
+    self.UserNameLabel.text = profile?.username
     //self.venmoIDLabel.text = profile?.venmoID
     self.emailLabel.text = profile?.email
     self.genderLabel.text = (profile?.gender)! + " - " + String(profile!.age)
