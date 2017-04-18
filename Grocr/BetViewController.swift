@@ -12,15 +12,17 @@ import Firebase
 class BetViewController: UIViewController {
   @IBOutlet weak var nameLabel: UILabel!
   @IBOutlet weak var descriptionLabel: UILabel!
-  @IBOutlet weak var challengerLabel: UILabel!
   @IBOutlet weak var categoryLabel: UILabel!
   @IBOutlet weak var takeBetButton: UIButton!
+  @IBOutlet weak var challengerButton: UIButton!
   
   
   var bet: BetItem!
   var betName = "shit"
   var user: User!
   var profile: Profile!
+  var newProfile: Profile?
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +32,7 @@ class BetViewController: UIViewController {
       
         self.nameLabel.text = bet.name
         self.categoryLabel.text = bet.category
-        self.challengerLabel.text = bet.challenger_uid
+        self.challengerButton.setTitle(bet.challenger_name, for: UIControlState.normal)
         self.descriptionLabel.text = bet.amount.description
       
       if (self.profile.key == self.bet.challenger_uid) {
@@ -193,7 +195,32 @@ class BetViewController: UIViewController {
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
   }
-    
+  
+  
+  @IBAction func challengerClicked(_ sender: Any) {
+    performSegue(withIdentifier: "betToProfile", sender: self)
+
+  }
+  
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if (segue.identifier == "betToProfile") {
+      let pRef = FIRDatabase.database().reference().child("Profiles")
+      pRef.child(bet.challenger_uid).observeSingleEvent(of: .value, with: { (snapshot) in
+        // Get user value
+        self.newProfile = Profile(snapshot: snapshot)
+        let vc = segue.destination as! ProfileViewController
+        vc.profile = self.newProfile
+        vc.setProfile()
+        vc.betsTableView.reloadData()
+      })
+      { (error) in
+        print(error.localizedDescription)
+      }
+    }
+  }
+
+  
+  
 
     /*
     // MARK: - Navigation

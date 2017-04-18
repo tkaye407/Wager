@@ -38,12 +38,24 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
   
   func setProfile() {
     self.UserNameLabel.text = (profile?.firstName)! + " " + (profile?.lastName)!
-    self.venmoIDLabel.text = profile?.venmoID
+    //self.venmoIDLabel.text = profile?.venmoID
     self.emailLabel.text = profile?.email
     self.genderLabel.text = (profile?.gender)! + " - " + String(profile!.age)
     self.ratingView.rating = Int(round(profile!.rating))
     self.ratingLabel.text = String(profile!.rating)
     calculatePNL()
+    self.betsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+    let new_ref = bRef.queryOrdered(byChild: "challenger_uid").queryEqual(toValue: self.profile?.key)
+    new_ref.observe(.value, with: { snapshot in
+      var newItems: [BetItem] = []
+      for item in snapshot.children {
+        let betItem = BetItem(snapshot: item as! FIRDataSnapshot)
+        newItems.append(betItem)
+      }
+      self.bets = newItems
+      self.betsTableView.reloadData()
+    })
+
   }
 
     override func viewDidLoad() {
@@ -67,20 +79,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
 
         // CALCULATE THE TEXT
         setProfile()
-
-        // Set Bets
-        self.betsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        let new_ref = bRef.queryOrdered(byChild: "challenger_uid").queryEqual(toValue: self.profile?.key)
-        new_ref.observe(.value, with: { snapshot in
-          var newItems: [BetItem] = []
-          for item in snapshot.children {
-            let betItem = BetItem(snapshot: item as! FIRDataSnapshot)
-            newItems.append(betItem)
-          }
-          self.bets = newItems
-          self.betsTableView.reloadData()
-        })
-      
         calculatePNL()
       
   }
