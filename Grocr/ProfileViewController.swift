@@ -193,11 +193,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
       }
       if pnl >= 0.0 {
         pnlLabel.textColor = UIColor.green
-        pnlLabel.text = String(pnl)
+        pnlLabel.text = String(format:"$%.2f",pnl)
       }
       else {
         pnlLabel.textColor = UIColor.red
-        pnlLabel.text = String(pnl)
+        pnlLabel.text = String(format:"$%.2f",pnl)
         }
     }
   

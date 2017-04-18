@@ -183,7 +183,7 @@ class BetListTableViewController: UITableViewController {
     
     cell.betNameLabel.text = betItem.name
     cell.betChallengerLabel.text = betItem.challenger_name
-    cell.betAmountLabel.text = String(betItem.amount)
+    cell.betAmountLabel.text = String(format: "$%.2f", betItem.amount)
     
     return cell
   }
