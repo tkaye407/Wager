@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Unknown constraint types" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -499,7 +500,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="OO3-Em-sDU" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Bet Feed" image="betIcon" id="5Ye-HD-iHb"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="M8w-Wp-a2U">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="M8w-Wp-a2U">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -581,7 +582,7 @@
                                 <color key="textColor" white="1" alpha="0.60000002379999995" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="@william-chane" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5ID-7d-Z23">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="@william-chance" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5ID-7d-Z23">
                                 <rect key="frame" x="88" y="254" width="271" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -634,7 +635,7 @@
                                 </connections>
                             </segmentedControl>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Mountain Goat" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZKf-8J-CV0">
-                                <rect key="frame" x="139" y="132" width="271" height="21"/>
+                                <rect key="frame" x="143" y="132" width="271" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
@@ -643,9 +644,7 @@
                         </subviews>
                         <color key="backgroundColor" red="0.29064744710000001" green="0.65044963359999997" blue="0.49034714699999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="ljL-cP-kvY" secondAttribute="trailing" constant="120" id="6nL-Vo-ZYl"/>
-                            <constraint firstItem="ljL-cP-kvY" firstAttribute="leading" secondItem="zIJ-OB-8pR" secondAttribute="leadingMargin" constant="120" id="Plb-zN-ME7"/>
-                            <constraint firstItem="Snk-Rb-Gcp" firstAttribute="top" secondItem="ljL-cP-kvY" secondAttribute="bottom" constant="8" id="ifN-Wd-8rG"/>
+                            <constraint firstAttribute="leading" secondItem="zIJ-OB-8pR" secondAttribute="leadingMargin" constant="120" id="Plb-zN-ME7"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
@@ -669,7 +668,6 @@
                         <outlet property="profileImageView" destination="IQ8-kk-LSW" id="Vfc-xc-yvt"/>
                         <outlet property="ratingLabel" destination="vLt-cB-qoX" id="wYq-b8-PSk"/>
                         <outlet property="ratingView" destination="Jkq-hj-mzT" id="koD-5F-rHR"/>
-                        <outlet property="signOutButton" destination="ljL-cP-kvY" id="onj-dX-8hM"/>
                         <outlet property="venmoIDLabel" destination="5ID-7d-Z23" id="Tsg-Lf-KHh"/>
                         <segue destination="7nr-Lc-mbm" kind="show" identifier="toIndividualBet" id="IgS-LP-HoH"/>
                     </connections>
@@ -875,7 +873,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="aU3-gX-JDg" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Profile" image="profileIcon" id="qh4-yc-xdW"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Fd8-Kz-ruv">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Fd8-Kz-ruv">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -894,7 +892,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="T3W-SQ-HDL" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="oVh-fc-jaP">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="oVh-fc-jaP">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1017,12 +1015,10 @@
         <image name="testProfilePhoto" width="360" height="360"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="sTM-qw-YuI"/>
+        <segue reference="IgS-LP-HoH"/>
+        <segue reference="ZQw-oR-ZCn"/>
         <segue reference="YGd-c0-b6a"/>
         <segue reference="yUp-bl-tG5"/>
         <segue reference="sTM-qw-YuI"/>
-        <segue reference="YGd-c0-b6a"/>
-        <segue reference="IgS-LP-HoH"/>
-        <segue reference="ZQw-oR-ZCn"/>
     </inferredMetricsTieBreakers>
 </document>
