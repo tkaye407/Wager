@@ -188,8 +188,12 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
       var pnl = Float(0.0)
       
       for item in self.bets {
-        pnl = pnl + item.amount
-        print(item.amount)
+        if item.completed && item.winner {
+          pnl = pnl + item.amount
+        }
+        else if item.completed && !item.winner {
+          pnl = pnl - item.amount
+        }
       }
       if pnl >= 0.0 {
         pnlLabel.textColor = UIColor.green
