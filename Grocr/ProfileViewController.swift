@@ -35,6 +35,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     var bets: [BetItem] = []
     var items: [BetItem] = []
     var selectedBet: BetItem?
+    var challengerPicked: Bool = true
+    var completedPicked: Bool = false
   
   func setProfile() {
     self.UserNameLabel.text = profile?.username
@@ -50,7 +52,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
       var newItems: [BetItem] = []
       for item in snapshot.children {
         let betItem = BetItem(snapshot: item as! FIRDataSnapshot)
-        newItems.append(betItem)
+        if (betItem.completed) {
+          newItems.append(betItem)
+        }
       }
       self.bets = newItems
       self.betsTableView.reloadData()
@@ -241,26 +245,30 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     switch challengerControl.selectedSegmentIndex
     {
       case 0:
-
+        challengerPicked = true
         let new_ref = bRef.queryOrdered(byChild: "challenger_uid").queryEqual(toValue: self.profile?.key)
         new_ref.observe(.value, with: { snapshot in
           var newItems: [BetItem] = []
           for item in snapshot.children {
             let betItem = BetItem(snapshot: item as! FIRDataSnapshot)
-            newItems.append(betItem)
+            if(betItem.completed == self.completedPicked) {
+              newItems.append(betItem)
+            }
           }
           self.bets = newItems
           self.betsTableView.reloadData()
         })
       
       case 1:
-
+        challengerPicked = false
         let new_ref = bRef.queryOrdered(byChild: "challengee_uid").queryEqual(toValue: self.profile?.key)
         new_ref.observe(.value, with: { snapshot in
           var newItems: [BetItem] = []
           for item in snapshot.children {
             let betItem = BetItem(snapshot: item as! FIRDataSnapshot)
-            newItems.append(betItem)
+            if(betItem.completed == self.completedPicked) {
+              newItems.append(betItem)
+            }
           }
           self.bets = newItems
           self.betsTableView.reloadData()
@@ -275,19 +283,47 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     switch completedController.selectedSegmentIndex
     {
     case 0:
-        venmoIDLabel.text = "Open"
-//      var newItems: [BetItem] = []
-//      for bet in self.bets {
-//        if ((bet.accepted || bet.completed) && !(bet.confirmed && )
-//        newItems.append(betItem)
-//      }
-//      self.bets = newItems
-//      self.betsTableView.reloadData()
-
-    
+      completedPicked = false
+      var child: String = ""
+      if (self.challengerPicked) {
+        child = "challenger_uid"
+      }
+      else {
+        child = "challengee_uid"
+      }
+      let new_ref = bRef.queryOrdered(byChild: child).queryEqual(toValue: self.profile?.key)
+      new_ref.observe(.value, with: { snapshot in
+        var newItems: [BetItem] = []
+        for item in snapshot.children {
+          let betItem = BetItem(snapshot: item as! FIRDataSnapshot)
+          if(betItem.completed == self.completedPicked) {
+            newItems.append(betItem)
+          }
+        }
+        self.bets = newItems
+        self.betsTableView.reloadData()
+      })
     case 1:
-      venmoIDLabel.text = "Complete"
-    default:
+      completedPicked = true
+      var child: String = ""
+      if (self.challengerPicked) {
+        child = "challenger_uid"
+      }
+      else {
+        child = "challengee_uid"
+      }
+      let new_ref = bRef.queryOrdered(byChild: child).queryEqual(toValue: self.profile?.key)
+      new_ref.observe(.value, with: { snapshot in
+        var newItems: [BetItem] = []
+        for item in snapshot.children {
+          let betItem = BetItem(snapshot: item as! FIRDataSnapshot)
+          if(betItem.completed == self.completedPicked) {
+            newItems.append(betItem)
+          }
+        }
+        self.bets = newItems
+        self.betsTableView.reloadData()
+      })    default:
       break
     }
   }
