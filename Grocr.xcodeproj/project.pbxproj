@@ -20,6 +20,7 @@
 		BB23856C1B3DD5AB0079CD01 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB23856A1B3DD5AB0079CD01 /* LaunchScreen.xib */; };
 		BB2385841B3DD8660079CD01 /* BetListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2385831B3DD8660079CD01 /* BetListTableViewController.swift */; };
 		BB7DA5111B42C8100018B530 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7DA5101B42C8100018B530 /* User.swift */; };
+		FF341FCA1EAA9425007DC11D /* EditBetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF341FC91EAA9425007DC11D /* EditBetViewController.swift */; };
 		FF389CFF1E91D96500EF0DF9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF389CFE1E91D96500EF0DF9 /* GoogleService-Info.plist */; };
 		FF389D011E91D99D00EF0DF9 /* BetItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF389D001E91D99D00EF0DF9 /* BetItem.swift */; };
 		FF9317FE1E95B3880060FDCB /* BetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9317FD1E95B3880060FDCB /* BetViewController.swift */; };
@@ -47,6 +48,7 @@
 		BB7DA5101B42C8100018B530 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		F599D9265F4B40571F432E78 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF1D26751E92A92800C9C2EE /* Grocr.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Grocr.entitlements; path = Grocr/Grocr.entitlements; sourceTree = "<group>"; };
+		FF341FC91EAA9425007DC11D /* EditBetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditBetViewController.swift; sourceTree = "<group>"; };
 		FF389CFE1E91D96500EF0DF9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FF389D001E91D99D00EF0DF9 /* BetItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BetItem.swift; path = ../BetItem.swift; sourceTree = "<group>"; };
 		FF9317FD1E95B3880060FDCB /* BetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BetViewController.swift; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 		BB2385811B3DD8310079CD01 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				FF341FC91EAA9425007DC11D /* EditBetViewController.swift */,
 				FF9D7E351E96AE9A00B37448 /* BetTableViewCell.swift */,
 				FF9317FD1E95B3880060FDCB /* BetViewController.swift */,
 				BB2385631B3DD5AB0079CD01 /* LoginViewController.swift */,
@@ -313,6 +316,7 @@
 				BB7DA5111B42C8100018B530 /* User.swift in Sources */,
 				071917E61E92FA2200EAFF5F /* CreateNewBetController.swift in Sources */,
 				7A025E331E9568940086099C /* ProfileViewController.swift in Sources */,
+				FF341FCA1EAA9425007DC11D /* EditBetViewController.swift in Sources */,
 				07C23C311E9C39A000A0DA27 /* NewProfileViewController.swift in Sources */,
 				FF389D011E91D99D00EF0DF9 /* BetItem.swift in Sources */,
 				BB2385621B3DD5AB0079CD01 /* AppDelegate.swift in Sources */,
