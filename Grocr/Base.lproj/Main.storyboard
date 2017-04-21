@@ -496,10 +496,18 @@
                                 <color key="textColor" red="0.23921568627450981" green="0.59607843137254901" blue="0.41568627450980394" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RFw-rS-nXz">
+                                <rect key="frame" x="21" y="494" width="333" height="42"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
+                        <outlet property="InformationLabel" destination="RFw-rS-nXz" id="2ns-02-gfv"/>
                         <outlet property="amountLabel" destination="Rap-YC-bKf" id="2sH-A4-kg5"/>
                         <outlet property="categoryLabel" destination="8Hc-bX-wlC" id="g4C-gz-DaO"/>
                         <outlet property="challengeeButton" destination="JeB-zn-5tZ" id="neN-iL-M4g"/>
@@ -1180,10 +1188,10 @@
         <image name="testProfilePhoto" width="360" height="360"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="fEM-s3-0uz"/>
         <segue reference="YGd-c0-b6a"/>
         <segue reference="yUp-bl-tG5"/>
-        <segue reference="fEM-s3-0uz"/>
-        <segue reference="upF-IU-j5K"/>
         <segue reference="IgS-LP-HoH"/>
+        <segue reference="ujZ-n3-ETv"/>
     </inferredMetricsTieBreakers>
 </document>

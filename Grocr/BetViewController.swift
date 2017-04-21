@@ -19,6 +19,7 @@ class BetViewController: UIViewController {
   @IBOutlet weak var challengeeButton: UIButton!
   @IBOutlet weak var dateOpenedLabel: UILabel!
   @IBOutlet weak var dateClosedLabel: UILabel!
+  @IBOutlet weak var InformationLabel: UILabel!
   
   
   var bet: BetItem!
@@ -33,13 +34,18 @@ class BetViewController: UIViewController {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         self.user = appDelegate.user
         self.profile = appDelegate.profile
+      
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "hh:mm a MMM dd, yy"
+        let dateOpened = Date(timeIntervalSinceReferenceDate: bet.date_opened)
     
+        self.InformationLabel.text = "false"
         self.nameLabel.text = bet.name
         self.categoryLabel.text = bet.category
         self.challengerButton.setTitle(bet.challenger_name, for: UIControlState.normal)
         self.descriptionLabel.text = bet.description
         self.amountLabel.text = bet.amount.description
-        self.dateOpenedLabel.text = bet.date_opened.description
+        self.dateOpenedLabel.text = dateFormatter.string(from: dateOpened)
         if (bet.challengee_uid != "" && bet.challengee_uid != "") {
           self.challengeeButton.setTitle(bet.challengee_name, for: UIControlState.normal)
           self.challengeeButton.isEnabled = true
