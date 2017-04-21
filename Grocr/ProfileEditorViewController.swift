@@ -18,6 +18,7 @@ class ProfileEditorViewController: UIViewController {
     @IBOutlet weak var ageTextField: UITextField!
     @IBOutlet weak var venmoIDTextField: UITextField!
     @IBOutlet weak var genderTextField: UITextField!
+    @IBOutlet weak var usernameTextField: UITextField!
   
   
   var profile: Profile!
@@ -35,6 +36,7 @@ class ProfileEditorViewController: UIViewController {
     ageTextField.text = String(profile!.age)
     venmoIDTextField.text = profile?.venmoID
     genderTextField.text = profile?.gender
+    usernameTextField.text = profile?.username
   }
   
     //Mark: Navigation
@@ -86,6 +88,11 @@ class ProfileEditorViewController: UIViewController {
         ref.updateChildValues(["age":age ?? 0])
         profile.age = age!
       }
+    let username = usernameTextField.text ?? ""
+    if (username != "" && username != profile?.username)  {
+        ref.updateChildValues(["username":username])
+        profile.username = username
+    }
       
       let appDelegate = UIApplication.shared.delegate as! AppDelegate
       appDelegate.profile = self.profile
