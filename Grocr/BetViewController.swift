@@ -33,7 +33,7 @@ class BetViewController: UIViewController {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         self.user = appDelegate.user
         self.profile = appDelegate.profile
-      
+    
         self.nameLabel.text = bet.name
         self.categoryLabel.text = bet.category
         self.challengerButton.setTitle(bet.challenger_name, for: UIControlState.normal)
@@ -130,6 +130,31 @@ class BetViewController: UIViewController {
     alertController.addAction(cancelAction)
     let callVenmo = UIAlertAction(title: "Venmo", style: .default, handler: {
       action in
+      
+      // Lots of possible errors here, we need 
+      // both to have a venmo account 
+      // catch the user saying pay with venmo then never paying
+      
+      // figure out if you are the challenger or challengee
+
+      let pRef = FIRDatabase.database().reference().child("Profiles")
+      pRef.child(self.bet.challenger_uid).observeSingleEvent(of: .value, with: { (snapshot) in
+        // Get user value
+        self.newProfile = Profile(snapshot: snapshot)
+  
+        // additional error checking needed here in case the other user doesnt have 
+        /*let url = URL(String: "venmo://paycharge?txt=pay&amount=\(self.bet.amount)&note=\(self.bet.name)&recipients=\((self.newProfile?.venmoID)!)".replacingOccurrences(of: " ", with: "%20"))
+        
+        if #available(iOS 10.0, *) {
+          UIApplication.shared.open(url!)
+        } else {
+          UIApplication.shared.openURL(url!)
+        }*/
+      })
+      { (error) in
+        print("what the fuck")
+      }
+      
       /*This is where the venmo redirection will go*/
     })
     alertController.addAction(callVenmo)
