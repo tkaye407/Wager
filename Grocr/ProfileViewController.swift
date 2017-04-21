@@ -36,9 +36,10 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     var items: [BetItem] = []
     var selectedBet: BetItem?
   
+  
   func setProfile() {
     self.UserNameLabel.text = profile?.username
-    //self.venmoIDLabel.text = profile?.venmoID
+    self.venmoIDLabel.text = profile?.venmoID
     self.emailLabel.text = profile?.email
     self.genderLabel.text = (profile?.gender)! + " - " + String(profile!.age)
     self.ratingView.rating = Int(round(profile!.rating))
@@ -57,7 +58,12 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     })
 
   }
-
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    calculatePNL()
+    debugPrint("Profile" + (self.profile?.email)!)
+  }
+  
     override func viewDidLoad() {
         super.viewDidLoad()
       
@@ -67,6 +73,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
           self.user = appDelegate.user
           self.profile = appDelegate.profile
         }
+        //self.navigationItem.rightBarButtonItem?.isEnabled = false
       
       
         // SET THE DELEGATE AND DATA SOURCE TO SELF
@@ -272,24 +279,24 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
   }
   
   @IBAction func completedChanged(_ sender: UISegmentedControl) {
-    switch completedController.selectedSegmentIndex
-    {
-    case 0:
-        venmoIDLabel.text = "Open"
-//      var newItems: [BetItem] = []
-//      for bet in self.bets {
-//        if ((bet.accepted || bet.completed) && !(bet.confirmed && )
-//        newItems.append(betItem)
-//      }
-//      self.bets = newItems
-//      self.betsTableView.reloadData()
-
-    
-    case 1:
-      venmoIDLabel.text = "Complete"
-    default:
-      break
-    }
+//    switch completedController.selectedSegmentIndex
+//    {
+//    case 0:
+//        venmoIDLabel.text = "Open"
+////      var newItems: [BetItem] = []
+////      for bet in self.bets {
+////        if ((bet.accepted || bet.completed) && !(bet.confirmed && )
+////        newItems.append(betItem)
+////      }
+////      self.bets = newItems
+////      self.betsTableView.reloadData()
+//
+//    
+//    case 1:
+//      venmoIDLabel.text = "Complete"
+//    default:
+//      break
+//    }
   }
   
 
