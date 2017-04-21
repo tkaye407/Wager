@@ -40,6 +40,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
   
   
   func setProfile() {
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    if self.profile?.userID != appDelegate.profile?.userID {
+      self.navigationItem.rightBarButtonItem?.isEnabled = false
+      self.navigationItem.rightBarButtonItem?.tintColor = UIColor.clear
+    }
     self.UserNameLabel.text = profile?.username
     self.venmoIDLabel.text = profile?.venmoID
     self.emailLabel.text = profile?.email
@@ -62,11 +67,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     })
 
   }
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    calculatePNL()
-    debugPrint("Profile" + (self.profile?.email)!)
-  }
+//  override func viewWillAppear(_ animated: Bool) {
+//    super.viewWillAppear(animated)
+//    calculatePNL()
+//    debugPrint("Profile: " + (self.profile?.email)!)
+//  }
   
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,9 +82,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
           self.user = appDelegate.user
           self.profile = appDelegate.profile
         }
-        //self.navigationItem.rightBarButtonItem?.isEnabled = false
-      
-      
+
         // SET THE DELEGATE AND DATA SOURCE TO SELF
         betsTableView.delegate = self
         betsTableView.dataSource = self
