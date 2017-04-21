@@ -159,7 +159,10 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     //MARK: Actions
     @IBAction func selectImageFromPhotoLibrary(_ sender: UITapGestureRecognizer) {
-        
+      
+      let appDelegate = UIApplication.shared.delegate as! AppDelegate
+      
+      if self.profile?.userID == appDelegate.profile?.userID {
         // UIImagePickerController is a view controller that lets a user pick media from their photo library.
         let imagePickerController = UIImagePickerController()
         
@@ -169,6 +172,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         // Make sure ViewController is notified when the user picks an image.
         imagePickerController.delegate = self
         present(imagePickerController, animated: true, completion: nil)
+      }
     }
     
     @IBAction func unwindEditProfile(sender: UIStoryboardSegue) {
