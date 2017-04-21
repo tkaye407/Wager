@@ -38,9 +38,10 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     var challengerPicked: Bool = true
     var completedPicked: Bool = false
   
+  
   func setProfile() {
     self.UserNameLabel.text = profile?.username
-    //self.venmoIDLabel.text = profile?.venmoID
+    self.venmoIDLabel.text = profile?.venmoID
     self.emailLabel.text = profile?.email
     self.genderLabel.text = (profile?.gender)! + " - " + String(profile!.age)
     self.ratingView.rating = Int(round(profile!.rating))
@@ -61,7 +62,12 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     })
 
   }
-
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    calculatePNL()
+    debugPrint("Profile" + (self.profile?.email)!)
+  }
+  
     override func viewDidLoad() {
         super.viewDidLoad()
       
@@ -71,6 +77,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
           self.user = appDelegate.user
           self.profile = appDelegate.profile
         }
+        //self.navigationItem.rightBarButtonItem?.isEnabled = false
       
       
         // SET THE DELEGATE AND DATA SOURCE TO SELF
