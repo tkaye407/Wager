@@ -19,7 +19,7 @@ class BetViewController: UIViewController {
   @IBOutlet weak var challengeeButton: UIButton!
   @IBOutlet weak var dateOpenedLabel: UILabel!
   @IBOutlet weak var dateClosedLabel: UILabel!
-    @IBOutlet weak var InformationLabel: UILabel!
+  @IBOutlet weak var InformationLabel: UILabel!
   
   
   var bet: BetItem!
@@ -39,6 +39,7 @@ class BetViewController: UIViewController {
         dateFormatter.dateFormat = "hh:mm a MMM dd, yy"
         let dateOpened = Date(timeIntervalSinceReferenceDate: bet.date_opened)
     
+        self.InformationLabel.text = "false"
         self.nameLabel.text = bet.name
         self.categoryLabel.text = bet.category
         self.challengerButton.setTitle(bet.challenger_name, for: UIControlState.normal)
