@@ -19,6 +19,7 @@ class BetViewController: UIViewController {
   @IBOutlet weak var challengeeButton: UIButton!
   @IBOutlet weak var dateOpenedLabel: UILabel!
   @IBOutlet weak var dateClosedLabel: UILabel!
+    @IBOutlet weak var InformationLabel: UILabel!
   
   
   var bet: BetItem!
