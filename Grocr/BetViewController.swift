@@ -23,11 +23,26 @@ class BetViewController: UIViewController {
   
   
   var bet: BetItem!
-  var betName = "shit"
+  var betName = "h"
   var user: User!
   var profile: Profile!
   var newProfile: Profile?
-
+  
+  func reloadBet() {
+    let bRef = FIRDatabase.database().reference().child("Bets")
+    bRef.child(bet.key).observeSingleEvent(of: .value, with: { (snapshot) in
+      // Get user value
+      self.bet = BetItem(snapshot: snapshot)
+    })
+    self.nameLabel.text = self.bet.name
+    self.descriptionLabel.text = self.bet.description
+    self.amountLabel.text = self.bet.amount.description
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    reloadBet()
+  }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -266,6 +281,11 @@ class BetViewController: UIViewController {
         print(error.localizedDescription)
       }
     }
+    if (segue.identifier == "editBet") {
+      let nav = segue.destination as! UINavigationController
+      let vc = nav.topViewController as! EditBetViewController
+      vc.bet = self.bet
+    }
     if (segue.identifier == "betToChallengee") {
       let pRef = FIRDatabase.database().reference().child("Profiles")
       pRef.child(bet.challengee_uid).observeSingleEvent(of: .value, with: { (snapshot) in
@@ -282,18 +302,5 @@ class BetViewController: UIViewController {
     }
 
   }
-
-  
-  
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

@@ -359,7 +359,7 @@
         <!--Bet View Controller-->
         <scene sceneID="mxU-NZ-bd7">
             <objects>
-                <viewController id="7nr-Lc-mbm" customClass="BetViewController" customModule="Grocr" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="bvc" id="7nr-Lc-mbm" customClass="BetViewController" customModule="Grocr" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="3ta-1I-2bf"/>
                         <viewControllerLayoutGuide type="bottom" id="GWc-ca-Eqh"/>
@@ -996,10 +996,10 @@
             </objects>
             <point key="canvasLocation" x="4884" y="1181.5592203898052"/>
         </scene>
-        <!--View Controller-->
+        <!--Edit Bet View Controller-->
         <scene sceneID="Sua-97-Jmu">
             <objects>
-                <viewController id="UP2-03-pFI" sceneMemberID="viewController">
+                <viewController id="UP2-03-pFI" customClass="EditBetViewController" customModule="Grocr" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ehy-8s-c4E"/>
                         <viewControllerLayoutGuide type="bottom" id="au8-Yi-BJf"/>
@@ -1087,11 +1087,22 @@
                     <navigationItem key="navigationItem" id="tey-eA-Sve">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="Yjn-aT-5jm">
                             <color key="tintColor" red="0.99989169836044312" green="1" blue="0.99988096952438354" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="cancelTapped:" destination="UP2-03-pFI" id="5CA-we-Qgb"/>
+                            </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Save" id="rjK-Rc-YqO">
                             <color key="tintColor" red="0.99989169836044312" green="1" blue="0.99988096952438354" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="saveTapped:" destination="UP2-03-pFI" id="Pvs-h0-79y"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="betAmount" destination="CEm-LL-xD8" id="8jl-hj-Cg1"/>
+                        <outlet property="betDescription" destination="Ah3-lc-CzR" id="E24-TC-7YM"/>
+                        <outlet property="betName" destination="viY-0H-kXJ" id="gSN-3B-P7u"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5JY-Kt-9wd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
