@@ -50,65 +50,91 @@ class BetViewController: UIViewController {
         self.user = appDelegate.user
         self.profile = appDelegate.profile
       
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "hh:mm a MMM dd, yy"
-        let dateOpened = Date(timeIntervalSinceReferenceDate: bet.date_opened)
+        relabelThings()
+    }
+  
+  func relabelThings() {
+    self.takeBetButton.isEnabled = true
+    self.takeBetButton.isHidden = false
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "hh:mm a MMM dd, yy"
+    let dateOpened = Date(timeIntervalSinceReferenceDate: bet.date_opened)
     
-        self.InformationLabel.text = "false"
-        self.nameLabel.text = bet.name
-        self.categoryLabel.text = bet.category
-        self.challengerButton.setTitle(bet.challenger_name, for: UIControlState.normal)
-        self.descriptionLabel.text = bet.description
-        self.amountLabel.text = bet.amount.description
-        self.dateOpenedLabel.text = dateFormatter.string(from: dateOpened)
-        if (bet.challengee_uid != "" && bet.challengee_uid != "") {
-          self.challengeeButton.setTitle(bet.challengee_name, for: UIControlState.normal)
-          self.challengeeButton.isEnabled = true
-        }
-        else {
-          self.challengeeButton.isEnabled = false
-          self.challengeeButton.setTitle("Not Taken", for: UIControlState.normal)
-        }
-      
-      
-      if (self.profile.key == self.bet.challenger_uid) {
-        self.takeBetButton.setTitle("Delete Bet?", for: UIControlState.normal)
-        self.takeBetButton.backgroundColor = UIColor.red
-      }
-      else if (!bet.accepted) {
-        self.takeBetButton.setTitle("Take Bet", for:UIControlState.normal)
-        self.takeBetButton.layer.cornerRadius = 20
-      }
-      else if (self.profile.key != self.bet.challenger_uid && self.profile.key != self.bet.challengee_uid) {
-        self.takeBetButton.setTitle("Too Late (Bet Already Accepted)", for:UIControlState.normal)
-        self.takeBetButton.isEnabled = false
-      }
-      else if (bet.accepted && !bet.completed) {
-        self.takeBetButton.setTitle("Complete Bet", for:UIControlState.normal)
-      }
-      else if (bet.completed){
-        if (((bet.winner && self.profile.key == self.bet.challengee_uid) || (!bet.winner && self.profile.key == self.bet.challenger_uid)) && !bet.paid){
+    self.nameLabel.text = bet.name
+    self.categoryLabel.text = bet.category
+    self.challengerButton.setTitle(bet.challenger_name, for: UIControlState.normal)
+    self.descriptionLabel.text = bet.description
+    self.amountLabel.text = bet.amount.description
+    self.dateOpenedLabel.text = dateFormatter.string(from: dateOpened)
+    if (bet.challengee_uid != "" && bet.challengee_uid != "") {
+      self.challengeeButton.setTitle(bet.challengee_name, for: UIControlState.normal)
+      self.challengeeButton.isEnabled = true
+    }
+    else {
+      self.challengeeButton.isEnabled = false
+      self.challengeeButton.setTitle("Not Taken", for: UIControlState.normal)
+    }
+
+    if ((self.profile.key == self.bet.challenger_uid) && !bet.accepted) {
+      self.InformationLabel.text = "You created this bet. Would you like to Delete It?"
+      self.takeBetButton.setTitle("Delete Bet?", for: UIControlState.normal)
+      self.takeBetButton.backgroundColor = UIColor.red
+    }
+    else if (!bet.accepted) {
+      self.InformationLabel.text = "This bet has not been accepted by anyone yet. Take it before someone else does!"
+      self.takeBetButton.setTitle("Take Bet", for:UIControlState.normal)
+      self.takeBetButton.layer.cornerRadius = 20
+    }
+    else if (self.profile.key != self.bet.challenger_uid && self.profile.key != self.bet.challengee_uid) {
+      self.InformationLabel.text = "This bet has already been accepted by someone else"
+      self.takeBetButton.setTitle("Too Late!", for:UIControlState.normal)
+      self.takeBetButton.isEnabled = false
+    }
+    else if (bet.accepted && !bet.completed) {
+      self.InformationLabel.text = "Has the outcome of this bet been decided? If so, complete the bet!"
+      self.takeBetButton.setTitle("Complete Bet", for:UIControlState.normal)
+    }
+    else if (bet.completed && !bet.confirmed){
+      if ((bet.winner && (self.profile.key == self.bet.challengee_uid)) || (!bet.winner && (self.profile.key == self.bet.challenger_uid))) {
+        if (!bet.paid){
+          /*loser is current player and has not yet paid*/
+          self.InformationLabel.text = "You lost this bet"
           self.takeBetButton.setTitle("Pay Up", for: UIControlState.normal)
         }
-        else if (bet.winner && self.profile.key == self.bet.challengee_uid || !bet.winner && self.profile.key == self.bet.challenger_uid) {
+        else if (bet.paid && !bet.confirmed) {
+          /*loser is current player and has already paid but the payment has not been confirmed*/
+          self.InformationLabel.text = "You have already paid this bet. Waiting for them to confirm your payment"
           self.takeBetButton.setTitle("Waiting for Acceptance", for:UIControlState.normal)
           self.takeBetButton.isEnabled = false
         }
-        else if (bet.paid) {
-          self.takeBetButton.setTitle("Confirm Payment", for: UIControlState.normal)
-        }
-        else if bet.completed{self.takeBetButton.setTitle("Bet Complete", for:UIControlState.normal)
-          self.takeBetButton.isEnabled = false}
-        else {self.takeBetButton.setTitle("Unkown", for:UIControlState.normal)
+      }
+      else if ((bet.winner && (self.profile.key == self.bet.challenger_uid)) || (!bet.winner && (self.profile.key == self.bet.challengee_uid))) {
+        if (!bet.paid) {
+          /*winner is current player and opponent has not yet paid*/
+          self.InformationLabel.text = "Your opponent is in the process of paying this bet"
+          self.takeBetButton.setTitle("Waiting for payment", for: UIControlState.normal)
           self.takeBetButton.isEnabled = false
         }
+        else if (bet.paid && !bet.confirmed)
+        {
+          /*winner is current player and has not confirmed the payment yet*/
+          self.InformationLabel.text = "Your opponent says that they paid. Confirm that they did"
+          self.takeBetButton.setTitle("Confirm Payment", for: UIControlState.normal)
+        }
       }
-      else {
-        self.takeBetButton.isEnabled = false;
-      }
-      
-        // Do any additional setup after loading the view.
     }
+    else if (bet.confirmed){
+      /*the bet is completely done*/
+      self.InformationLabel.text = "This bet has been completed and paid out"
+      self.takeBetButton.setTitle("Bet Complete", for:UIControlState.normal)
+      self.takeBetButton.isEnabled = false
+    }
+    else {
+      self.takeBetButton.isEnabled = false;
+      self.InformationLabel.text = "No Action"
+      self.takeBetButton.setTitle("???", for:UIControlState.normal)
+    }
+  }
 
   @IBAction func takeBet(_ sender: Any) {
     if (self.takeBetButton.titleLabel?.text == "Delete Bet?") {
@@ -120,37 +146,32 @@ class BetViewController: UIViewController {
     else if (bet.accepted && !bet.completed) {
       completeBet()
     }
-    else if (bet.completed) {
-      //loser
-      if ((bet.winner && self.profile.key == self.bet.challengee_uid || !bet.winner && self.profile.key == self.bet.challenger_uid) && !bet.paid){
-        loserHasNotYetPaid()
-        self.takeBetButton.setTitle("Waiting for Acceptance", for: UIControlState.normal)
-        self.takeBetButton.isEnabled = false
+    else if (bet.completed && !bet.confirmed){
+      if ((bet.winner && (self.profile.key == self.bet.challengee_uid)) || (!bet.winner && (self.profile.key == self.bet.challenger_uid)) && !bet.paid){
+          /*loser is current player and has not yet paid*/
+          loserHasNotYetPaid()
+          self.relabelThings()
       }
-      else if (bet.winner && self.profile.key == self.bet.challengee_uid || !bet.winner && self.profile.key == self.bet.challenger_uid){
-        /*Loser has alread paid*/
-        self.takeBetButton.setTitle("Waiting for Acceptance", for:UIControlState.normal)
-        self.takeBetButton.isEnabled = false
-      }
-      else if (bet.paid) {
-         let bRef = FIRDatabase.database().reference().child("Bets").child(bet.key)
-         bRef.updateChildValues(["confirmed":true])
-         bet.confirmed = true
-        self.takeBetButton.setTitle("Bet Complete", for:UIControlState.normal)
-        self.takeBetButton.isEnabled = false
+      else if ((bet.winner && (self.profile.key == self.bet.challenger_uid)) || (!bet.winner && (self.profile.key == self.bet.challengee_uid)) && (bet.paid && !bet.confirmed)) {
+          let bRef = FIRDatabase.database().reference().child("Bets").child(bet.key)
+          bRef.updateChildValues(["confirmed":true])
+          bet.confirmed = true
+          self.relabelThings()
       }
     }
   }
   
   func loserHasNotYetPaid() {
-    let bRef  = FIRDatabase.database().reference().child("Bets").child(self.bet.key)
-    bRef.updateChildValues(["paid":true])
-    self.bet.paid = true
+    let bRef  = FIRDatabase.database().reference().child("Bets").child(bet.key)
+    
     let alertController = UIAlertController(title: "Pay Now", message: "Choose A Payment Option", preferredStyle: .alert)
-    let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: {action in bRef.updateChildValues(["paid":false]); self.bet.paid = false})
+    let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
     alertController.addAction(cancelAction)
     let callVenmo = UIAlertAction(title: "Venmo", style: .default, handler: {
       action in
+      
+      bRef.updateChildValues(["paid":true])
+      self.bet.paid = true
       
       // Lots of possible errors here, we need 
       // both to have a venmo account 
@@ -177,21 +198,29 @@ class BetViewController: UIViewController {
       }
       
       /*This is where the venmo redirection will go*/
+      self.relabelThings()
     })
     alertController.addAction(callVenmo)
     let callCash = UIAlertAction(title: "Cash", style: .default, handler: {
       action in
       /*figure this out*/
+      bRef.updateChildValues(["paid":true])
+      self.bet.paid = true
+      self.relabelThings()
     })
     alertController.addAction(callCash)
     let callOther = UIAlertAction(title: "Other", style: .default, handler: {
       action in
       /*figure this out*/
+      bRef.updateChildValues(["paid":true])
+      self.bet.paid = true
+      self.relabelThings()
     })
     alertController.addAction(callOther)
     let DontPay = UIAlertAction(title: "Do Not Pay", style: .default, handler: {
       action in
-      /*figure this out*/
+      /*figure this out--- Best to probably label bet.paid as false but bet.confirmed as true*/
+      self.relabelThings()
     })
     alertController.addAction(DontPay)
     self.present(alertController, animated: true, completion: nil)
@@ -199,7 +228,6 @@ class BetViewController: UIViewController {
   
   func completeBet() {
     let bRef = FIRDatabase.database().reference().child("Bets").child(bet.key)
-    self.bet.completed = true
     
     let alertController = UIAlertController(title: "Who Won?", message: "Choose One", preferredStyle: .alert)
     let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: {
@@ -213,11 +241,19 @@ class BetViewController: UIViewController {
         self.bet.winner = false
         self.takeBetButton.setTitle("Confirm Payment", for: UIControlState.normal)
         bRef.updateChildValues(["winner":false])
+        bRef.updateChildValues(["completed":true])
+        self.bet.completed = true
+        bRef.updateChildValues(["date_closed": Date().timeIntervalSinceReferenceDate])
+        self.relabelThings()
       }
       else if (self.bet.challenger_uid == self.profile.key) {
         self.bet.winner = true
         self.takeBetButton.setTitle("Confirm Payment", for: UIControlState.normal)
         bRef.updateChildValues(["winner":true])
+        bRef.updateChildValues(["completed":true])
+        self.bet.completed = true
+        bRef.updateChildValues(["date_closed": Date().timeIntervalSinceReferenceDate])
+        self.relabelThings()
       }
     })
     alertController.addAction(callMe)
@@ -227,18 +263,23 @@ class BetViewController: UIViewController {
         self.bet.winner = true
         self.takeBetButton.setTitle("Pay Up", for: UIControlState.normal)
         bRef.updateChildValues(["winner":true])
+        bRef.updateChildValues(["completed":true])
+        self.bet.completed = true
+        bRef.updateChildValues(["date_closed": Date().timeIntervalSinceReferenceDate])
+        self.relabelThings()
       }
       else if (self.bet.challenger_uid == self.profile.key) {
         self.bet.winner = false
         self.takeBetButton.setTitle("Pay Up", for: UIControlState.normal)
         bRef.updateChildValues(["winner":false])
+        bRef.updateChildValues(["completed":true])
+        self.bet.completed = true
+        bRef.updateChildValues(["date_closed": Date().timeIntervalSinceReferenceDate])
+        self.relabelThings()
       }
     })
     alertController.addAction(callThem)
     self.present(alertController, animated: true, completion: nil)
-    
-    bRef.updateChildValues(["completed":true])
-    bRef.updateChildValues(["date_closed": Date().timeIntervalSinceReferenceDate])
     
   }
   
@@ -250,6 +291,8 @@ class BetViewController: UIViewController {
     bRef.updateChildValues(["accepted":true])
     bRef.updateChildValues(["challengee_name": self.profile.firstName + " " + self.profile.lastName])
     bRef.updateChildValues(["challengee_uid":self.profile.key])
+
+    self.relabelThings()
   }
   
   override func didReceiveMemoryWarning() {
