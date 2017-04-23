@@ -68,6 +68,7 @@ class EditBetViewController: UIViewController {
     if (self.betAmount.text != "" && Float(self.betAmount.text!) != bet?.amount){
       if let amount_as_float = Float(self.betAmount.text!) {
         bRef.updateChildValues(["amount": amount_as_float])
+        bet?.amount = amount_as_float
       }
     }
   }
