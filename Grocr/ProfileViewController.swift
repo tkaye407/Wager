@@ -203,16 +203,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
   
     //Mark: Private Methods
     private func calculatePNL() {
-      var pnl = Float(0.0)
+      var pnl = Float((self.profile?.pnl)!)
       
-      for item in self.bets {
-        if item.completed && item.winner {
-          pnl = pnl + item.amount
-        }
-        else if item.completed && !item.winner {
-          pnl = pnl - item.amount
-        }
-      }
       if pnl >= 0.0 {
         pnlLabel.textColor = UIColor.green
         pnlLabel.text = String(format:"$%.2f",pnl)
