@@ -308,6 +308,11 @@ class BetViewController: UIViewController {
     performSegue(withIdentifier: "betToChallenger", sender: self)
 
   }
+    @IBAction func unwindEditProfile(sender: UIStoryboardSegue) {
+        if let sourceViewController = sender.source as? EditBetViewController, let bet = sourceViewController.bet {
+            self.bet = bet
+        }
+    }
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if (segue.identifier == "betToChallenger") {

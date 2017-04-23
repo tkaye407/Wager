@@ -8,11 +8,13 @@
 
 import UIKit
 import Firebase
+import os.log
 
 class EditBetViewController: UIViewController {
   @IBOutlet weak var betName: UITextField!
   @IBOutlet weak var betDescription: UITextField!
   @IBOutlet weak var betAmount: UITextField!
+  @IBOutlet weak var saveButton: UIBarButtonItem!
 
   var profile: Profile!
   var bet: BetItem?
@@ -43,38 +45,32 @@ class EditBetViewController: UIViewController {
       dismiss(animated: true, completion: nil)
     }
   
-    @IBAction func saveTapped(_ sender: Any) {
-      let bRef  = FIRDatabase.database().reference().child("Bets").child((self.bet?.key)!)
-      
-      if (self.betName.text != "" && self.betName.text != bet?.name) {
-        bRef.updateChildValues(["name": self.betName.text ?? ""])
-        bet?.name = self.betName.text!
-      }
-      
-      if (self.betDescription.text != "" && self.betDescription.text != bet?.description) {
-        bRef.updateChildValues(["description": self.betDescription.text ?? ""])
-        bet?.description = self.betDescription.text!
-      }
-      
-      if (self.betAmount.text != "" && self.betAmount.text != String(describing: bet?.amount)){
-        if let amount_as_float = Float(self.betAmount.text!) {
-          bRef.updateChildValues(["amount": amount_as_float])
-        }
-      }
-      
-      dismiss(animated: true, completion: nil)
-
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    super.prepare(for: segue, sender: sender)
+    
+    guard let button = sender as? UIBarButtonItem, button === saveButton else {
+      os_log("The save button was not pressed, cancelling", log: OSLog.default, type: .debug)
+      return
     }
-  
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    
+    let bRef  = FIRDatabase.database().reference().child("Bets").child((self.bet?.key)!)
+    
+    if (self.betName.text != "" && self.betName.text != bet?.name) {
+      bRef.updateChildValues(["name": self.betName.text ?? ""])
+      bet?.name = self.betName.text!
     }
-    */
+    
+    if (self.betDescription.text != "" && self.betDescription.text != bet?.description) {
+      bRef.updateChildValues(["description": self.betDescription.text ?? ""])
+      bet?.description = self.betDescription.text!
+    }
+    
+    if (self.betAmount.text != "" && Float(self.betAmount.text!) != bet?.amount){
+      if let amount_as_float = Float(self.betAmount.text!) {
+        bRef.updateChildValues(["amount": amount_as_float])
+      }
+    }
+  }
+
 
 }

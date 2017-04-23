@@ -181,7 +181,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             setProfile()
         }
       setProfile()
-      
     }
   
   
