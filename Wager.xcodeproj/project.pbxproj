@@ -1,0 +1,493 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7A5875F61EAD8A3600DD8D18 /* ProfileBetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A0283C11EAD26F3007A44A0 /* ProfileBetTableViewCell.swift */; };
+		7A5875F71EAD8A3600DD8D18 /* BetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9D7E351E96AE9A00B37448 /* BetTableViewCell.swift */; };
+		7A5875F81EAD8A3600DD8D18 /* ProfileEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A24CB161E9877DF007345B4 /* ProfileEditorViewController.swift */; };
+		7A5875F91EAD8A3600DD8D18 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD3FDE81E981BF8009A1AC2 /* Profile.swift */; };
+		7A5875FA1EAD8A3600DD8D18 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2385631B3DD5AB0079CD01 /* LoginViewController.swift */; };
+		7A5875FB1EAD8A3600DD8D18 /* RatingControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A7C53AE1E9C09130016C05C /* RatingControl.swift */; };
+		7A5875FC1EAD8A3600DD8D18 /* BetListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2385831B3DD8660079CD01 /* BetListTableViewController.swift */; };
+		7A5875FD1EAD8A3600DD8D18 /* BetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9317FD1E95B3880060FDCB /* BetViewController.swift */; };
+		7A5875FE1EAD8A3600DD8D18 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7DA5101B42C8100018B530 /* User.swift */; };
+		7A5876001EAD8A3600DD8D18 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A025E321E9568940086099C /* ProfileViewController.swift */; };
+		7A5876011EAD8A3600DD8D18 /* EditBetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF341FC91EAA9425007DC11D /* EditBetViewController.swift */; };
+		7A5876021EAD8A3600DD8D18 /* NewProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C23C301E9C39A000A0DA27 /* NewProfileViewController.swift */; };
+		7A5876031EAD8A3600DD8D18 /* BetItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF389D001E91D99D00EF0DF9 /* BetItem.swift */; };
+		7A5876041EAD8A3600DD8D18 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2385611B3DD5AB0079CD01 /* AppDelegate.swift */; };
+		7A5876061EAD8A3600DD8D18 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F599D9265F4B40571F432E78 /* libPods.a */; };
+		7A5876081EAD8A3600DD8D18 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BB2385651B3DD5AB0079CD01 /* Main.storyboard */; };
+		7A5876091EAD8A3600DD8D18 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF389CFE1E91D96500EF0DF9 /* GoogleService-Info.plist */; };
+		7A58760A1EAD8A3600DD8D18 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB23856A1B3DD5AB0079CD01 /* LaunchScreen.xib */; };
+		7A58760B1EAD8A3600DD8D18 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB2385681B3DD5AB0079CD01 /* Images.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		071917E51E92FA2200EAFF5F /* CreateNewBetController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateNewBetController.swift; path = WagerApp/CreateNewBetController.swift; sourceTree = SOURCE_ROOT; };
+		07C23C301E9C39A000A0DA27 /* NewProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewProfileViewController.swift; sourceTree = "<group>"; };
+		7A025E321E9568940086099C /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		7A0283C11EAD26F3007A44A0 /* ProfileBetTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileBetTableViewCell.swift; sourceTree = "<group>"; };
+		7A24CB161E9877DF007345B4 /* ProfileEditorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileEditorViewController.swift; sourceTree = "<group>"; };
+		7A5876111EAD8A3600DD8D18 /* Wager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wager.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7A7C53AE1E9C09130016C05C /* RatingControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingControl.swift; sourceTree = "<group>"; };
+		9BA2A2DB5BA4733818152B9B /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		A898E3AE11425E4495FAC93A /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		BB2385601B3DD5AB0079CD01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BB2385611B3DD5AB0079CD01 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		BB2385631B3DD5AB0079CD01 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		BB2385661B3DD5AB0079CD01 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		BB2385681B3DD5AB0079CD01 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		BB23856B1B3DD5AB0079CD01 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		BB2385831B3DD8660079CD01 /* BetListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BetListTableViewController.swift; sourceTree = "<group>"; };
+		BB2385851B3DD8820079CD01 /* Wager-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Wager-Bridging-Header.h"; sourceTree = "<group>"; };
+		BB7DA5101B42C8100018B530 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		F599D9265F4B40571F432E78 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		FF341FC91EAA9425007DC11D /* EditBetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditBetViewController.swift; sourceTree = "<group>"; };
+		FF389CFE1E91D96500EF0DF9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		FF389D001E91D99D00EF0DF9 /* BetItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BetItem.swift; path = ../BetItem.swift; sourceTree = "<group>"; };
+		FF9317FD1E95B3880060FDCB /* BetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BetViewController.swift; sourceTree = "<group>"; };
+		FF9D7E351E96AE9A00B37448 /* BetTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BetTableViewCell.swift; sourceTree = "<group>"; };
+		FFD3FDE81E981BF8009A1AC2 /* Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7A5876051EAD8A3600DD8D18 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7A5876061EAD8A3600DD8D18 /* libPods.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5BCB7DE7572521D09DC0AA00 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9BA2A2DB5BA4733818152B9B /* Pods.debug.xcconfig */,
+				A898E3AE11425E4495FAC93A /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		BB2385531B3DD5AB0079CD01 = {
+			isa = PBXGroup;
+			children = (
+				BB23855E1B3DD5AB0079CD01 /* Wager */,
+				BB23855D1B3DD5AB0079CD01 /* Products */,
+				5BCB7DE7572521D09DC0AA00 /* Pods */,
+				C8A8CAF31E6679C1B66E9218 /* Frameworks */,
+				FF389CFE1E91D96500EF0DF9 /* GoogleService-Info.plist */,
+			);
+			indentWidth = 2;
+			sourceTree = "<group>";
+			tabWidth = 2;
+		};
+		BB23855D1B3DD5AB0079CD01 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7A5876111EAD8A3600DD8D18 /* Wager.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BB23855E1B3DD5AB0079CD01 /* Wager */ = {
+			isa = PBXGroup;
+			children = (
+				BB2385881B3DD9550079CD01 /* Models */,
+				BB2385811B3DD8310079CD01 /* Controllers */,
+				BB2385821B3DD8490079CD01 /* Layouts */,
+				BB2385681B3DD5AB0079CD01 /* Images.xcassets */,
+				BB7DA5121B42CA790018B530 /* Other */,
+				BB23855F1B3DD5AB0079CD01 /* Supporting Files */,
+			);
+			path = Wager;
+			sourceTree = "<group>";
+		};
+		BB23855F1B3DD5AB0079CD01 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BB2385601B3DD5AB0079CD01 /* Info.plist */,
+				BB2385851B3DD8820079CD01 /* Wager-Bridging-Header.h */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		BB2385811B3DD8310079CD01 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				FF341FC91EAA9425007DC11D /* EditBetViewController.swift */,
+				FF9317FD1E95B3880060FDCB /* BetViewController.swift */,
+				BB2385631B3DD5AB0079CD01 /* LoginViewController.swift */,
+				7A025E321E9568940086099C /* ProfileViewController.swift */,
+				07C23C301E9C39A000A0DA27 /* NewProfileViewController.swift */,
+				BB2385831B3DD8660079CD01 /* BetListTableViewController.swift */,
+				071917E51E92FA2200EAFF5F /* CreateNewBetController.swift */,
+				7A24CB161E9877DF007345B4 /* ProfileEditorViewController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		BB2385821B3DD8490079CD01 /* Layouts */ = {
+			isa = PBXGroup;
+			children = (
+				BB2385651B3DD5AB0079CD01 /* Main.storyboard */,
+				BB23856A1B3DD5AB0079CD01 /* LaunchScreen.xib */,
+			);
+			name = Layouts;
+			sourceTree = "<group>";
+		};
+		BB2385881B3DD9550079CD01 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				7A0283C11EAD26F3007A44A0 /* ProfileBetTableViewCell.swift */,
+				FF9D7E351E96AE9A00B37448 /* BetTableViewCell.swift */,
+				FF389D001E91D99D00EF0DF9 /* BetItem.swift */,
+				BB7DA5101B42C8100018B530 /* User.swift */,
+				7A7C53AE1E9C09130016C05C /* RatingControl.swift */,
+				FFD3FDE81E981BF8009A1AC2 /* Profile.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		BB7DA5121B42CA790018B530 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				BB2385611B3DD5AB0079CD01 /* AppDelegate.swift */,
+			);
+			name = Other;
+			sourceTree = "<group>";
+		};
+		C8A8CAF31E6679C1B66E9218 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F599D9265F4B40571F432E78 /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7A5875F31EAD8A3600DD8D18 /* Wager */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7A58760E1EAD8A3600DD8D18 /* Build configuration list for PBXNativeTarget "Wager" */;
+			buildPhases = (
+				7A5875F41EAD8A3600DD8D18 /* Check Pods Manifest.lock */,
+				7A5875F51EAD8A3600DD8D18 /* Sources */,
+				7A5876051EAD8A3600DD8D18 /* Frameworks */,
+				7A5876071EAD8A3600DD8D18 /* Resources */,
+				7A58760C1EAD8A3600DD8D18 /* Copy Pods Resources */,
+				7A58760D1EAD8A3600DD8D18 /* Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Wager;
+			productName = Grocr;
+			productReference = 7A5876111EAD8A3600DD8D18 /* Wager.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BB2385541B3DD5AB0079CD01 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = "";
+			};
+			buildConfigurationList = BB2385571B3DD5AB0079CD01 /* Build configuration list for PBXProject "Wager" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = BB2385531B3DD5AB0079CD01;
+			productRefGroup = BB23855D1B3DD5AB0079CD01 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7A5875F31EAD8A3600DD8D18 /* Wager */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7A5876071EAD8A3600DD8D18 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7A5876081EAD8A3600DD8D18 /* Main.storyboard in Resources */,
+				7A5876091EAD8A3600DD8D18 /* GoogleService-Info.plist in Resources */,
+				7A58760A1EAD8A3600DD8D18 /* LaunchScreen.xib in Resources */,
+				7A58760B1EAD8A3600DD8D18 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		7A5875F41EAD8A3600DD8D18 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		7A58760C1EAD8A3600DD8D18 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7A58760D1EAD8A3600DD8D18 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7A5875F51EAD8A3600DD8D18 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7A5875F61EAD8A3600DD8D18 /* ProfileBetTableViewCell.swift in Sources */,
+				7A5875F71EAD8A3600DD8D18 /* BetTableViewCell.swift in Sources */,
+				7A5875F81EAD8A3600DD8D18 /* ProfileEditorViewController.swift in Sources */,
+				7A5875F91EAD8A3600DD8D18 /* Profile.swift in Sources */,
+				7A5875FA1EAD8A3600DD8D18 /* LoginViewController.swift in Sources */,
+				7A5875FB1EAD8A3600DD8D18 /* RatingControl.swift in Sources */,
+				7A5875FC1EAD8A3600DD8D18 /* BetListTableViewController.swift in Sources */,
+				7A5875FD1EAD8A3600DD8D18 /* BetViewController.swift in Sources */,
+				7A5875FE1EAD8A3600DD8D18 /* User.swift in Sources */,
+				7A5876001EAD8A3600DD8D18 /* ProfileViewController.swift in Sources */,
+				7A5876011EAD8A3600DD8D18 /* EditBetViewController.swift in Sources */,
+				7A5876021EAD8A3600DD8D18 /* NewProfileViewController.swift in Sources */,
+				7A5876031EAD8A3600DD8D18 /* BetItem.swift in Sources */,
+				7A5876041EAD8A3600DD8D18 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		BB2385651B3DD5AB0079CD01 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BB2385661B3DD5AB0079CD01 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		BB23856A1B3DD5AB0079CD01 /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BB23856B1B3DD5AB0079CD01 /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		7A58760F1EAD8A3600DD8D18 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9BA2A2DB5BA4733818152B9B /* Pods.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Wager/Wager.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = tk.ms.WagerApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Wager/Wager-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		7A5876101EAD8A3600DD8D18 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A898E3AE11425E4495FAC93A /* Pods.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Wager/Wager.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = tk.ms.WagerApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Wager/Wager-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		BB2385791B3DD5AB0079CD01 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		BB23857A1B3DD5AB0079CD01 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7A58760E1EAD8A3600DD8D18 /* Build configuration list for PBXNativeTarget "Wager" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7A58760F1EAD8A3600DD8D18 /* Debug */,
+				7A5876101EAD8A3600DD8D18 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BB2385571B3DD5AB0079CD01 /* Build configuration list for PBXProject "Wager" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BB2385791B3DD5AB0079CD01 /* Debug */,
+				BB23857A1B3DD5AB0079CD01 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BB2385541B3DD5AB0079CD01 /* Project object */;
+}
