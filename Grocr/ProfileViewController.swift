@@ -24,6 +24,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var ratingLabel: UILabel!
     @IBOutlet weak var challengerControl: UISegmentedControl!
     @IBOutlet weak var completedController: UISegmentedControl!
+   
+    
   
     
     
@@ -198,6 +200,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
       print("Error Logging User Out - \(logOutError)")
     }
   }
+    
   
   
     //Mark: Private Methods
@@ -221,16 +224,19 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-      //let cell = tableView.dequeueReusableCell(withIdentifier: "betCell", for: indexPath) as! BetTableViewCell
       let betItem = bets[indexPath.row]
-      let cell:UITableViewCell = self.betsTableView.dequeueReusableCell(withIdentifier: "cell")! as UITableViewCell
+      let cell = self.betsTableView.dequeueReusableCell(withIdentifier: "ProfileBetTableViewCell") as! ProfileBetTableViewCell
       
-      cell.textLabel?.text =  betItem.name
+      cell.betNameLabel.text = betItem.name
+      cell.actionButton.setTitle("Button", for: [])
+      
+      cell.actionButton.addTarget(self, action: #selector(ProfileViewController.sayHi), for: UIControlEvents.touchUpInside)
       return cell
-      //cell.betNameLabel.text = betItem.name
-      //cell.betChallengerLabel.text = betItem.challenger_name
-      //cell.betAmountLabel.text = String(betItem.amount)
       
+    }
+    @IBAction func sayHi()
+    {
+      print("hi")
     }
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
       return true

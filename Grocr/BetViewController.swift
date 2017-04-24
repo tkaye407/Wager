@@ -220,6 +220,15 @@ class BetViewController: UIViewController {
     let DontPay = UIAlertAction(title: "Do Not Pay", style: .default, handler: {
       action in
       /*figure this out--- Best to probably label bet.paid as false but bet.confirmed as true*/
+      var curRating = self.profile.rating
+      let numRatings = self.profile.numRatings
+      //The equivalent of giving a zero rating for not paying
+      curRating = (curRating*Float(numRatings))/Float(numRatings)
+      let ref  = FIRDatabase.database().reference().child("Profiles").child(self.profile.key)
+      ref.updateChildValues(["rating":curRating])
+      ref.updateChildValues(["numRatings":numRatings+1])
+      self.profile.rating = curRating
+      self.profile.numRatings = numRatings + 1
       self.relabelThings()
     })
     alertController.addAction(DontPay)
