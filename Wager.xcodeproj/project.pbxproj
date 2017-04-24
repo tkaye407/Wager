@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		07611C061EAE5FA70022F91A /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07611C051EAE5FA70022F91A /* SearchController.swift */; };
+		07611C081EAE700B0022F91A /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07611C071EAE700B0022F91A /* SearchTableViewCell.swift */; };
 		7A5875F61EAD8A3600DD8D18 /* ProfileBetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A0283C11EAD26F3007A44A0 /* ProfileBetTableViewCell.swift */; };
 		7A5875F71EAD8A3600DD8D18 /* BetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9D7E351E96AE9A00B37448 /* BetTableViewCell.swift */; };
 		7A5875F81EAD8A3600DD8D18 /* ProfileEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A24CB161E9877DF007345B4 /* ProfileEditorViewController.swift */; };
@@ -30,6 +32,8 @@
 
 /* Begin PBXFileReference section */
 		071917E51E92FA2200EAFF5F /* CreateNewBetController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateNewBetController.swift; path = WagerApp/CreateNewBetController.swift; sourceTree = SOURCE_ROOT; };
+		07611C051EAE5FA70022F91A /* SearchController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
+		07611C071EAE700B0022F91A /* SearchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		07C23C301E9C39A000A0DA27 /* NewProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewProfileViewController.swift; sourceTree = "<group>"; };
 		7A025E321E9568940086099C /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		7A0283C11EAD26F3007A44A0 /* ProfileBetTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileBetTableViewCell.swift; sourceTree = "<group>"; };
@@ -130,6 +134,7 @@
 				07C23C301E9C39A000A0DA27 /* NewProfileViewController.swift */,
 				BB2385831B3DD8660079CD01 /* BetListTableViewController.swift */,
 				071917E51E92FA2200EAFF5F /* CreateNewBetController.swift */,
+				07611C051EAE5FA70022F91A /* SearchController.swift */,
 				7A24CB161E9877DF007345B4 /* ProfileEditorViewController.swift */,
 			);
 			name = Controllers;
@@ -149,6 +154,7 @@
 			children = (
 				7A0283C11EAD26F3007A44A0 /* ProfileBetTableViewCell.swift */,
 				FF9D7E351E96AE9A00B37448 /* BetTableViewCell.swift */,
+				07611C071EAE700B0022F91A /* SearchTableViewCell.swift */,
 				FF389D001E91D99D00EF0DF9 /* BetItem.swift */,
 				BB7DA5101B42C8100018B530 /* User.swift */,
 				7A7C53AE1E9C09130016C05C /* RatingControl.swift */,
@@ -291,6 +297,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7A5875F61EAD8A3600DD8D18 /* ProfileBetTableViewCell.swift in Sources */,
+				07611C061EAE5FA70022F91A /* SearchController.swift in Sources */,
 				7A5875F71EAD8A3600DD8D18 /* BetTableViewCell.swift in Sources */,
 				7A5875F81EAD8A3600DD8D18 /* ProfileEditorViewController.swift in Sources */,
 				7A5875F91EAD8A3600DD8D18 /* Profile.swift in Sources */,
@@ -302,6 +309,7 @@
 				7A5876001EAD8A3600DD8D18 /* ProfileViewController.swift in Sources */,
 				7A5876011EAD8A3600DD8D18 /* EditBetViewController.swift in Sources */,
 				7A5876021EAD8A3600DD8D18 /* NewProfileViewController.swift in Sources */,
+				07611C081EAE700B0022F91A /* SearchTableViewCell.swift in Sources */,
 				7A5876031EAD8A3600DD8D18 /* BetItem.swift in Sources */,
 				7A5876041EAD8A3600DD8D18 /* AppDelegate.swift in Sources */,
 			);
