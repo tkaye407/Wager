@@ -9,21 +9,25 @@
 import Foundation
 import Firebase
 
-class SearchController: UIViewController {
+class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSource {
   
-  @IBOutlet weak var itemsTableView: UITableView!
+  @IBOutlet weak var searchTableView: UITableView!
   @IBOutlet weak var SearchQuery: UITextField!
   
   var items: [Profile] = []
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    searchTableView.delegate = self
+    searchTableView.dataSource = self
     reloadRows()
+    
+    //itemsTableView.dataSource
   }
   
   func reloadRows(){
     var searchStr = SearchQuery.text!
-    if (searchStr == ""){ return}
+    if (searchStr == ""){return}
     searchStr = searchStr.uppercased()
 
     let ref = FIRDatabase.database().reference(withPath: "Profiles")
@@ -38,9 +42,8 @@ class SearchController: UIViewController {
         }
       }
       self.items = newItems
-      self.itemsTableView.reloadData()
+      self.searchTableView.reloadData()
       for item in self.items {print(item.firstName + " " + item.lastName)}
-      print("\n")
     })
   }
   
@@ -49,16 +52,19 @@ class SearchController: UIViewController {
     return items.count
   }
   
+  func numberOfSections(in itemsTableView: UITableView) -> Int {
+    return items.count
+  }
+  
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let item = items[indexPath.row]
-    print("HELLO" + item.firstName)
-    let cell = self.itemsTableView.dequeueReusableCell(withIdentifier: "SearchTableViewCell") as! SearchTableViewCell
-
+    let cell = self.searchTableView.dequeueReusableCell(withIdentifier: "SearchTableViewCell") as! SearchTableViewCell
+    
     cell.usernameLabel.text = item.firstName + " " + item.lastName
     return cell
   }
   
-  func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+  func tableView(itemsTableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
     return true
   }
   
