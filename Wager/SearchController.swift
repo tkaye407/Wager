@@ -32,6 +32,7 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
 
     let ref = FIRDatabase.database().reference(withPath: "Profiles")
     var newItems: [Profile] = []
+    
     ref.observe(.value, with: { snapshot in
       for item in snapshot.children {
         let profItem = Profile(snapshot: item as! FIRDataSnapshot)
@@ -43,7 +44,6 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
       }
       self.items = newItems
       self.searchTableView.reloadData()
-      for item in self.items {print(item.firstName + " " + item.lastName)}
     })
   }
   
@@ -53,21 +53,18 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
   }
   
   func numberOfSections(in itemsTableView: UITableView) -> Int {
-    return items.count
+    return 1
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let item = items[indexPath.row]
+    //print(String(indexPath.row) + " " + item.firstName + " " + item.lastName)
     let cell = self.searchTableView.dequeueReusableCell(withIdentifier: "SearchTableViewCell") as! SearchTableViewCell
     
-    cell.usernameLabel.text = item.firstName + " " + item.lastName
+    cell.usernameLabel.text = "@" + item.username
+    cell.nameLabel.text = item.firstName + " " + item.lastName
     return cell
   }
-  
-  func tableView(itemsTableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-    return true
-  }
-  
   
   @IBAction func SearchButtonPressed(_ sender: Any) {
     reloadRows()

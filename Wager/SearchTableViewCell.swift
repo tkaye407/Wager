@@ -10,6 +10,7 @@ import Foundation
 
 class SearchTableViewCell: UITableViewCell {
   
+    @IBOutlet weak var nameLabel: UILabel!
   @IBOutlet weak var usernameLabel: UILabel!
   
   override func awakeFromNib() {
