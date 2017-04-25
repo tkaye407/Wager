@@ -59,12 +59,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     let imageRef = FIRStorage.storage().reference(withPath: user.uid)
     imageRef.data(withMaxSize: 1 * 10240 * 10240) { data, error in
       if error != nil {
-        print(error)
+          print(error)
       }
       else{
-        finalImage = UIImage(data: data!)!
-        self.profileImageView.image = finalImage
-        print(data!)
+          finalImage = UIImage(data: data!)!
+          self.profileImageView.image = finalImage
       }
     }
     
