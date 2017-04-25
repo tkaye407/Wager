@@ -210,6 +210,7 @@ class BetViewController: UIViewController {
       self.relabelThings()
     })
     
+    
     let pRef = FIRDatabase.database().reference().child("Profiles")
     pRef.child(self.bet.challenger_uid).observeSingleEvent(of: .value, with: { (snapshot) in
       // Get user value
