@@ -27,13 +27,27 @@ class CreateNewBetController: UIViewController,  UIPickerViewDelegate, UIPickerV
     //let amt:Int? = Int(amountText.text!)
     let cat = pickerData[catPicker.selectedRow(inComponent: 0)]
 
+    /*purge inputs*/
     let amount_as_float = Float(amountText.text!)
-    if (reasonText.text! != "" && amount_as_float != nil && amount_as_float! <= MAX_BET) {
-      let betItem = BetItem(name: reasonText.text!, description: self.descriptionLabel.text!, challenger_uid: self.profile.key, challenger_name: self.profile.firstName + " " + self.profile.lastName, date_opened: Date().timeIntervalSinceReferenceDate, date_closed: Date().timeIntervalSinceReferenceDate, category: cat, amount: amount_as_float!)
-      betItemRef.setValue(betItem.toAnyObject())
-    }
-    // SHOULD DO SOMETHInG iF abOVE IF does not work
+    if (reasonText.text! == "") {errorHandler(errorString: "Bet reason cannot be empty"); return}
+    if (reasonText.text!.characters.count > 50) {errorHandler(errorString: "Bet reason too long (>50 characters). Use the bet description for the less important information"); return}
+    if (amount_as_float == nil) {errorHandler(errorString: "Amount cannot be blank or non-numeric"); return}
+    if (amount_as_float! > MAX_BET) {errorHandler(errorString: "Amount cannot be larger than $" + String(MAX_BET)); return}
     
+    /*will only make it here if all tests pass*/
+    /*Firebase takes care of [",/;{}] and other weird characters that could mess with the database*/
+    
+    let betItem = BetItem(name: reasonText.text!, description: self.descriptionLabel.text!, challenger_uid: self.profile.key, challenger_name: self.profile.firstName + " " + self.profile.lastName, date_opened: Date().timeIntervalSinceReferenceDate, date_closed: Date().timeIntervalSinceReferenceDate, category: cat, amount: amount_as_float!)
+      betItemRef.setValue(betItem.toAnyObject())
+  }
+
+  func errorHandler(errorString: String) {
+    let alertController = UIAlertController(title: "There was an Error creating the bet", message: errorString, preferredStyle: .alert)
+    present(alertController, animated: true, completion: nil)
+    
+    //all channels
+    let callOK = UIAlertAction(title: "OK", style: .default, handler: nil)
+    alertController.addAction(callOK)
   }
 
   override func viewDidLoad() {
