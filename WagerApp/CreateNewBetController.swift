@@ -23,10 +23,6 @@ class CreateNewBetController: UIViewController,  UIPickerViewDelegate, UIPickerV
   
   
   @IBAction func CreateNewBetPressed(_ sender: AnyObject) {
-    let betItemRef = ref.childByAutoId()
-    //let amt:Int? = Int(amountText.text!)
-    let cat = pickerData[catPicker.selectedRow(inComponent: 0)]
-
     /*purge inputs*/
     let amount_as_float = Float(amountText.text!)
     if (reasonText.text! == "") {errorHandler(errorString: "Bet reason cannot be empty"); return}
@@ -37,6 +33,10 @@ class CreateNewBetController: UIViewController,  UIPickerViewDelegate, UIPickerV
     /*will only make it here if all tests pass*/
     /*Firebase takes care of [",/;{}] and other weird characters that could mess with the database*/
     
+    let betItemRef = ref.childByAutoId()
+    //let amt:Int? = Int(amountText.text!)
+    let cat = pickerData[catPicker.selectedRow(inComponent: 0)]
+    
     let betItem = BetItem(name: reasonText.text!, description: self.descriptionLabel.text!, challenger_uid: self.profile.key, challenger_name: self.profile.firstName + " " + self.profile.lastName, date_opened: Date().timeIntervalSinceReferenceDate, date_closed: Date().timeIntervalSinceReferenceDate, category: cat, amount: amount_as_float!)
       betItemRef.setValue(betItem.toAnyObject())
   }
@@ -44,8 +44,6 @@ class CreateNewBetController: UIViewController,  UIPickerViewDelegate, UIPickerV
   func errorHandler(errorString: String) {
     let alertController = UIAlertController(title: "There was an Error creating the bet", message: errorString, preferredStyle: .alert)
     present(alertController, animated: true, completion: nil)
-    
-    //all channels
     let callOK = UIAlertAction(title: "OK", style: .default, handler: nil)
     alertController.addAction(callOK)
   }

@@ -34,6 +34,7 @@ class NewProfileViewController: UIViewController {
     let regex1 = try! NSRegularExpression(pattern: pattern1, options: [])
     if (regex1.matches(in: self.AgeText.text!, options: [], range: NSRange(location: 0, length: self.AgeText.text!.characters.count)).count == 0) {
       errorHandler(errorString: "Age must be only digits")
+      return
     }
     let usernameStr = self.UsernameText.text!
     if (usernameStr == "") {errorHandler(errorString: "Username cannot be empty"); return}

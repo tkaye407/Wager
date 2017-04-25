@@ -37,6 +37,29 @@ class ProfileEditorViewController: UIViewController {
     usernameTextField.text = profile?.username
   }
   
+  override func shouldPerformSegue(withIdentifier identifier: String?, sender: Any?) -> Bool {
+    /*purge inputs*/
+    if (self.emailTextField.text! == "") {errorHandler(errorString: "Email cannot be empty"); return false}
+    if (self.firstNameTextField.text! == "") {errorHandler(errorString: "First Name cannot be empty"); return false}
+    if (self.lastNameTextField.text! == "") {errorHandler(errorString: "Last Name cannot be empty"); return false}
+    let pattern1 = "^[0-9]*$"
+    let regex1 = try! NSRegularExpression(pattern: pattern1, options: [])
+    if (regex1.matches(in: self.ageTextField.text!, options: [], range: NSRange(location: 0, length: self.ageTextField.text!.characters.count)).count == 0) {
+      errorHandler(errorString: "Age must be only digits")
+      return false
+    }
+    let usernameStr = self.usernameTextField.text!
+    if (usernameStr == "") {errorHandler(errorString: "Username cannot be empty"); return false}
+    if (usernameStr.characters.count < 4) {errorHandler(errorString: "Username must be at least 4 characters"); return false}
+    let pattern = "^([A-Za-z]|[0-9]|_)+$"
+    let regex = try! NSRegularExpression(pattern: pattern, options: [])
+    if (regex.matches(in: usernameStr, options: [], range: NSRange(location: 0, length: usernameStr.characters.count)).count == 0) {
+      errorHandler(errorString: "Username must be only alphanumeric or \"_\"")
+      return false
+    }
+    return true
+  }
+  
     //Mark: Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
@@ -50,7 +73,6 @@ class ProfileEditorViewController: UIViewController {
       //let ref  = FIRDatabase.database().reference().child("Profiles").child((profile?.key)!)
       let ref  = FIRDatabase.database().reference().child("Profiles").child(self.profile.key)
 
-      
       let firstName = firstNameTextField.text ?? ""
       if (firstName != profile?.lastName && firstName != "") {
         ref.updateChildValues(["firstName":firstName])
@@ -100,6 +122,13 @@ class ProfileEditorViewController: UIViewController {
     @IBAction func cancel(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
     }
+  
+  func errorHandler(errorString: String) {
+    let alertController = UIAlertController(title: "There Was an Error Editing the Bet", message: errorString, preferredStyle: .alert)
+    present(alertController, animated: true, completion: nil)
+    let callOK = UIAlertAction(title: "OK", style: .default, handler: nil)
+    alertController.addAction(callOK)
+  }
   
   
 }
