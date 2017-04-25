@@ -28,6 +28,7 @@
 		7A5876091EAD8A3600DD8D18 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF389CFE1E91D96500EF0DF9 /* GoogleService-Info.plist */; };
 		7A58760A1EAD8A3600DD8D18 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB23856A1B3DD5AB0079CD01 /* LaunchScreen.xib */; };
 		7A58760B1EAD8A3600DD8D18 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB2385681B3DD5AB0079CD01 /* Images.xcassets */; };
+		7A8848C51EAED511004AC20B /* CreateNewBetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071917E51E92FA2200EAFF5F /* CreateNewBetController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -296,6 +297,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A8848C51EAED511004AC20B /* CreateNewBetController.swift in Sources */,
 				7A5875F61EAD8A3600DD8D18 /* ProfileBetTableViewCell.swift in Sources */,
 				07611C061EAE5FA70022F91A /* SearchController.swift in Sources */,
 				7A5875F71EAD8A3600DD8D18 /* BetTableViewCell.swift in Sources */,
