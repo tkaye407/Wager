@@ -132,7 +132,8 @@ class BetListTableViewController: UITableViewController {
         else if(self.betType == self.BET_TYPE_ACTIVE && betItem.accepted && !betItem.completed) {newItems.append(betItem) }
         else if(self.betType == self.BET_TYPE_COMPLETED && betItem.completed) {newItems.append(betItem) }
       }
-      self.items = newItems
+      self.items = newItems.sorted{ $0.date_opened > $1.date_opened }
+
       self.tableView.reloadData()
     })
 }
