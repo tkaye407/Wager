@@ -59,7 +59,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     self.betsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
     /*image load*/
     var finalImage: UIImage? = nil
-    let imageRef = FIRStorage.storage().reference(withPath: user.uid)
+    let imageRef = FIRStorage.storage().reference(withPath: (self.profile?.userID)!)
     imageRef.data(withMaxSize: 1 * 10240 * 10240) { data, error in
       if error != nil {
           print(error)
@@ -130,7 +130,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
       profileImageView.image = selectedImage
       
       
-      let storageRef = FIRStorage.storage().reference().child(user.uid)
+      let storageRef = FIRStorage.storage().reference().child((self.profile?.userID)!)
       let finalImage = UIImagePNGRepresentation(selectedImage)
       storageRef.put(finalImage!, metadata: nil, completion: {(metadata, error) in
         if(error != nil) {print("error"); return}
