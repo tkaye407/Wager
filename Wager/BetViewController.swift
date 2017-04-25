@@ -42,20 +42,20 @@ class BetViewController: UIViewController {
     super.viewWillAppear(animated)
     reloadBet()
   }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        self.user = appDelegate.user
-        self.profile = appDelegate.profile
-      
-        relabelThings()
-        //if(bet.challenger_uid == profile.key && bet.date_closed < )
-        if !(bet.challenger_uid == profile.key && bet.accepted == false && bet.completed == false && bet.confirmed == false) {
-            editButton.isHidden = true
-            editButton.isEnabled = false
-        }
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    self.user = appDelegate.user
+    self.profile = appDelegate.profile
+    
+    relabelThings()
+    //if(bet.challenger_uid == profile.key && bet.date_closed < )
+    if !(bet.challenger_uid == profile.key && bet.accepted == false && bet.completed == false && bet.confirmed == false) {
+      editButton.isHidden = true
+      editButton.isEnabled = false
     }
+  }
   
   func relabelThings() {
     self.takeBetButton.isEnabled = true
@@ -78,7 +78,7 @@ class BetViewController: UIViewController {
       self.challengeeButton.isEnabled = false
       self.challengeeButton.setTitle("Not Taken", for: UIControlState.normal)
     }
-
+    
     if ((self.profile.key == self.bet.challenger_uid) && bet.accepted == false && bet.confirmed == false && bet.completed == false) {
       self.InformationLabel.text = "You created this bet. Would you like to Delete It?"
       self.takeBetButton.setTitle("Delete Bet?", for: UIControlState.normal)
@@ -139,11 +139,11 @@ class BetViewController: UIViewController {
       self.takeBetButton.setTitle("???", for:UIControlState.normal)
     }
   }
-
+  
   @IBAction func takeBet(_ sender: Any) {
     if (self.takeBetButton.titleLabel?.text == "Delete Bet?") {
       // DELETE THE BET and NAVIGATE AWAY
-       self.bet.ref?.removeValue()
+      self.bet.ref?.removeValue()
       performSegue(withIdentifier: "toProfile", sender: self)
     }
     else if (!bet.accepted) {
@@ -154,15 +154,15 @@ class BetViewController: UIViewController {
     }
     else if (bet.completed && !bet.confirmed){
       if ((bet.winner && (self.profile.key == self.bet.challengee_uid)) || (!bet.winner && (self.profile.key == self.bet.challenger_uid)) && !bet.paid){
-          /*loser is current player and has not yet paid*/
-          loserHasNotYetPaid()
-          self.relabelThings()
+        /*loser is current player and has not yet paid*/
+        loserHasNotYetPaid()
+        self.relabelThings()
       }
       else if ((bet.winner && (self.profile.key == self.bet.challenger_uid)) || (!bet.winner && (self.profile.key == self.bet.challengee_uid)) && (bet.paid && !bet.confirmed)) {
-          let bRef = FIRDatabase.database().reference().child("Bets").child(bet.key)
-          bRef.updateChildValues(["confirmed":true])
-          bet.confirmed = true
-          self.relabelThings()
+        let bRef = FIRDatabase.database().reference().child("Bets").child(bet.key)
+        bRef.updateChildValues(["confirmed":true])
+        bet.confirmed = true
+        self.relabelThings()
       }
     }
   }
@@ -173,40 +173,55 @@ class BetViewController: UIViewController {
     let alertController = UIAlertController(title: "Pay Now", message: "Choose A Payment Option", preferredStyle: .alert)
     let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
     alertController.addAction(cancelAction)
+    
+    // if the user doesnt have venmo don't give them the option
+    
     let callVenmo = UIAlertAction(title: "Venmo", style: .default, handler: {
       action in
       
       bRef.updateChildValues(["paid":true])
       self.bet.paid = true
       
-      // Lots of possible errors here, we need 
-      // both to have a venmo account 
+      // Lots of possible errors here, we need
+      // both to have a venmo account
       // catch the user saying pay with venmo then never paying
       
       // figure out if you are the challenger or challengee
-
+      
       let pRef = FIRDatabase.database().reference().child("Profiles")
       pRef.child(self.bet.challenger_uid).observeSingleEvent(of: .value, with: { (snapshot) in
         // Get user value
         self.newProfile = Profile(snapshot: snapshot)
-  
-        // additional error checking needed here in case the other user doesnt have 
-        /*let url = URL(String: "venmo://paycharge?txt=pay&amount=\(self.bet.amount)&note=\(self.bet.name)&recipients=\((self.newProfile?.venmoID)!)".replacingOccurrences(of: " ", with: "%20"))
+        
+        // additional error checking needed here in case the other user doesnt have
+        let url = URL(string: "venmo://paycharge?txt=pay&amount=\(self.bet.amount)&note=\(self.bet.name)&recipients=\((self.newProfile?.venmoID)!)".replacingOccurrences(of: " ", with: "%20"))
         
         if #available(iOS 10.0, *) {
           UIApplication.shared.open(url!)
         } else {
           UIApplication.shared.openURL(url!)
-        }*/
+        }
       })
       { (error) in
-        print("what the fuck")
+        
       }
       
       /*This is where the venmo redirection will go*/
       self.relabelThings()
     })
-    alertController.addAction(callVenmo)
+    
+    let pRef = FIRDatabase.database().reference().child("Profiles")
+    pRef.child(self.bet.challenger_uid).observeSingleEvent(of: .value, with: { (snapshot) in
+      // Get user value
+      self.newProfile = Profile(snapshot: snapshot)
+      
+      if (self.profile.venmoID != "") || (self.newProfile?.venmoID != "")
+      {
+        alertController.addAction(callVenmo)
+      }
+
+    })
+    
     let callCash = UIAlertAction(title: "Cash", style: .default, handler: {
       action in
       /*figure this out*/
@@ -306,7 +321,7 @@ class BetViewController: UIViewController {
     bRef.updateChildValues(["accepted":true])
     bRef.updateChildValues(["challengee_name": self.profile.firstName + " " + self.profile.lastName])
     bRef.updateChildValues(["challengee_uid":self.profile.key])
-
+    
     self.relabelThings()
   }
   
@@ -321,13 +336,13 @@ class BetViewController: UIViewController {
   
   @IBAction func challengerClicked(_ sender: Any) {
     performSegue(withIdentifier: "betToChallenger", sender: self)
-
+    
   }
-    @IBAction func unwindEditProfile(sender: UIStoryboardSegue) {
-        if let sourceViewController = sender.source as? EditBetViewController, let bet = sourceViewController.bet {
-            self.bet = bet
-        }
+  @IBAction func unwindEditProfile(sender: UIStoryboardSegue) {
+    if let sourceViewController = sender.source as? EditBetViewController, let bet = sourceViewController.bet {
+      self.bet = bet
     }
+  }
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if (segue.identifier == "betToChallenger") {
@@ -367,7 +382,7 @@ class BetViewController: UIViewController {
         print(error.localizedDescription)
       }
     }
-
+    
   }
-
+  
 }
