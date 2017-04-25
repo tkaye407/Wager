@@ -147,7 +147,6 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
   }
   
   @IBAction func tablePicker(_ sender: Any) {
-    SearchQuery.text = ""
     switch tablePickingButtons.selectedSegmentIndex
     {
     case 0:

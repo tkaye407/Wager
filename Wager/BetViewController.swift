@@ -70,7 +70,7 @@ class BetViewController: UIViewController {
     self.descriptionLabel.text = bet.description
     self.amountLabel.text = bet.amount.description
     self.dateOpenedLabel.text = dateFormatter.string(from: dateOpened)
-    if (bet.challengee_uid != "" && bet.challengee_uid != "") {
+    if (bet.challengee_uid != "") {
       self.challengeeButton.setTitle(bet.challengee_name, for: UIControlState.normal)
       self.challengeeButton.isEnabled = true
     }
@@ -79,7 +79,7 @@ class BetViewController: UIViewController {
       self.challengeeButton.setTitle("Not Taken", for: UIControlState.normal)
     }
 
-    if ((self.profile.key == self.bet.challenger_uid) && !bet.accepted) {
+    if ((self.profile.key == self.bet.challenger_uid) && bet.accepted == false && bet.confirmed == false && bet.completed == false) {
       self.InformationLabel.text = "You created this bet. Would you like to Delete It?"
       self.takeBetButton.setTitle("Delete Bet?", for: UIControlState.normal)
       self.takeBetButton.backgroundColor = UIColor.red
@@ -143,6 +143,8 @@ class BetViewController: UIViewController {
   @IBAction func takeBet(_ sender: Any) {
     if (self.takeBetButton.titleLabel?.text == "Delete Bet?") {
       // DELETE THE BET and NAVIGATE AWAY
+       self.bet.ref?.removeValue()
+      performSegue(withIdentifier: "toProfile", sender: self)
     }
     else if (!bet.accepted) {
       acceptBet()
@@ -346,6 +348,10 @@ class BetViewController: UIViewController {
       let nav = segue.destination as! UINavigationController
       let vc = nav.topViewController as! EditBetViewController
       vc.bet = self.bet
+    }
+    if (segue.identifier == "toProfile") {
+      let vc = segue.destination as! ProfileViewController
+      vc.navigationItem.hidesBackButton = true;
     }
     if (segue.identifier == "betToChallengee") {
       let pRef = FIRDatabase.database().reference().child("Profiles")
