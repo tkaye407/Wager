@@ -17,12 +17,12 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var pnlLabel: UILabel!
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var genderLabel: UILabel!
-    @IBOutlet weak var signOutButton: UIButton!
     @IBOutlet weak var betsTableView: UITableView!
     @IBOutlet weak var ratingView: RatingControl!
     @IBOutlet weak var ratingLabel: UILabel!
     @IBOutlet weak var challengerControl: UISegmentedControl!
     @IBOutlet weak var completedController: UISegmentedControl!
+    @IBOutlet weak var signUpButton: UINavigationItem!
    
     
   
@@ -45,6 +45,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     if self.profile?.userID != appDelegate.profile?.userID {
       self.navigationItem.rightBarButtonItem?.isEnabled = false
       self.navigationItem.rightBarButtonItem?.tintColor = UIColor.clear
+      self.navigationItem.leftBarButtonItem?.isEnabled = false
+      self.navigationItem.leftBarButtonItem?.tintColor = UIColor.clear
+
     }
     self.UserNameLabel.text = profile?.username
     self.venmoIDLabel.text = profile?.venmoID
@@ -136,6 +139,20 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         switch(segue.identifier ?? "") {
+        case "signOut":
+          do {
+            let ref = FIRDatabase.database().reference()
+            ref.child("Users").child(self.user.uid).removeAllObservers()
+            try FIRAuth.auth()?.signOut()
+            print("FIRUSER - \(FIRAuth.auth()?.currentUser)")
+            
+            let vc = segue.destination as! LoginViewController
+            vc.navigationItem.hidesBackButton = true;
+            
+          } catch let logOutError {
+            
+            print("Error Logging User Out - \(logOutError)")
+          }
         case "editProfile":
             guard let navController = segue.destination as? UINavigationController else {
                 fatalError("Unexpected destination: \(segue.destination)")
