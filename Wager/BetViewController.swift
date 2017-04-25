@@ -165,9 +165,6 @@ class BetViewController: UIViewController {
     let alertController = UIAlertController(title: "Pay Now", message: "Choose A Payment Option", preferredStyle: .alert)
     let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
     alertController.addAction(cancelAction)
-    
-    
-    
     let callVenmo = UIAlertAction(title: "Venmo", style: .default, handler: {
       action in
       
@@ -185,17 +182,14 @@ class BetViewController: UIViewController {
         // Get user value
         self.newProfile = Profile(snapshot: snapshot)
   
-        let name = "venmo://paycharge?txt=pay&amount=\(self.bet.amount)&note=\(self.bet.name)&recipients=\(self.newProfile?.venmoID)".replacingOccurrences(of: " ", with: "%20")
-      
-        // additional error checking needed here in case the other user doesnt have venmo
-        let url = URL(string: name)
+        // additional error checking needed here in case the other user doesnt have 
+        /*let url = URL(String: "venmo://paycharge?txt=pay&amount=\(self.bet.amount)&note=\(self.bet.name)&recipients=\((self.newProfile?.venmoID)!)".replacingOccurrences(of: " ", with: "%20"))
         
-        print(name)
         if #available(iOS 10.0, *) {
           UIApplication.shared.open(url!)
         } else {
           UIApplication.shared.openURL(url!)
-        }
+        }*/
       })
       { (error) in
         print("what the fuck")
