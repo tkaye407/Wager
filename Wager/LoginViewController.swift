@@ -61,6 +61,7 @@ class LoginViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    self.tabBarController?.tabBar.isHidden = true
     
     FIRAuth.auth()!.addStateDidChangeListener() { auth, user in
       if user != nil {

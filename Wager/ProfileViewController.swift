@@ -167,7 +167,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             print("FIRUSER - \(FIRAuth.auth()?.currentUser)")
             
             let vc = segue.destination as! LoginViewController
-            vc.navigationItem.hidesBackButton = true;
+            vc.navigationItem.hidesBackButton = true
+            vc.tabBarController?.tabBar.isHidden = true
             
           } catch let logOutError {
             
