@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1217" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -456,7 +456,7 @@
                                 <color key="textColor" red="0.23921568630000001" green="0.59607843140000005" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Category: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eVN-oQ-O9d">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Not Yet Closed" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eVN-oQ-O9d">
                                 <rect key="frame" x="202" y="359" width="162" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.23921568630000001" green="0.59607843140000005" blue="0.41568627450000001" alpha="0.31389712590000002" colorSpace="calibratedRGB"/>
@@ -534,6 +534,7 @@
                         <outlet property="dateClosedLabel" destination="eVN-oQ-O9d" id="fJV-Y1-8bb"/>
                         <outlet property="dateOpenedLabel" destination="BDj-C4-ehl" id="vbI-c2-CEe"/>
                         <outlet property="descriptionLabel" destination="lLW-61-b6v" id="Yeb-NU-RuL"/>
+                        <outlet property="editButton" destination="hLM-uA-XuT" id="GfY-fz-T7T"/>
                         <outlet property="nameLabel" destination="ZNv-85-lEe" id="RPm-tQ-T6l"/>
                         <outlet property="takeBetButton" destination="llS-b8-pQL" id="Lhz-32-NTD"/>
                         <segue destination="uzT-6q-WAv" kind="show" identifier="betToChallengee" id="ZsG-wJ-tIe"/>
@@ -1180,19 +1181,40 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1AW-pV-HF5">
-                                <rect key="frame" x="273" y="28" width="96" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search users (e.g. &quot;Mike Example&quot;)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Lzb-uV-weH">
+                                <rect key="frame" x="10" y="72" width="255" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1AW-pV-HF5">
+                                <rect key="frame" x="273" y="72" width="96" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.99989169836044312" green="1" blue="0.99988096952438354" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Search">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="titleColor" red="0.23921568630000001" green="0.59607843140000005" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" red="0.23921568630000001" green="0.59607843140000005" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="SearchButtonPressed:" destination="9tJ-kV-JhW" eventType="touchUpInside" id="ehZ-8K-ODI"/>
                                 </connections>
                             </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="kuV-Tw-dzI">
+                                <rect key="frame" x="16" y="110" width="343" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.23921568630000001" green="0.59607843140000005" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <segments>
+                                    <segment title="Users"/>
+                                    <segment title="Bets"/>
+                                </segments>
+                                <color key="tintColor" red="0.99989169836044312" green="1" blue="0.99988096952438354" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <action selector="tablePicker:" destination="9tJ-kV-JhW" eventType="valueChanged" id="alc-EZ-rzh"/>
+                                </connections>
+                            </segmentedControl>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="66" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="oAa-7F-aFY">
-                                <rect key="frame" x="5" y="107" width="364" height="503"/>
+                                <rect key="frame" x="5" y="153" width="364" height="457"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -1200,7 +1222,7 @@
                                         <rect key="frame" x="0.0" y="28" width="364" height="66"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3RW-1B-q5t" id="0pz-z9-Otu">
-                                            <rect key="frame" x="0.0" y="0.0" width="364" height="65.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="364" height="65"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2wN-9J-XCO">
@@ -1226,33 +1248,17 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search users (e.g. &quot;Mike Example&quot;)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Lzb-uV-weH">
-                                <rect key="frame" x="10" y="28" width="255" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="kuV-Tw-dzI">
-                                <rect key="frame" x="16" y="71" width="343" height="29"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <segments>
-                                    <segment title="Users"/>
-                                    <segment title="Bets"/>
-                                </segments>
-                                <connections>
-                                    <action selector="tablePicker:" destination="9tJ-kV-JhW" eventType="valueChanged" id="alc-EZ-rzh"/>
-                                </connections>
-                            </segmentedControl>
                         </subviews>
-                        <color key="backgroundColor" red="0.083103220049999996" green="0.4439362047" blue="0.16533368170000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.23921568630000001" green="0.59607843140000005" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
-                    <tabBarItem key="tabBarItem" systemItem="search" id="gg9-Dx-EHh"/>
+                    <navigationItem key="navigationItem" id="da8-Dy-9cV"/>
                     <connections>
                         <outlet property="SearchQuery" destination="Lzb-uV-weH" id="kLK-TI-EmM"/>
                         <outlet property="searchDisplayController" destination="lJS-54-3Um" id="9Pc-L8-MIW"/>
                         <outlet property="searchTableView" destination="oAa-7F-aFY" id="0Mu-jf-0nB"/>
                         <outlet property="tablePickingButtons" destination="kuV-Tw-dzI" id="xX0-iy-hcy"/>
+                        <segue destination="7nr-Lc-mbm" kind="show" identifier="toBet" id="ewu-29-zlH"/>
+                        <segue destination="uzT-6q-WAv" kind="show" identifier="toProfile" id="nTq-lc-YGf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8su-uW-Fa7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1265,7 +1271,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="1989.5999999999999" y="2701.7991004497753"/>
+            <point key="canvasLocation" x="2876" y="3058.9205397301353"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="LIU-VK-e6v">
@@ -1280,7 +1286,7 @@
                     <connections>
                         <segue destination="OO3-Em-sDU" kind="relationship" relationship="viewControllers" id="Mcd-qP-NGJ"/>
                         <segue destination="aU3-gX-JDg" kind="relationship" relationship="viewControllers" id="fEM-s3-0uz"/>
-                        <segue destination="9tJ-kV-JhW" kind="relationship" relationship="viewControllers" id="6cS-zi-WAI"/>
+                        <segue destination="EEn-8S-XXs" kind="relationship" relationship="viewControllers" id="6cS-zi-WAI"/>
                         <segue destination="UTZ-O2-DyK" kind="relationship" relationship="viewControllers" id="Abi-f0-RBq"/>
                     </connections>
                 </tabBarController>
@@ -1457,6 +1463,26 @@
             </objects>
             <point key="canvasLocation" x="3913" y="2063"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="39B-9g-Xub">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iRn-nV-6bf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="EEn-8S-XXs" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" systemItem="search" id="gg9-Dx-EHh"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Lf0-Jp-W4Y">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.23921568630000001" green="0.59607843140000005" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="9tJ-kV-JhW" kind="relationship" relationship="rootViewController" id="g1q-90-Qvu"/>
+                    </connections>
+                </navigationController>
+            </objects>
+            <point key="canvasLocation" x="1936.8" y="3058.9205397301353"/>
+        </scene>
     </scenes>
     <resources>
         <image name="betIcon" width="29" height="28"/>
@@ -1464,10 +1490,10 @@
         <image name="testProfilePhoto" width="360" height="360"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="IgS-LP-HoH"/>
-        <segue reference="upF-IU-j5K"/>
-        <segue reference="fEM-s3-0uz"/>
         <segue reference="YGd-c0-b6a"/>
         <segue reference="yUp-bl-tG5"/>
+        <segue reference="fEM-s3-0uz"/>
+        <segue reference="ewu-29-zlH"/>
+        <segue reference="nTq-lc-YGf"/>
     </inferredMetricsTieBreakers>
 </document>

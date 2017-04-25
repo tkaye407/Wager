@@ -18,6 +18,7 @@ class BetViewController: UIViewController {
   @IBOutlet weak var dateOpenedLabel: UILabel!
   @IBOutlet weak var dateClosedLabel: UILabel!
   @IBOutlet weak var InformationLabel: UILabel!
+  @IBOutlet weak var editButton: UIButton!
   
   
   var bet: BetItem!
@@ -49,6 +50,11 @@ class BetViewController: UIViewController {
         self.profile = appDelegate.profile
       
         relabelThings()
+        //if(bet.challenger_uid == profile.key && bet.date_closed < )
+        if !(bet.challenger_uid == profile.key && bet.accepted == false && bet.completed == false && bet.confirmed == false) {
+            editButton.isHidden = true
+            editButton.isEnabled = false
+        }
     }
   
   func relabelThings() {

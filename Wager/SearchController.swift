@@ -22,6 +22,7 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
   var items: [Profile] = []
   var b_items: [BetItem] = []
   var tablePicked = 1
+  var selectedIndex: Int = 0
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -73,6 +74,11 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
           if (nameStr.range(of: searchStr) != nil){
             newItems.append(bItem)
           }
+          var descStr = bItem.description
+          descStr = descStr.uppercased()
+          if (descStr.range(of: searchStr) != nil){
+            newItems.append(bItem)
+          }
         }
         self.b_items = newItems
         self.searchTableView.reloadData()
@@ -110,6 +116,31 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
     }
     return 0 as! UITableViewCell
   }
+  
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    if(self.tablePicked == USERS_TABLE) {
+      self.performSegue(withIdentifier: "toProfile", sender: self);
+    }
+    else if (self.tablePicked == BETS_TABLE) {
+      self.performSegue(withIdentifier: "toBet", sender: self);
+    }
+  }
+  
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if (segue.identifier == "toBet") {
+      let vc = segue.destination as! BetViewController
+      if let indexPath = self.searchTableView.indexPathForSelectedRow {
+        vc.bet = b_items[indexPath.row]
+      }
+    }
+    else if (segue.identifier == "toProfile") {
+      let vc = segue.destination as! ProfileViewController
+      if let indexPath = self.searchTableView.indexPathForSelectedRow {
+        vc.profile = items[indexPath.row]
+      }
+    }
+  }
+
   
   @IBAction func SearchButtonPressed(_ sender: Any) {
     reloadRows()
