@@ -29,6 +29,7 @@
 		7A58760A1EAD8A3600DD8D18 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB23856A1B3DD5AB0079CD01 /* LaunchScreen.xib */; };
 		7A58760B1EAD8A3600DD8D18 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB2385681B3DD5AB0079CD01 /* Images.xcassets */; };
 		7A8848C51EAED511004AC20B /* CreateNewBetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071917E51E92FA2200EAFF5F /* CreateNewBetController.swift */; };
+		B654BD12F106E7B559C16CA2 /* Pods_Wager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60EB3A0568227607F3FCD20B /* Pods_Wager.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,13 +37,14 @@
 		07611C051EAE5FA70022F91A /* SearchController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
 		07611C071EAE700B0022F91A /* SearchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		07C23C301E9C39A000A0DA27 /* NewProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewProfileViewController.swift; sourceTree = "<group>"; };
+		57D7297C70195C015130F504 /* Pods-Wager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wager.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Wager/Pods-Wager.debug.xcconfig"; sourceTree = "<group>"; };
+		60EB3A0568227607F3FCD20B /* Pods_Wager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Wager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A025E321E9568940086099C /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		7A0283C11EAD26F3007A44A0 /* ProfileBetTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileBetTableViewCell.swift; sourceTree = "<group>"; };
 		7A24CB161E9877DF007345B4 /* ProfileEditorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileEditorViewController.swift; sourceTree = "<group>"; };
 		7A5876111EAD8A3600DD8D18 /* Wager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A7C53AE1E9C09130016C05C /* RatingControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingControl.swift; sourceTree = "<group>"; };
-		9BA2A2DB5BA4733818152B9B /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		A898E3AE11425E4495FAC93A /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		B6E10A3A6FC7B04944EE2961 /* Pods-Wager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wager.release.xcconfig"; path = "Pods/Target Support Files/Pods-Wager/Pods-Wager.release.xcconfig"; sourceTree = "<group>"; };
 		BB2385601B3DD5AB0079CD01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BB2385611B3DD5AB0079CD01 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BB2385631B3DD5AB0079CD01 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7A5876061EAD8A3600DD8D18 /* libPods.a in Frameworks */,
+				B654BD12F106E7B559C16CA2 /* Pods_Wager.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,8 +79,8 @@
 		5BCB7DE7572521D09DC0AA00 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				9BA2A2DB5BA4733818152B9B /* Pods.debug.xcconfig */,
-				A898E3AE11425E4495FAC93A /* Pods.release.xcconfig */,
+				57D7297C70195C015130F504 /* Pods-Wager.debug.xcconfig */,
+				B6E10A3A6FC7B04944EE2961 /* Pods-Wager.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -176,6 +179,7 @@
 			isa = PBXGroup;
 			children = (
 				F599D9265F4B40571F432E78 /* libPods.a */,
+				60EB3A0568227607F3FCD20B /* Pods_Wager.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -187,12 +191,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7A58760E1EAD8A3600DD8D18 /* Build configuration list for PBXNativeTarget "Wager" */;
 			buildPhases = (
-				7A5875F41EAD8A3600DD8D18 /* Check Pods Manifest.lock */,
+				7A5875F41EAD8A3600DD8D18 /* [CP] Check Pods Manifest.lock */,
 				7A5875F51EAD8A3600DD8D18 /* Sources */,
 				7A5876051EAD8A3600DD8D18 /* Frameworks */,
 				7A5876071EAD8A3600DD8D18 /* Resources */,
-				7A58760C1EAD8A3600DD8D18 /* Copy Pods Resources */,
-				7A58760D1EAD8A3600DD8D18 /* Embed Pods Frameworks */,
+				7A58760C1EAD8A3600DD8D18 /* [CP] Copy Pods Resources */,
+				7A58760D1EAD8A3600DD8D18 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -245,49 +249,49 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		7A5875F41EAD8A3600DD8D18 /* Check Pods Manifest.lock */ = {
+		7A5875F41EAD8A3600DD8D18 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		7A58760C1EAD8A3600DD8D18 /* Copy Pods Resources */ = {
+		7A58760C1EAD8A3600DD8D18 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Wager/Pods-Wager-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		7A58760D1EAD8A3600DD8D18 /* Embed Pods Frameworks */ = {
+		7A58760D1EAD8A3600DD8D18 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Wager/Pods-Wager-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -341,7 +345,7 @@
 /* Begin XCBuildConfiguration section */
 		7A58760F1EAD8A3600DD8D18 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9BA2A2DB5BA4733818152B9B /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 57D7297C70195C015130F504 /* Pods-Wager.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -366,7 +370,7 @@
 		};
 		7A5876101EAD8A3600DD8D18 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A898E3AE11425E4495FAC93A /* Pods.release.xcconfig */;
+			baseConfigurationReference = B6E10A3A6FC7B04944EE2961 /* Pods-Wager.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
