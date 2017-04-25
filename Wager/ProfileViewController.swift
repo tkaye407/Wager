@@ -57,6 +57,19 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     self.ratingLabel.text = String(profile!.rating)
     calculatePNL()
     self.betsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+    /*image load*/
+    var finalImage: UIImage? = nil
+    let imageRef = FIRStorage.storage().reference(withPath: user.uid)
+    imageRef.data(withMaxSize: 1 * 10240 * 10240) { data, error in
+      if error != nil {
+          print(error)
+      }
+      else{
+          finalImage = UIImage(data: data!)!
+          self.profileImageView.image = finalImage
+      }
+    }
+    
     let new_ref = bRef.queryOrdered(byChild: "challenger_uid").queryEqual(toValue: self.profile?.key)
     new_ref.observe(.value, with: { snapshot in
       var newItems: [BetItem] = []
@@ -108,16 +121,23 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
-        // The info dictionary may contain multiple representations of the image. You want to use the original.
-        guard let selectedImage = info[UIImagePickerControllerOriginalImage] as? UIImage else {
-            fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
-        }
+      // The info dictionary may contain multiple representations of the image. You want to use the original.
+      guard let selectedImage = info[UIImagePickerControllerOriginalImage] as? UIImage else {
+          fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
+      }
         
-        // Set photoImageView to display the selected image.
-        profileImageView.image = selectedImage
-        
-        // Dismiss the picker.
-        dismiss(animated: true, completion: nil)
+      // Set photoImageView to display the selected image.
+      profileImageView.image = selectedImage
+      
+      
+      let storageRef = FIRStorage.storage().reference().child(user.uid)
+      let finalImage = UIImagePNGRepresentation(selectedImage)
+      storageRef.put(finalImage!, metadata: nil, completion: {(metadata, error) in
+        if(error != nil) {print("error"); return}
+        else{ print("metadata")}
+      })
+      // Dismiss the picker.
+      dismiss(animated: true, completion: nil)
     }
     
     //MARK: Navigation
