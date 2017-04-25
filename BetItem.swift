@@ -13,13 +13,13 @@ struct BetItem {
   let ref: FIRDatabaseReference?
   
   let key: String
-  let name: String
-  let description: String
+  var name: String
+  var description: String
   let challenger_uid: String //this might change
   let challenger_name: String
   let challengee_uid: String //This might change
   let challengee_name: String
-  let amount: Float
+  var amount: Float
   var category: String
   let date_opened: Double
   let date_closed: Double
