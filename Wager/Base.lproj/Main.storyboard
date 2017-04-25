@@ -266,7 +266,7 @@
                                 <rect key="frame" x="0.0" y="22" width="375" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="en3-w1-wtA" id="l9k-nz-0Yb">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="59"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Challenger: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V2W-ry-6xK">
@@ -722,7 +722,7 @@
                                                         <rect key="frame" x="0.0" y="28" width="345" height="44"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Dre-qo-2KJ" id="WGd-R2-vYe" customClass="ProfileBetTableViewCell" customModule="Wager" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="0.0" width="345" height="43.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="345" height="43"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Sab-Ty-QYy">
@@ -1466,11 +1466,10 @@
         <!--Navigation Controller-->
         <scene sceneID="39B-9g-Xub">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="iRn-nV-6bf" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="EEn-8S-XXs" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="search" id="gg9-Dx-EHh"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Lf0-Jp-W4Y">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Lf0-Jp-W4Y">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.23921568630000001" green="0.59607843140000005" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -1480,6 +1479,7 @@
                         <segue destination="9tJ-kV-JhW" kind="relationship" relationship="rootViewController" id="g1q-90-Qvu"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iRn-nV-6bf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1936.8" y="3058.9205397301353"/>
         </scene>
