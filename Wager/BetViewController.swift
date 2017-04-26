@@ -26,6 +26,7 @@ class BetViewController: UIViewController {
   var user: User!
   var profile: Profile!
   var newProfile: Profile?
+  var loserProfile: Profile!
   
   func reloadBet() {
     let bRef = FIRDatabase.database().reference().child("Bets")
@@ -161,16 +162,52 @@ class BetViewController: UIViewController {
       else if ((bet.winner && (self.profile.key == self.bet.challenger_uid)) || (!bet.winner && (self.profile.key == self.bet.challengee_uid)) && (bet.paid && !bet.confirmed)) {
         let bRef = FIRDatabase.database().reference().child("Bets").child(bet.key)
         bRef.updateChildValues(["confirmed":true])
-        //Add rating code here
-        var curRating = self.profile.rating
-        let numRatings = self.profile.numRatings
-        curRating = (curRating*Float(numRatings) + 5.0)/Float(numRatings + 1)
-        let ref  = FIRDatabase.database().reference().child("Profiles").child(self.bet.challengee_uid)
-        ref.updateChildValues(["rating":curRating])
-        ref.updateChildValues(["num_ratings":numRatings+1])
-        
         bet.confirmed = true
         self.relabelThings()
+        
+        //CHALLENGEE IS THE LOSER
+        if bet.winner {
+          print("I was here 1")
+          let pRef = FIRDatabase.database().reference().child("Profiles")
+          pRef.child(self.bet.challengee_uid).observeSingleEvent(of: .value, with: { (snapshot) in
+            // Get user value
+            self.loserProfile = Profile(snapshot: snapshot) as Profile
+          })
+          { (error) in
+            print(error.localizedDescription)
+          }
+          
+          var curRating = self.loserProfile.rating
+          let numRatings = self.loserProfile.numRatings
+          
+          curRating = (curRating*Float(numRatings) + 5.0)/Float(numRatings + 1)
+          let ref  = FIRDatabase.database().reference().child("Profiles").child(self.bet.challengee_uid)
+          ref.updateChildValues(["rating":curRating])
+          ref.updateChildValues(["num_ratings":numRatings+1])
+        }
+        //CHALLENGER IS THE LOSER
+        else {
+          print("I was here 2")
+          let pRef = FIRDatabase.database().reference().child("Profiles")
+          pRef.child(self.bet.challenger_uid).observeSingleEvent(of: .value, with: { (snapshot) in
+            // Get user value
+            self.loserProfile = Profile(snapshot: snapshot) as Profile
+          })
+          { (error) in
+            print(error.localizedDescription)
+          }
+          
+          var curRating = loserProfile.rating
+          let numRatings = loserProfile.numRatings
+          
+          curRating = (curRating*Float(numRatings) + 5.0)/Float(numRatings + 1)
+          let ref  = FIRDatabase.database().reference().child("Profiles").child(self.bet.challenger_uid)
+          ref.updateChildValues(["rating":curRating])
+          ref.updateChildValues(["num_ratings":numRatings+1])
+        }
+        
+        
+        
       }
     }
   }
