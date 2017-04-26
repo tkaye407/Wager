@@ -161,6 +161,14 @@ class BetViewController: UIViewController {
       else if ((bet.winner && (self.profile.key == self.bet.challenger_uid)) || (!bet.winner && (self.profile.key == self.bet.challengee_uid)) && (bet.paid && !bet.confirmed)) {
         let bRef = FIRDatabase.database().reference().child("Bets").child(bet.key)
         bRef.updateChildValues(["confirmed":true])
+        //Add rating code here
+        var curRating = self.profile.rating
+        let numRatings = self.profile.numRatings
+        curRating = (curRating*Float(numRatings) + 5.0)/Float(numRatings + 1)
+        let ref  = FIRDatabase.database().reference().child("Profiles").child(self.bet.challengee_uid)
+        ref.updateChildValues(["rating":curRating])
+        ref.updateChildValues(["num_ratings":numRatings+1])
+        
         bet.confirmed = true
         self.relabelThings()
       }
@@ -274,13 +282,6 @@ class BetViewController: UIViewController {
         bRef.updateChildValues(["winner":false])
         bRef.updateChildValues(["completed":true])
         
-        var curRating = self.profile.rating
-        let numRatings = self.profile.numRatings
-        curRating = (curRating*Float(numRatings) + 5.0)/Float(numRatings + 1)
-        let ref  = FIRDatabase.database().reference().child("Profiles").child(self.bet.challengee_uid)
-        ref.updateChildValues(["rating":curRating])
-        ref.updateChildValues(["num_ratings":numRatings+1])
-        
         self.bet.completed = true
         bRef.updateChildValues(["date_closed": Date().timeIntervalSinceReferenceDate])
         self.relabelThings()
@@ -290,13 +291,6 @@ class BetViewController: UIViewController {
         self.takeBetButton.setTitle("Confirm Payment", for: UIControlState.normal)
         bRef.updateChildValues(["winner":true])
         bRef.updateChildValues(["completed":true])
-        
-        var curRating = self.profile.rating
-        let numRatings = self.profile.numRatings
-        curRating = (curRating*Float(numRatings) + 5.0)/Float(numRatings + 1)
-        let ref  = FIRDatabase.database().reference().child("Profiles").child(self.bet.challengee_uid)
-        ref.updateChildValues(["rating":curRating])
-        ref.updateChildValues(["num_ratings":numRatings+1])
         
         self.bet.completed = true
         bRef.updateChildValues(["date_closed": Date().timeIntervalSinceReferenceDate])
