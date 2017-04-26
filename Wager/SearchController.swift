@@ -5,7 +5,6 @@
 //  Created by Michael Swart on 4/24/17.
 //
 //
-
 import Foundation
 import Firebase
 
