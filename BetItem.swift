@@ -17,8 +17,8 @@ struct BetItem {
   var description: String
   let challenger_uid: String //this might change
   let challenger_name: String
-  let challengee_uid: String //This might change
-  let challengee_name: String
+  var challengee_uid: String //This might change
+  var challengee_name: String
   var amount: Float
   var category: String
   let date_opened: Double

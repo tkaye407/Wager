@@ -204,11 +204,8 @@ class BetViewController: UIViewController {
           { (error) in
             print(error.localizedDescription)
           }
-          
-          
+    
         }
-        
-        
         
       }
     }
@@ -367,6 +364,9 @@ class BetViewController: UIViewController {
     let bRef = FIRDatabase.database().reference().child("Bets").child(bet.key)
     self.takeBetButton.setTitle("Complete Bet", for: UIControlState.normal)
     self.bet.accepted = true
+    self.bet.challengee_uid = self.profile.key
+    self.bet.challengee_name = self.profile.firstName + " " + self.profile.lastName
+    
     
     bRef.updateChildValues(["accepted":true])
     bRef.updateChildValues(["challengee_name": self.profile.firstName + " " + self.profile.lastName])
