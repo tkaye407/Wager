@@ -172,18 +172,19 @@ class BetViewController: UIViewController {
           pRef.child(self.bet.challengee_uid).observeSingleEvent(of: .value, with: { (snapshot) in
             // Get user value
             self.loserProfile = Profile(snapshot: snapshot) as Profile
+            var curRating = self.loserProfile.rating
+            let numRatings = self.loserProfile.numRatings
+            
+            curRating = (curRating*Float(numRatings) + 5.0)/Float(numRatings + 1)
+            let ref  = FIRDatabase.database().reference().child("Profiles").child(self.bet.challengee_uid)
+            ref.updateChildValues(["rating":curRating])
+            ref.updateChildValues(["num_ratings":numRatings+1])
           })
           { (error) in
             print(error.localizedDescription)
           }
           
-          var curRating = self.loserProfile.rating
-          let numRatings = self.loserProfile.numRatings
           
-          curRating = (curRating*Float(numRatings) + 5.0)/Float(numRatings + 1)
-          let ref  = FIRDatabase.database().reference().child("Profiles").child(self.bet.challengee_uid)
-          ref.updateChildValues(["rating":curRating])
-          ref.updateChildValues(["num_ratings":numRatings+1])
         }
         //CHALLENGER IS THE LOSER
         else {
@@ -192,18 +193,19 @@ class BetViewController: UIViewController {
           pRef.child(self.bet.challenger_uid).observeSingleEvent(of: .value, with: { (snapshot) in
             // Get user value
             self.loserProfile = Profile(snapshot: snapshot) as Profile
+            var curRating = self.loserProfile.rating
+            let numRatings = self.loserProfile.numRatings
+            
+            curRating = (curRating*Float(numRatings) + 5.0)/Float(numRatings + 1)
+            let ref  = FIRDatabase.database().reference().child("Profiles").child(self.bet.challenger_uid)
+            ref.updateChildValues(["rating":curRating])
+            ref.updateChildValues(["num_ratings":numRatings+1])
           })
           { (error) in
             print(error.localizedDescription)
           }
           
-          var curRating = loserProfile.rating
-          let numRatings = loserProfile.numRatings
           
-          curRating = (curRating*Float(numRatings) + 5.0)/Float(numRatings + 1)
-          let ref  = FIRDatabase.database().reference().child("Profiles").child(self.bet.challenger_uid)
-          ref.updateChildValues(["rating":curRating])
-          ref.updateChildValues(["num_ratings":numRatings+1])
         }
         
         
