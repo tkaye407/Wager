@@ -23,7 +23,6 @@
 		7A5876021EAD8A3600DD8D18 /* NewProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C23C301E9C39A000A0DA27 /* NewProfileViewController.swift */; };
 		7A5876031EAD8A3600DD8D18 /* BetItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF389D001E91D99D00EF0DF9 /* BetItem.swift */; };
 		7A5876041EAD8A3600DD8D18 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2385611B3DD5AB0079CD01 /* AppDelegate.swift */; };
-		7A5876061EAD8A3600DD8D18 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F599D9265F4B40571F432E78 /* libPods.a */; };
 		7A5876081EAD8A3600DD8D18 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BB2385651B3DD5AB0079CD01 /* Main.storyboard */; };
 		7A5876091EAD8A3600DD8D18 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF389CFE1E91D96500EF0DF9 /* GoogleService-Info.plist */; };
 		7A58760A1EAD8A3600DD8D18 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB23856A1B3DD5AB0079CD01 /* LaunchScreen.xib */; };
@@ -68,7 +67,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7A5876061EAD8A3600DD8D18 /* libPods.a in Frameworks */,
 				B654BD12F106E7B559C16CA2 /* Pods_Wager.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
