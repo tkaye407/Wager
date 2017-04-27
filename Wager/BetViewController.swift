@@ -27,6 +27,8 @@ class BetViewController: UIViewController {
   var profile: Profile!
   var newProfile: Profile?
   var loserProfile: Profile!
+  var challengerProfile: Profile?
+  var challengeeProfile: Profile?
   
   func reloadBet() {
     let bRef = FIRDatabase.database().reference().child("Bets")
@@ -49,13 +51,17 @@ class BetViewController: UIViewController {
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     self.user = appDelegate.user
     self.profile = appDelegate.profile
+    self.challengerProfile = nil
+    self.challengeeProfile = nil
     
+    self.setUpProfiles()
     relabelThings()
     //if(bet.challenger_uid == profile.key && bet.date_closed < )
     if !(bet.challenger_uid == profile.key && bet.accepted == false && bet.completed == false && bet.confirmed == false) {
       editButton.isHidden = true
       editButton.isEnabled = false
     }
+    print("HI")
   }
   
   func relabelThings() {
@@ -372,6 +378,8 @@ class BetViewController: UIViewController {
     bRef.updateChildValues(["challengee_name": self.profile.firstName + " " + self.profile.lastName])
     bRef.updateChildValues(["challengee_uid":self.profile.key])
     
+    self.challengeeProfile = self.profile
+    
     self.relabelThings()
   }
   
@@ -381,33 +389,39 @@ class BetViewController: UIViewController {
   }
   
   @IBAction func challengeeClicked(_ sender: Any) {
-    performSegue(withIdentifier: "betToChallengee", sender: self)
+    if (self.challengeeProfile == nil) {errorHandler(errorString: "Profile not yet loaded. Try again in a couple seconds!")}
+    else {performSegue(withIdentifier: "betToChallengee", sender: self)}
   }
   
   @IBAction func challengerClicked(_ sender: Any) {
-    performSegue(withIdentifier: "betToChallenger", sender: self)
+    if (self.challengerProfile == nil) {errorHandler(errorString: "Profile not yet loaded. Try again in a couple seconds!")}
+    else {performSegue(withIdentifier: "betToChallenger", sender: self)}
     
   }
+  
   @IBAction func unwindEditProfile(sender: UIStoryboardSegue) {
     if let sourceViewController = sender.source as? EditBetViewController, let bet = sourceViewController.bet {
       self.bet = bet
     }
   }
   
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if (segue.identifier == "betToChallenger") {
-      let pRef = FIRDatabase.database().reference().child("Profiles")
-      pRef.child(bet.challenger_uid).observeSingleEvent(of: .value, with: { (snapshot) in
-        // Get user value
-        self.newProfile = Profile(snapshot: snapshot)
-        let vc = segue.destination as! ProfileViewController
-        vc.profile = self.newProfile
-        vc.setProfile()
-        vc.betsTableView.reloadData()
+  func setUpProfiles() {
+    let pRef = FIRDatabase.database().reference().child("Profiles")
+    pRef.child(bet.challenger_uid).observeSingleEvent(of: .value, with: { (snapshot) in
+      self.challengerProfile = Profile(snapshot: snapshot)
+    })
+    if(bet.accepted) {
+      pRef.child(bet.challengee_uid).observeSingleEvent(of: .value, with: { (snapshot) in
+        self.challengeeProfile = Profile(snapshot: snapshot)
       })
-      { (error) in
-        print(error.localizedDescription)
-      }
+    }
+  }
+  
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    super.prepare(for: segue, sender: sender)
+    if (segue.identifier == "betToChallenger") {
+      let vc = segue.destination as! ProfileViewController
+      vc.profile = self.challengerProfile
     }
     if (segue.identifier == "editBet") {
       let nav = segue.destination as! UINavigationController
@@ -419,20 +433,17 @@ class BetViewController: UIViewController {
       vc.navigationItem.hidesBackButton = true;
     }
     if (segue.identifier == "betToChallengee") {
-      let pRef = FIRDatabase.database().reference().child("Profiles")
-      pRef.child(bet.challengee_uid).observeSingleEvent(of: .value, with: { (snapshot) in
-        // Get user value
-        self.newProfile = Profile(snapshot: snapshot)
-        let vc = segue.destination as! ProfileViewController
-        vc.profile = self.newProfile
-        vc.setProfile()
-        vc.betsTableView.reloadData()
-      })
-      { (error) in
-        print(error.localizedDescription)
-      }
+      let vc = segue.destination as! ProfileViewController
+      vc.profile = self.challengeeProfile
     }
     
+  }
+  
+  func errorHandler(errorString: String) {
+    let alertController = UIAlertController(title: "There Was an Error Loading the profile", message: errorString, preferredStyle: .alert)
+    present(alertController, animated: true, completion: nil)
+    let callOK = UIAlertAction(title: "OK", style: .default, handler: nil)
+    alertController.addAction(callOK)
   }
   
 }
