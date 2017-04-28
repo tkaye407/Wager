@@ -20,7 +20,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var betsTableView: UITableView!
     @IBOutlet weak var ratingView: RatingControl!
     @IBOutlet weak var ratingLabel: UILabel!
-    @IBOutlet weak var challengerControl: UISegmentedControl!
     @IBOutlet weak var completedController: UISegmentedControl!
     @IBOutlet weak var signUpButton: UINavigationItem!
    
@@ -128,6 +127,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         // SET THE DELEGATE AND DATA SOURCE TO SELF
         betsTableView.delegate = self
         betsTableView.dataSource = self
+        self.completedController.selectedSegmentIndex = 1
       
         // CORNERS ON THE PROFILE IMAGE
         self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width / 2;
@@ -311,45 +311,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
   
   
   // MARK: Segment Control Methods
-
-  @IBAction func challengerChanged(_ sender: UISegmentedControl) {
-    switch challengerControl.selectedSegmentIndex
-    {
-      case 0:
-        challengerPicked = true
-        let new_ref = bRef.queryOrdered(byChild: "challenger_uid").queryEqual(toValue: self.profile?.key)
-        new_ref.observe(.value, with: { snapshot in
-          var newItems: [BetItem] = []
-          for item in snapshot.children {
-            let betItem = BetItem(snapshot: item as! FIRDataSnapshot)
-            if(betItem.completed == self.completedPicked) {
-              newItems.append(betItem)
-            }
-          }
-          self.bets = newItems
-          self.betsTableView.reloadData()
-        })
-      
-      case 1:
-        challengerPicked = false
-        let new_ref = bRef.queryOrdered(byChild: "challengee_uid").queryEqual(toValue: self.profile?.key)
-        new_ref.observe(.value, with: { snapshot in
-          var newItems: [BetItem] = []
-          for item in snapshot.children {
-            let betItem = BetItem(snapshot: item as! FIRDataSnapshot)
-            if(betItem.completed == self.completedPicked) {
-              newItems.append(betItem)
-            }
-          }
-          self.bets = newItems
-          self.betsTableView.reloadData()
-        })
-    
-      default:
-        break
-    }
-  }
-  
   @IBAction func completedChanged(_ sender: UISegmentedControl) {
     switch completedController.selectedSegmentIndex
     {
@@ -367,7 +328,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         var newItems: [BetItem] = []
         for item in snapshot.children {
           let betItem = BetItem(snapshot: item as! FIRDataSnapshot)
-          if(betItem.completed == self.completedPicked) {
+          if(betItem.confirmed == false) {
             newItems.append(betItem)
           }
         }
@@ -388,13 +349,14 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         var newItems: [BetItem] = []
         for item in snapshot.children {
           let betItem = BetItem(snapshot: item as! FIRDataSnapshot)
-          if(betItem.completed == self.completedPicked) {
+          if(betItem.confirmed == true) {
             newItems.append(betItem)
           }
         }
         self.bets = newItems
         self.betsTableView.reloadData()
-      })    default:
+      })
+    default:
       break
     }
   }
