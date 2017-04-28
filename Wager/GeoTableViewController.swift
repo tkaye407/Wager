@@ -11,12 +11,14 @@ import Firebase
 import GeoFire
 import CoreLocation
 
-class GeoTableViewController: UITableViewController {
+class GeoTableViewController: UITableViewController, CLLocationManagerDelegate {
   let BET_TYPE_ALL = 0
   let BET_TYPE_POSED = 1
   let BET_TYPE_ACTIVE = 2
   let BET_TYPE_COMPLETED = 3
   var betType = 0
+  let locationManager = CLLocationManager()
+  var userLocation: CLLocation!
 
 
   //@IBOutlet weak var ChannelsButton: UIButton!
@@ -133,10 +135,41 @@ class GeoTableViewController: UITableViewController {
             self.channels.append(snapshotValue)
           }
         })
-      reloadRows()
+      self.locationManager.delegate = self
+      locationManager.requestWhenInUseAuthorization()
+      self.locationManager.requestLocation()
+      //reloadRows()
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
+  
+  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    print("In the location manager")
+    if let location = locations.first {
+      items = []
+      self.locationManager.stopUpdatingLocation()
+      let currRef = FIRDatabase.database().reference().child("Bets")
+      var new_items: [BetItem] = []
+      userLocation = location
+      let geofireRef = FIRDatabase.database().reference().child("bet_locations")
+      let geoFire = GeoFire(firebaseRef: geofireRef)
+      let circleQuery = geoFire?.query(at: userLocation, withRadius: 5)
+      circleQuery?.observe(GFEventType.init(rawValue: 0)!, with: {(key: String!, location: CLLocation!) in
+
+        currRef.child(key).observeSingleEvent(of: .value, with: { (snapshot) in
+          self.items.append(BetItem(snapshot: snapshot ))
+          print("AGAIAN - Size: \(self.items.count)")
+          print(self.items[0].name)
+          self.tableView.reloadData()
+        })
+      })
+
+    }
+  }
+  
+  func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+    print("Failed to find user's location: \(error.localizedDescription)")
+  }
   
   func reloadRows(){
     var new_ref = ref.queryOrdered(byChild: "category")
