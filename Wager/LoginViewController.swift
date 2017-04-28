@@ -29,7 +29,6 @@ class LoginViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
     self.scrollView.isScrollEnabled = false
     
     // some bullshit to allow me to mess with the keybaord
@@ -44,6 +43,7 @@ class LoginViewController: UIViewController {
     
     textFieldLoginPassword.borderStyle = .roundedRect;
     
+
     self.tabBarController?.tabBar.isHidden = true
     
     FIRAuth.auth()!.addStateDidChangeListener() { auth, user in
