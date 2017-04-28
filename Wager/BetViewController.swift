@@ -167,51 +167,78 @@ class BetViewController: UIViewController {
         self.relabelThings()
       }
       else if ((bet.winner && (self.profile.key == self.bet.challenger_uid)) || (!bet.winner && (self.profile.key == self.bet.challengee_uid)) && (bet.paid && !bet.confirmed)) {
-        let bRef = FIRDatabase.database().reference().child("Bets").child(bet.key)
-        bRef.updateChildValues(["confirmed":true])
-        bet.confirmed = true
-        self.relabelThings()
-        
-        //CHALLENGEE IS THE LOSER
-        if bet.winner {
-            // Get user value
-            var curRating = self.challengeeProfile?.rating
-            let numRatings = self.challengeeProfile?.numRatings
-            let loserPnl = self.challengeeProfile?.pnl
-            
-            curRating = (curRating!*Float(numRatings!) + 5.0)/Float(numRatings! + 1)
-            let loserRef  = FIRDatabase.database().reference().child("Profiles").child(self.bet.challengee_uid)
-            loserRef.updateChildValues(["rating":curRating as Any])
-            loserRef.updateChildValues(["num_ratings":numRatings!+1])
-            loserRef.updateChildValues(["pnl": loserPnl! - self.bet.amount])
-          
-            let winnerPnl = self.challengerProfile?.pnl
-          
-            let winnerRef = FIRDatabase.database().reference().child("Profiles").child(self.bet.challenger_uid)
-            winnerRef.updateChildValues(["pnl": winnerPnl! + self.bet.amount])
-          
-        }
-        //CHALLENGER IS THE LOSER
-        else {
-          // Get user value
-          var curRating = self.challengerProfile?.rating
-          let numRatings = self.challengerProfile?.numRatings
-          let loserPnl = self.challengerProfile?.pnl
-          
-          curRating = (curRating!*Float(numRatings!) + 5.0)/Float(numRatings! + 1)
-          let loserRef  = FIRDatabase.database().reference().child("Profiles").child(self.bet.challenger_uid)
-          loserRef.updateChildValues(["rating":curRating as Any])
-          loserRef.updateChildValues(["num_ratings":numRatings!+1])
-          loserRef.updateChildValues(["pnl": loserPnl! - self.bet.amount])
-          
-          let winnerPnl = self.challengeeProfile?.pnl
-          
-          let winnerRef = FIRDatabase.database().reference().child("Profiles").child(self.bet.challengee_uid)
-          winnerRef.updateChildValues(["pnl": winnerPnl! + self.bet.amount])
-        }
-        
+        self.confirmPayment()
       }
     }
+  }
+
+  func confirmPayment() {
+    let alertController = UIAlertController(title: "Confirm Payment", message: "Did your opponent pay up?", preferredStyle: .alert)
+    present(alertController, animated: true, completion: nil)
+    let callYes = UIAlertAction(title: "Yes", style: .default, handler: {
+      action in
+      let bRef = FIRDatabase.database().reference().child("Bets").child(self.bet.key)
+      bRef.updateChildValues(["confirmed":true])
+      self.bet.confirmed = true
+      self.relabelThings()
+      
+      //CHALLENGEE IS THE LOSER
+      if self.bet.winner {
+        // Get user value
+        var curRating = self.challengeeProfile?.rating
+        let numRatings = self.challengeeProfile?.numRatings
+        let loserPnl = self.challengeeProfile?.pnl
+        
+        curRating = (curRating!*Float(numRatings!) + 5.0)/Float(numRatings! + 1)
+        let loserRef  = FIRDatabase.database().reference().child("Profiles").child(self.bet.challengee_uid)
+        loserRef.updateChildValues(["rating":curRating as Any])
+        loserRef.updateChildValues(["num_ratings":numRatings!+1])
+        loserRef.updateChildValues(["pnl": loserPnl! - self.bet.amount])
+        
+        let winnerPnl = self.challengerProfile?.pnl
+        
+        let winnerRef = FIRDatabase.database().reference().child("Profiles").child(self.bet.challenger_uid)
+        winnerRef.updateChildValues(["pnl": winnerPnl! + self.bet.amount])
+        
+      }
+        //CHALLENGER IS THE LOSER
+      else {
+        // Get user value
+        var curRating = self.challengerProfile?.rating
+        let numRatings = self.challengerProfile?.numRatings
+        let loserPnl = self.challengerProfile?.pnl
+        
+        curRating = (curRating!*Float(numRatings!) + 5.0)/Float(numRatings! + 1)
+        let loserRef  = FIRDatabase.database().reference().child("Profiles").child(self.bet.challenger_uid)
+        loserRef.updateChildValues(["rating":curRating as Any])
+        loserRef.updateChildValues(["num_ratings":numRatings!+1])
+        loserRef.updateChildValues(["pnl": loserPnl! - self.bet.amount])
+        
+        let winnerPnl = self.challengeeProfile?.pnl
+        
+        let winnerRef = FIRDatabase.database().reference().child("Profiles").child(self.bet.challengee_uid)
+        winnerRef.updateChildValues(["pnl": winnerPnl! + self.bet.amount])
+      }
+    })
+    alertController.addAction(callYes)
+    let callNo = UIAlertAction(title: "No", style: .default, handler: {
+      action in
+      var otherProfile = self.challengerProfile
+      if (self.profile.key == self.challengerProfile?.key) {otherProfile = self.challengeeProfile}
+      var curRating = otherProfile?.rating
+      let numRatings = otherProfile?.numRatings
+      //The equivalent of giving a zero rating for not paying
+      curRating = (curRating!*Float(numRatings!))/Float(numRatings! + 1)
+      let ref  = FIRDatabase.database().reference().child("Profiles").child((otherProfile?.key)!)
+      ref.updateChildValues(["rating":curRating!])
+      ref.updateChildValues(["num_ratings":numRatings!+1])
+      otherProfile?.rating = curRating!
+      otherProfile?.numRatings = numRatings! + 1
+      self.relabelThings()
+    })
+    alertController.addAction(callNo)
+    let callCancel = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+    alertController.addAction(callCancel)
   }
   
   func loserHasNotYetPaid() {

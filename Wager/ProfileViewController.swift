@@ -52,7 +52,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     self.UserNameLabel.text = profile?.username
     self.venmoIDLabel.text = profile?.venmoID
     self.emailLabel.text = profile?.email
-    self.genderLabel.text = (profile?.gender)! + " - " + String(profile!.age)
+    
+    self.genderLabel.text = (profile?.gender)! + " - " + getAge()
     self.ratingView.rating = Int(round(profile!.rating))
     self.ratingLabel.text = String(profile!.rating)
     calculatePNL()
@@ -70,6 +71,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
       }
     }
     
+    
     let new_ref = bRef.queryOrdered(byChild: "challenger_uid").queryEqual(toValue: self.profile?.key)
     new_ref.observe(.value, with: { snapshot in
       var newItems: [BetItem] = []
@@ -84,6 +86,29 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     })
 
   }
+  
+  func getAge() -> String {
+    let ageDate = Date(timeIntervalSinceReferenceDate: TimeInterval(profile!.age))
+    let calendar = Calendar.current
+    
+    let birthYear = calendar.component(.year, from: ageDate)
+    let birthMonth = calendar.component(.month, from: ageDate)
+    let birthDay = calendar.component(.day, from: ageDate)
+    let currentYear = calendar.component(.year, from: Date())
+    let currentMonth = calendar.component(.month, from: Date())
+    let currentDay = calendar.component(.day, from: Date())
+    
+    /*print("BY: " + String(birthYear) + "\t" + "CY: " + String(currentYear))
+    print("BM: " + String(birthMonth) + "\t" + "CY: " + String(currentYear))
+    print(birthDay)*/
+    
+    var ageNum = currentYear - birthYear
+    if (currentMonth < birthMonth) {ageNum-=1}
+    else if (currentMonth == birthMonth && currentDay < birthDay) {ageNum-=1}
+    
+    return String(ageNum)
+  }
+  
 //  override func viewWillAppear(_ animated: Bool) {
 //    super.viewWillAppear(animated)
 //    calculatePNL()
