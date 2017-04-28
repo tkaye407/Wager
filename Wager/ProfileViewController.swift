@@ -290,9 +290,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
       let cell = self.betsTableView.dequeueReusableCell(withIdentifier: "ProfileBetTableViewCell") as! ProfileBetTableViewCell
       
       cell.betNameLabel.text = betItem.name
-      cell.actionButton.setTitle("Button", for: [])
       
-      cell.actionButton.addTarget(self, action: #selector(ProfileViewController.sayHi), for: UIControlEvents.touchUpInside)
       return cell
       
     }

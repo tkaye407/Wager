@@ -10,7 +10,6 @@ import UIKit
 class ProfileBetTableViewCell: UITableViewCell {
   
   @IBOutlet weak var betNameLabel: UILabel!
-  @IBOutlet weak var actionButton: UIButton!
   
   override func awakeFromNib() {
     super.awakeFromNib()
