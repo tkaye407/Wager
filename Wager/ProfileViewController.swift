@@ -11,6 +11,7 @@ import os.log
 
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource {
     
+    @IBOutlet weak var AddFriendButton: UIButton!
     @IBOutlet weak var UserNameLabel: UILabel!
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var venmoIDLabel: UILabel!
@@ -20,19 +21,15 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var betsTableView: UITableView!
     @IBOutlet weak var ratingView: RatingControl!
     @IBOutlet weak var ratingLabel: UILabel!
-    @IBOutlet weak var challengerControl: UISegmentedControl!
     @IBOutlet weak var completedController: UISegmentedControl!
     @IBOutlet weak var signUpButton: UINavigationItem!
-   
-    
-  
-    
-    
+
     //MARK: Properties
     var user: User!
     var profile: Profile?
     let pRef = FIRDatabase.database().reference(withPath: "Profiles")
     let bRef = FIRDatabase.database().reference(withPath: "Bets")
+    let fRef = FIRDatabase.database().reference(withPath: "Friends")
     var bets: [BetItem] = []
     var items: [BetItem] = []
     var selectedBet: BetItem?
@@ -52,7 +49,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     self.UserNameLabel.text = profile?.username
     self.venmoIDLabel.text = profile?.venmoID
     self.emailLabel.text = profile?.email
-    self.genderLabel.text = (profile?.gender)! + " - " + String(profile!.age)
+    
+    self.genderLabel.text = (profile?.gender)! + " - " + getAge()
     self.ratingView.rating = Int(round(profile!.rating))
     self.ratingLabel.text = String(profile!.rating)
     calculatePNL()
@@ -70,6 +68,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
       }
     }
     
+    
     let new_ref = bRef.queryOrdered(byChild: "challenger_uid").queryEqual(toValue: self.profile?.key)
     new_ref.observe(.value, with: { snapshot in
       var newItems: [BetItem] = []
@@ -84,6 +83,29 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     })
 
   }
+  
+  func getAge() -> String {
+    let ageDate = Date(timeIntervalSinceReferenceDate: TimeInterval(profile!.age))
+    let calendar = Calendar.current
+    
+    let birthYear = calendar.component(.year, from: ageDate)
+    let birthMonth = calendar.component(.month, from: ageDate)
+    let birthDay = calendar.component(.day, from: ageDate)
+    let currentYear = calendar.component(.year, from: Date())
+    let currentMonth = calendar.component(.month, from: Date())
+    let currentDay = calendar.component(.day, from: Date())
+    
+    /*print("BY: " + String(birthYear) + "\t" + "CY: " + String(currentYear))
+    print("BM: " + String(birthMonth) + "\t" + "CY: " + String(currentYear))
+    print(birthDay)*/
+    
+    var ageNum = currentYear - birthYear
+    if (currentMonth < birthMonth) {ageNum-=1}
+    else if (currentMonth == birthMonth && currentDay < birthDay) {ageNum-=1}
+    
+    return String(ageNum)
+  }
+  
 //  override func viewWillAppear(_ animated: Bool) {
 //    super.viewWillAppear(animated)
 //    calculatePNL()
@@ -99,10 +121,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
           self.user = appDelegate.user
           self.profile = appDelegate.profile
         }
+      
+      isFriend()
 
         // SET THE DELEGATE AND DATA SOURCE TO SELF
         betsTableView.delegate = self
         betsTableView.dataSource = self
+        self.completedController.selectedSegmentIndex = 1
       
         // CORNERS ON THE PROFILE IMAGE
         self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width / 2;
@@ -111,8 +136,18 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         // CALCULATE THE TEXT
         setProfile()
         calculatePNL()
-      
   }
+  
+  func isFriend() {
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    self.fRef.child((appDelegate.profile?.key)!).observeSingleEvent(of: .value, with: {snapshot in
+      if snapshot.hasChild((self.profile?.key)!) {
+        self.AddFriendButton.isEnabled = false
+        self.AddFriendButton.setTitle("Your Friend", for: .normal)
+      }
+    })
+  }
+  
     //MARK: UIImagePickerControllerDelegate
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         // Dismiss the picker if the user canceled.
@@ -193,9 +228,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
         }
     }
-    
-    
-    
+
     //MARK: Actions
     @IBAction func selectImageFromPhotoLibrary(_ sender: UITapGestureRecognizer) {
       
@@ -265,9 +298,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
       let cell = self.betsTableView.dequeueReusableCell(withIdentifier: "ProfileBetTableViewCell") as! ProfileBetTableViewCell
       
       cell.betNameLabel.text = betItem.name
-      cell.actionButton.setTitle("Button", for: [])
       
-      cell.actionButton.addTarget(self, action: #selector(ProfileViewController.sayHi), for: UIControlEvents.touchUpInside)
       return cell
       
     }
@@ -288,45 +319,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
   
   
   // MARK: Segment Control Methods
-
-  @IBAction func challengerChanged(_ sender: UISegmentedControl) {
-    switch challengerControl.selectedSegmentIndex
-    {
-      case 0:
-        challengerPicked = true
-        let new_ref = bRef.queryOrdered(byChild: "challenger_uid").queryEqual(toValue: self.profile?.key)
-        new_ref.observe(.value, with: { snapshot in
-          var newItems: [BetItem] = []
-          for item in snapshot.children {
-            let betItem = BetItem(snapshot: item as! FIRDataSnapshot)
-            if(betItem.completed == self.completedPicked) {
-              newItems.append(betItem)
-            }
-          }
-          self.bets = newItems
-          self.betsTableView.reloadData()
-        })
-      
-      case 1:
-        challengerPicked = false
-        let new_ref = bRef.queryOrdered(byChild: "challengee_uid").queryEqual(toValue: self.profile?.key)
-        new_ref.observe(.value, with: { snapshot in
-          var newItems: [BetItem] = []
-          for item in snapshot.children {
-            let betItem = BetItem(snapshot: item as! FIRDataSnapshot)
-            if(betItem.completed == self.completedPicked) {
-              newItems.append(betItem)
-            }
-          }
-          self.bets = newItems
-          self.betsTableView.reloadData()
-        })
-    
-      default:
-        break
-    }
-  }
-  
   @IBAction func completedChanged(_ sender: UISegmentedControl) {
     switch completedController.selectedSegmentIndex
     {
@@ -344,7 +336,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         var newItems: [BetItem] = []
         for item in snapshot.children {
           let betItem = BetItem(snapshot: item as! FIRDataSnapshot)
-          if(betItem.completed == self.completedPicked) {
+          if(betItem.confirmed == false) {
             newItems.append(betItem)
           }
         }
@@ -365,16 +357,22 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         var newItems: [BetItem] = []
         for item in snapshot.children {
           let betItem = BetItem(snapshot: item as! FIRDataSnapshot)
-          if(betItem.completed == self.completedPicked) {
+          if(betItem.confirmed == true) {
             newItems.append(betItem)
           }
         }
         self.bets = newItems
         self.betsTableView.reloadData()
-      })    default:
+      })
+    default:
       break
     }
   }
   
+    @IBAction func AddFriendButtonTouched(_ sender: Any) {
+      let appDelegate = UIApplication.shared.delegate as! AppDelegate
+      let profRef = fRef.child((appDelegate.profile?.key)!).child((self.profile?.key)!)
+      profRef.setValue(self.profile?.username)
+  }
 
 }

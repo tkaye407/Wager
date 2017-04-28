@@ -9,33 +9,26 @@ import Firebase
 import UIKit
 
 
-class NewProfileViewController: UIViewController {
+class NewProfileViewController: UIViewController,UIImagePickerControllerDelegate, UINavigationControllerDelegate{
   
   let ref = FIRDatabase.database().reference(withPath: "Profiles")
-  
+
   @IBOutlet weak var EmailText: UITextField!
   @IBOutlet weak var PasswordText: UITextField!
   @IBOutlet weak var UsernameText: UITextField!
-  
+  @IBOutlet weak var profileImageView: UIImageView!
+  @IBOutlet weak var genderPicker: UISegmentedControl!
   @IBOutlet weak var FirstNameText: UITextField!
   @IBOutlet weak var LastNameText: UITextField!
-  @IBOutlet weak var AgeText: UITextField!
   @IBOutlet weak var VenmoIdText: UITextField!
-  @IBOutlet weak var GenderText: UITextField!
   
-  
+
   @IBAction func SignUpPressed(_ sender: Any) {
     /*purge inputs*/
     if (self.EmailText.text! == "") {errorHandler(errorString: "Email cannot be empty"); return}
     if (self.PasswordText.text!.characters.count < 6) {errorHandler(errorString: "Password must be 6 or more characters"); return}
     if (self.FirstNameText.text! == "") {errorHandler(errorString: "First Name cannot be empty"); return}
     if (self.LastNameText.text! == "") {errorHandler(errorString: "Last Name cannot be empty"); return}
-    let pattern1 = "^[0-9]*$"
-    let regex1 = try! NSRegularExpression(pattern: pattern1, options: [])
-    if (regex1.matches(in: self.AgeText.text!, options: [], range: NSRange(location: 0, length: self.AgeText.text!.characters.count)).count == 0) {
-      errorHandler(errorString: "Age must be only digits")
-      return
-    }
     let usernameStr = self.UsernameText.text!
     if (usernameStr == "") {errorHandler(errorString: "Username cannot be empty"); return}
     if (usernameStr.characters.count < 4) {errorHandler(errorString: "Username must be at least 4 characters"); return}
@@ -55,17 +48,22 @@ class NewProfileViewController: UIViewController {
       }
     })
     if (isSeen) {errorHandler(errorString: "Username is already in use"); return}*/
-    
-    
+
     FIRAuth.auth()!.createUser(withEmail: self.EmailText.text!, password: self.PasswordText.text!) {user, error in
       if error == nil {
         FIRAuth.auth()!.signIn(withEmail: self.EmailText.text!, password: self.PasswordText.text!)
         
-        var ageNum = self.AgeText.text!
-        if (ageNum == "") {ageNum = "-1"}
+        // change gender to be picker button text
         let newProfRef = self.ref.childByAutoId()
-        let profItem = Profile(firstName: self.FirstNameText.text!, lastName: self.LastNameText.text!, email: self.EmailText.text!, pnl: 0, age: Int(ageNum)!, venmoID: self.VenmoIdText.text!, gender: self.GenderText.text!, key: (user?.uid)!, userID: (user?.uid)!, username: self.UsernameText.text!)
+        let profItem = Profile(firstName: self.FirstNameText.text!, lastName: self.LastNameText.text!, email: self.EmailText.text!, pnl: 0, age: 18, venmoID: self.VenmoIdText.text!, gender: "Male", userID: (user?.uid)!, username: self.UsernameText.text!)
         newProfRef.setValue(profItem.toAnyObject())
+        
+        let storageRef = FIRStorage.storage().reference().child((user?.uid)!)
+        let finalImage = UIImagePNGRepresentation(self.profileImageView.image!)
+        storageRef.put(finalImage!, metadata: nil, completion: {(metadata, error) in
+            if(error != nil) {print("error"); return}
+            else{ print("metadata")}
+        })
       }
     }
   }
@@ -76,4 +74,51 @@ class NewProfileViewController: UIViewController {
     let callOK = UIAlertAction(title: "OK", style: .default, handler: nil)
     alertController.addAction(callOK)
   }
+    
+    
+    //MARK: UIImagePickerControllerDelegate
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        // Dismiss the picker if the user canceled.
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        // The info dictionary may contain multiple representations of the image. You want to use the original.
+        guard let selectedImage = info[UIImagePickerControllerOriginalImage] as? UIImage else {
+            fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
+        }
+        
+        profileImageView.image = selectedImage
+        // Dismiss the picker.
+        dismiss(animated: true, completion: nil)
+    }
+    
+    //MARK: Actions
+    @IBAction func selectImageFromPhotoLibrary(_ sender: UITapGestureRecognizer) {
+     
+        // UIImagePickerController is a view controller that lets a user pick media from their photo library.
+        let imagePickerController = UIImagePickerController()
+            
+        // Only allow photos to be picked, not taken.
+        imagePickerController.sourceType = .photoLibrary
+            
+            // Make sure ViewController is notified when the user picks an image.
+        imagePickerController.delegate = self
+            present(imagePickerController, animated: true, completion: nil)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // CORNERS ON THE PROFILE IMAGE
+        self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width / 2;
+        self.profileImageView.clipsToBounds = true;
+    }
+}
+
+    extension NewProfileViewController: UITextFieldDelegate {
+        
+        func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+            return true
+    }
 }
