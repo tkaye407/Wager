@@ -23,13 +23,13 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wager" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XlR-6D-pNE">
-                                <rect key="frame" x="21" y="28" width="338" height="88"/>
+                                <rect key="frame" x="21" y="72" width="338" height="88"/>
                                 <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="64"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7V0-Ee-jZf">
-                                <rect key="frame" x="-1" y="154" width="376" height="513"/>
+                                <rect key="frame" x="-1" y="198" width="376" height="425"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hxW-pl-K5k">
                                         <rect key="frame" x="16" y="64" width="342" height="50"/>
@@ -786,12 +786,21 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="qkA-aQ-TxL">
+                        <nil key="title"/>
                         <barButtonItem key="leftBarButtonItem" title="Sign Out" id="JGv-pM-Pwr">
                             <color key="tintColor" red="0.99989169836044312" green="1" blue="0.99988096952438354" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
                                 <segue destination="vXZ-lx-hvc" kind="show" identifier="signOut" id="0Lg-Br-ZJD"/>
                             </connections>
                         </barButtonItem>
+                        <button key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="wA9-GB-Tb8">
+                            <rect key="frame" x="112.5" y="7" width="150" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Add Friend"/>
+                            <connections>
+                                <action selector="AddFriendButtonTouched:" destination="uzT-6q-WAv" eventType="touchUpInside" id="dka-HP-TVd"/>
+                            </connections>
+                        </button>
                         <barButtonItem key="rightBarButtonItem" systemItem="edit" id="QMJ-1h-EZ7">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
@@ -801,6 +810,7 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="AddFriendButton" destination="wA9-GB-Tb8" id="76X-oo-ids"/>
                         <outlet property="UserNameLabel" destination="A9h-Cq-Yjz" id="6rT-ur-MLt"/>
                         <outlet property="betsTableView" destination="WNj-Js-Zyf" id="36n-FT-vEg"/>
                         <outlet property="completedController" destination="Ms7-HU-5VY" id="zSb-ix-Q2I"/>

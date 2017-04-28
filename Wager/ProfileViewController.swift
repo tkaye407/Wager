@@ -11,6 +11,7 @@ import os.log
 
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource {
     
+    @IBOutlet weak var AddFriendButton: UIButton!
     @IBOutlet weak var UserNameLabel: UILabel!
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var venmoIDLabel: UILabel!
@@ -22,16 +23,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var ratingLabel: UILabel!
     @IBOutlet weak var completedController: UISegmentedControl!
     @IBOutlet weak var signUpButton: UINavigationItem!
-   
-    
-  
-    
     
     //MARK: Properties
     var user: User!
     var profile: Profile?
     let pRef = FIRDatabase.database().reference(withPath: "Profiles")
     let bRef = FIRDatabase.database().reference(withPath: "Bets")
+    let fRef = FIRDatabase.database().reference(withPath: "Friends")
     var bets: [BetItem] = []
     var items: [BetItem] = []
     var selectedBet: BetItem?
@@ -123,6 +121,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
           self.user = appDelegate.user
           self.profile = appDelegate.profile
         }
+      
+      isFriend()
 
         // SET THE DELEGATE AND DATA SOURCE TO SELF
         betsTableView.delegate = self
@@ -136,8 +136,18 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         // CALCULATE THE TEXT
         setProfile()
         calculatePNL()
-      
   }
+  
+  func isFriend() {
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    self.fRef.child((appDelegate.profile?.key)!).observeSingleEvent(of: .value, with: {snapshot in
+      if snapshot.hasChild((self.profile?.key)!) {
+        self.AddFriendButton.isEnabled = false
+        self.AddFriendButton.setTitle("Your Friend", for: .normal)
+      }
+    })
+  }
+  
     //MARK: UIImagePickerControllerDelegate
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         // Dismiss the picker if the user canceled.
@@ -361,5 +371,10 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
   }
   
+    @IBAction func AddFriendButtonTouched(_ sender: Any) {
+      let appDelegate = UIApplication.shared.delegate as! AppDelegate
+      let profRef = fRef.child((appDelegate.profile?.key)!).child((self.profile?.key)!)
+      profRef.setValue(self.profile?.username)
+  }
 
 }
