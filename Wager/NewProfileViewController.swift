@@ -16,10 +16,9 @@ class NewProfileViewController: UIViewController {
   @IBOutlet weak var EmailText: UITextField!
   @IBOutlet weak var PasswordText: UITextField!
   @IBOutlet weak var UsernameText: UITextField!
-  
+  @IBOutlet weak var birthdayPicker: UIDatePicker!
   @IBOutlet weak var FirstNameText: UITextField!
   @IBOutlet weak var LastNameText: UITextField!
-  @IBOutlet weak var AgeText: UITextField!
   @IBOutlet weak var VenmoIdText: UITextField!
   @IBOutlet weak var GenderText: UITextField!
   
@@ -30,12 +29,6 @@ class NewProfileViewController: UIViewController {
     if (self.PasswordText.text!.characters.count < 6) {errorHandler(errorString: "Password must be 6 or more characters"); return}
     if (self.FirstNameText.text! == "") {errorHandler(errorString: "First Name cannot be empty"); return}
     if (self.LastNameText.text! == "") {errorHandler(errorString: "Last Name cannot be empty"); return}
-    let pattern1 = "^[0-9]*$"
-    let regex1 = try! NSRegularExpression(pattern: pattern1, options: [])
-    if (regex1.matches(in: self.AgeText.text!, options: [], range: NSRange(location: 0, length: self.AgeText.text!.characters.count)).count == 0) {
-      errorHandler(errorString: "Age must be only digits")
-      return
-    }
     let usernameStr = self.UsernameText.text!
     if (usernameStr == "") {errorHandler(errorString: "Username cannot be empty"); return}
     if (usernameStr.characters.count < 4) {errorHandler(errorString: "Username must be at least 4 characters"); return}
@@ -55,16 +48,14 @@ class NewProfileViewController: UIViewController {
       }
     })
     if (isSeen) {errorHandler(errorString: "Username is already in use"); return}*/
-    
-    
+
     FIRAuth.auth()!.createUser(withEmail: self.EmailText.text!, password: self.PasswordText.text!) {user, error in
       if error == nil {
         FIRAuth.auth()!.signIn(withEmail: self.EmailText.text!, password: self.PasswordText.text!)
         
-        var ageNum = self.AgeText.text!
-        if (ageNum == "") {ageNum = "-1"}
+        let ageNum = self.birthdayPicker.date.timeIntervalSinceReferenceDate
         let newProfRef = self.ref.childByAutoId()
-        let profItem = Profile(firstName: self.FirstNameText.text!, lastName: self.LastNameText.text!, email: self.EmailText.text!, pnl: 0, age: Int(ageNum)!, venmoID: self.VenmoIdText.text!, gender: self.GenderText.text!, key: (user?.uid)!, userID: (user?.uid)!, username: self.UsernameText.text!)
+        let profItem = Profile(firstName: self.FirstNameText.text!, lastName: self.LastNameText.text!, email: self.EmailText.text!, pnl: 0, age: Int(ageNum), venmoID: self.VenmoIdText.text!, gender: self.GenderText.text!, userID: (user?.uid)!, username: self.UsernameText.text!)
         newProfRef.setValue(profItem.toAnyObject())
       }
     }
