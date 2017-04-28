@@ -213,6 +213,11 @@
 			attributes = {
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "";
+				TargetAttributes = {
+					7A5875F31EAD8A3600DD8D18 = {
+						DevelopmentTeam = WKRZ8G7B5R;
+					};
+				};
 			};
 			buildConfigurationList = BB2385571B3DD5AB0079CD01 /* Build configuration list for PBXProject "Wager" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -350,7 +355,7 @@
 				CODE_SIGN_ENTITLEMENTS = Wager/Wager.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = WKRZ8G7B5R;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -375,7 +380,7 @@
 				CODE_SIGN_ENTITLEMENTS = Wager/Wager.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = WKRZ8G7B5R;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
