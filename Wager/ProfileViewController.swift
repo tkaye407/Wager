@@ -23,10 +23,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var completedController: UISegmentedControl!
     @IBOutlet weak var signUpButton: UINavigationItem!
    
-    
-  
-    
-    
     //MARK: Properties
     var user: User!
     var profile: Profile?
@@ -218,9 +214,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
         }
     }
-    
-    
-    
+
     //MARK: Actions
     @IBAction func selectImageFromPhotoLibrary(_ sender: UITapGestureRecognizer) {
       
