@@ -31,6 +31,7 @@
 		B654BD12F106E7B559C16CA2 /* Pods_Wager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60EB3A0568227607F3FCD20B /* Pods_Wager.framework */; };
 		FF7306D71EB3AA820038B0A5 /* GeoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7306D61EB3AA820038B0A5 /* GeoTableViewController.swift */; };
 		FF7306D91EB3B64D0038B0A5 /* GeoBetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7306D81EB3B64D0038B0A5 /* GeoBetTableViewCell.swift */; };
+		FF7306DB1EB3E3C00038B0A5 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7306DA1EB3E3C00038B0A5 /* FilterViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +62,7 @@
 		FF389D001E91D99D00EF0DF9 /* BetItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BetItem.swift; path = ../BetItem.swift; sourceTree = "<group>"; };
 		FF7306D61EB3AA820038B0A5 /* GeoTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeoTableViewController.swift; sourceTree = "<group>"; };
 		FF7306D81EB3B64D0038B0A5 /* GeoBetTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeoBetTableViewCell.swift; sourceTree = "<group>"; };
+		FF7306DA1EB3E3C00038B0A5 /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		FF9317FD1E95B3880060FDCB /* BetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BetViewController.swift; sourceTree = "<group>"; };
 		FF9D7E351E96AE9A00B37448 /* BetTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BetTableViewCell.swift; sourceTree = "<group>"; };
 		FFD3FDE81E981BF8009A1AC2 /* Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 		BB2385811B3DD8310079CD01 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				FF7306DA1EB3E3C00038B0A5 /* FilterViewController.swift */,
 				FF7306D61EB3AA820038B0A5 /* GeoTableViewController.swift */,
 				FF341FC91EAA9425007DC11D /* EditBetViewController.swift */,
 				FF9317FD1E95B3880060FDCB /* BetViewController.swift */,
@@ -324,6 +327,7 @@
 				7A5875FE1EAD8A3600DD8D18 /* User.swift in Sources */,
 				7A5876001EAD8A3600DD8D18 /* ProfileViewController.swift in Sources */,
 				7A5876011EAD8A3600DD8D18 /* EditBetViewController.swift in Sources */,
+				FF7306DB1EB3E3C00038B0A5 /* FilterViewController.swift in Sources */,
 				FF7306D91EB3B64D0038B0A5 /* GeoBetTableViewCell.swift in Sources */,
 				7A5876021EAD8A3600DD8D18 /* NewProfileViewController.swift in Sources */,
 				07611C081EAE700B0022F91A /* SearchTableViewCell.swift in Sources */,

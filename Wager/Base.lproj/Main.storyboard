@@ -337,7 +337,7 @@
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="AGP-Hw-zZu">
                                 <rect key="frame" x="16" y="7" width="83" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Channels"/>
+                                <state key="normal" title="Apply Filter"/>
                                 <connections>
                                     <action selector="ChannelSelect:" destination="WRG-qR-ebT" eventType="touchUpInside" id="sq3-Ye-p2J"/>
                                 </connections>
@@ -362,11 +362,85 @@
                     <connections>
                         <outlet property="ChannelsButton" destination="AGP-Hw-zZu" id="q3Q-zB-QlZ"/>
                         <outlet property="TypeButton" destination="8oq-cR-qh6" id="S9m-mb-Ukp"/>
+                        <segue destination="wz1-JI-0r4" kind="showDetail" identifier="applyFilter" action="showViewController:sender:" id="UrO-MW-YbC"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fRX-FK-8Yw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2729" y="397"/>
+            <point key="canvasLocation" x="2804" y="398"/>
+        </scene>
+        <!--Filter View Controller-->
+        <scene sceneID="T36-8q-GcS">
+            <objects>
+                <viewController id="wz1-JI-0r4" customClass="FilterViewController" customModule="Wager" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Qi7-CF-qkw"/>
+                        <viewControllerLayoutGuide type="bottom" id="aw9-U7-eiW"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Rdx-bf-qvc">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iqD-bK-4ti">
+                                <rect key="frame" x="37" y="174" width="301" height="154"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            </pickerView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Select Category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CQW-0H-HKA">
+                                <rect key="frame" x="16" y="151" width="123" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="muF-3Q-oUU">
+                                <rect key="frame" x="16" y="60" width="322" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="All Bets"/>
+                                    <segment title="Bets Near You"/>
+                                </segments>
+                            </segmentedControl>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="jj3-sS-hvw">
+                                <rect key="frame" x="27" y="394" width="320" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="All"/>
+                                    <segment title="Open"/>
+                                    <segment title="Active"/>
+                                    <segment title="Completed"/>
+                                </segments>
+                            </segmentedControl>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d2s-GR-jCu">
+                                <rect key="frame" x="106" y="430" width="162" height="46"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Apply Filters"/>
+                                <connections>
+                                    <action selector="applyFilters:" destination="wz1-JI-0r4" eventType="touchUpInside" id="WYk-4G-Axd"/>
+                                </connections>
+                            </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="gAV-2y-gUO">
+                                <rect key="frame" x="86" y="115" width="183" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="All Bets"/>
+                                    <segment title="Friends Only"/>
+                                </segments>
+                            </segmentedControl>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="applyFiltersButton" destination="d2s-GR-jCu" id="CB3-E5-2i0"/>
+                        <outlet property="categoryOption" destination="iqD-bK-4ti" id="oev-9P-OSJ"/>
+                        <outlet property="friendsOption" destination="gAV-2y-gUO" id="W4D-c7-Sea"/>
+                        <outlet property="geoOption" destination="muF-3Q-oUU" id="KB2-nC-h2I"/>
+                        <outlet property="typeOption" destination="jj3-sS-hvw" id="GrM-7R-PNf"/>
+                        <segue destination="WRG-qR-ebT" kind="show" identifier="backToList" id="yoL-jb-eGv"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Xb7-Jh-SZI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3770" y="399"/>
         </scene>
         <!--Bet View Controller-->
         <scene sceneID="mxU-NZ-bd7">
@@ -1359,7 +1433,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ou5-Ek-LHH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3690" y="399"/>
+            <point key="canvasLocation" x="2225" y="2476"/>
         </scene>
         <!--Profile-->
         <scene sceneID="qjY-3a-yYr">
@@ -1616,16 +1690,12 @@
         <image name="upload" width="262" height="264"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="4xA-VP-Nd4"/>
-        <segue reference="X5R-uD-NIN"/>
-        <segue reference="z0j-GH-Upb"/>
-        <segue reference="ujZ-n3-ETv"/>
-        <segue reference="0Lg-Br-ZJD"/>
-        <segue reference="sTM-qw-YuI"/>
         <segue reference="YGd-c0-b6a"/>
         <segue reference="Zkz-bK-f84"/>
         <segue reference="sTM-qw-YuI"/>
         <segue reference="upF-IU-j5K"/>
-        <segue reference="IgS-LP-HoH"/>
+        <segue reference="yoL-jb-eGv"/>
+        <segue reference="NQl-yW-VlT"/>
+        <segue reference="pAj-XM-b1q"/>
     </inferredMetricsTieBreakers>
 </document>
