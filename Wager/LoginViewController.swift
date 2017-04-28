@@ -29,12 +29,12 @@ class LoginViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.scrollView.isScrollEnabled = false
+   // self.scrollView.isScrollEnabled = false
     
     // some bullshit to allow me to mess with the keybaord
     NotificationCenter.default.addObserver(self, selector: #selector(LoginViewController.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
     
-    NotificationCenter.default.addObserver(self, selector: #selector(LoginViewController.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(LoginViewController.keyboardDidHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     
     
     signupButton.layer.borderColor = UIColor.white.cgColor
@@ -59,19 +59,20 @@ class LoginViewController: UIViewController {
     let keyboardFrame:NSValue = userInfo.value(forKey: UIKeyboardFrameEndUserInfoKey) as! NSValue
     let keyboardRectangle = keyboardFrame.cgRectValue
     let keyboardHeight = keyboardRectangle.height
-    let height = UIScreen.main.bounds.size.height-keyboardHeight+25
+    let height = UIScreen.main.bounds.size.height-keyboardHeight+200
     
     if (UIScreen.main.bounds.size.height < 600)
     {
     self.scrollView.isScrollEnabled = true
     self.scrollView.contentSize=CGSize(width: self.scrollView.contentSize.width, height: height)
+    print(UIScreen.main.bounds.size.height)
+    print(height)
     }
     
    
-    
   }
   
-  func keyboardWillHide(notification:NSNotification) {
+  func keyboardDidHide(notification:NSNotification) {
     self.scrollView.setContentOffset(CGPoint(x: 0, y:0), animated: true)
     self.scrollView.isScrollEnabled = false
   }
