@@ -60,8 +60,12 @@ class LoginViewController: UIViewController {
     let keyboardRectangle = keyboardFrame.cgRectValue
     let keyboardHeight = keyboardRectangle.height
     let height = UIScreen.main.bounds.size.height-keyboardHeight+25
+    
+    if (UIScreen.main.bounds.size.height < 600)
+    {
     self.scrollView.isScrollEnabled = true
-self.scrollView.contentSize=CGSize(width: self.scrollView.contentSize.width, height: height)
+    self.scrollView.contentSize=CGSize(width: self.scrollView.contentSize.width, height: height)
+    }
     
    
     
