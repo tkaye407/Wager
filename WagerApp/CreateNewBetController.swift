@@ -28,7 +28,6 @@ class CreateNewBetController: UIViewController,  UIPickerViewDelegate, UIPickerV
   
   
   @IBAction func CreateNewBetPressed(_ sender: AnyObject) {
-    self.locationManager.requestLocation()
     /*purge inputs*/
     let amount_as_float = Float(amountText.text!)
     if (reasonText.text! == "") {errorHandler(errorString: "Bet reason cannot be empty"); return}
@@ -47,7 +46,7 @@ class CreateNewBetController: UIViewController,  UIPickerViewDelegate, UIPickerV
     betItemRef.setValue(betItem.toAnyObject())
     let geofireRef = FIRDatabase.database().reference().child("bet_locations")
     let geoFire = GeoFire(firebaseRef: geofireRef)
-    geoFire?.setLocation(CLLocation(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude), forKey: "user_id0")
+    geoFire?.setLocation(userLocation, forKey: betItemRef.key)
   }
 
   func errorHandler(errorString: String) {
@@ -81,7 +80,9 @@ class CreateNewBetController: UIViewController,  UIPickerViewDelegate, UIPickerV
     amountText.keyboardType = UIKeyboardType.numberPad
     
     self.locationManager.delegate = self
-    locationManager.requestAlwaysAuthorization()
+    locationManager.requestWhenInUseAuthorization()
+    self.locationManager.requestLocation()
+
   }
   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     if let location = locations.first {
