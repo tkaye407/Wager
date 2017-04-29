@@ -6,6 +6,7 @@
 
 import UIKit
 import Firebase
+import GeoFire
 
 class BetListTableViewController: UITableViewController {
   
@@ -109,6 +110,7 @@ class BetListTableViewController: UITableViewController {
   let ref = FIRDatabase.database().reference(withPath: "Bets")
   let refChannel = FIRDatabase.database().reference(withPath: "Categories")
   let pRef = FIRDatabase.database().reference(withPath: "Profiles")
+  let fRef = FIRDatabase.database().reference(withPath: "Friends")
 
   var items: [BetItem] = []
   var channels: [String] = []
@@ -120,23 +122,38 @@ class BetListTableViewController: UITableViewController {
   // MARK: UIViewController Lifecycle
   
   func reloadRows(){
+    print((self.profile?.email)! + "\n\n")
     var new_ref = ref.queryOrdered(byChild: "category")
     if (channelName != "") {new_ref = ref.queryOrdered(byChild: "category").queryEqual(toValue: channelName)}
     new_ref.observe(.value, with: { snapshot in
-      var newItems: [BetItem] = []
-      
+      self.items = []
       for item in snapshot.children {
         let betItem = BetItem(snapshot: item as! FIRDataSnapshot)
-        if (self.betType == self.BET_TYPE_ALL) {newItems.append(betItem) }
-        else if(self.betType == self.BET_TYPE_POSED && !betItem.accepted) {newItems.append(betItem) }
-        else if(self.betType == self.BET_TYPE_ACTIVE && betItem.accepted && !betItem.completed) {newItems.append(betItem) }
-        else if(self.betType == self.BET_TYPE_COMPLETED && betItem.completed) {newItems.append(betItem) }
+        self.checkFriends(betItem: betItem)
       }
-      self.items = newItems.sorted{ $0.date_opened > $1.date_opened }
-
+      self.items = self.items.sorted{ $0.date_opened > $1.date_opened }
       self.tableView.reloadData()
     })
 }
+  
+  func checkFriends(betItem: BetItem) {
+    print(self.profile?.key)
+    self.fRef.child(self.profile!.key).observeSingleEvent(of: .value, with: {snapshot in
+      print(betItem.challenger_uid)
+      if (snapshot.hasChild(betItem.challenger_uid)) {
+        if (self.betType == self.BET_TYPE_ALL) {self.addVal(betItem: betItem) }
+        else if(self.betType == self.BET_TYPE_POSED && !betItem.accepted) {self.addVal(betItem: betItem) }
+        else if(self.betType == self.BET_TYPE_ACTIVE && betItem.accepted && !betItem.completed) {self.addVal(betItem: betItem) }
+        else if(self.betType == self.BET_TYPE_COMPLETED && betItem.completed) {self.addVal(betItem: betItem) }
+      }
+    })
+  }
+  
+  func addVal(betItem: BetItem) {
+    print("Hello")
+    items.append(betItem)
+    self.tableView.reloadData()
+  }
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -161,14 +178,9 @@ class BetListTableViewController: UITableViewController {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.user = self.user as? User!
         appDelegate.profile = self.profile as? Profile!
+        self.reloadRows()
       })
-      
-
-
     }
-    
-    
-    reloadRows()
   }
   
   // MARK: UITableView Delegate methods

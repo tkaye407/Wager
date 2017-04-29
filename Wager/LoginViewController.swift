@@ -23,8 +23,14 @@ class LoginViewController: UIViewController {
   
   // MARK: Actions
   @IBAction func loginDidTouch(_ sender: AnyObject) {
-    FIRAuth.auth()!.signIn(withEmail: textFieldLoginEmail.text!,
-                           password: textFieldLoginPassword.text!)
+    FIRAuth.auth()!.signIn(withEmail: textFieldLoginEmail.text!, password: textFieldLoginPassword.text!, completion: {(user, error) in
+      if (error != nil) {
+        let alertController = UIAlertController(title: "Sign In Failed", message: "One of username/password is incorrect", preferredStyle: .alert)
+        self.present(alertController, animated: true, completion: nil)
+        let callOK = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(callOK)
+      }
+    })
   }
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -51,6 +57,7 @@ class LoginViewController: UIViewController {
     signupButton.layer.borderColor = UIColor.white.cgColor
     textFieldLoginEmail.borderStyle = .roundedRect
     textFieldLoginPassword.borderStyle = .roundedRect;
+
     self.tabBarController?.tabBar.isHidden = true
     
     FIRAuth.auth()!.addStateDidChangeListener() { auth, user in

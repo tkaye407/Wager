@@ -43,6 +43,9 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Allows user to select profile photo - bitch</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<string>Allows user to select profile photo - stuff</string>
 </dict>
 </plist>

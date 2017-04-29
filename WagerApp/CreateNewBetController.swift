@@ -7,8 +7,9 @@
 
 import UIKit
 import Firebase
+import GeoFire
 
-class CreateNewBetController: UIViewController,  UIPickerViewDelegate, UIPickerViewDataSource {
+class CreateNewBetController: UIViewController,  UIPickerViewDelegate, UIPickerViewDataSource, CLLocationManagerDelegate {
 
   @IBOutlet weak var reasonText: UITextField!
   let ref = FIRDatabase.database().reference(withPath: "Bets")
@@ -20,6 +21,10 @@ class CreateNewBetController: UIViewController,  UIPickerViewDelegate, UIPickerV
   var pickerData: [String] = [String]()
   let MAX_BET = Float(500.0)
   @IBOutlet weak var descriptionLabel: UITextField!
+  let locationManager = CLLocationManager()
+  var userLocation: CLLocation!
+
+
   
   
   @IBAction func CreateNewBetPressed(_ sender: AnyObject) {
@@ -38,7 +43,10 @@ class CreateNewBetController: UIViewController,  UIPickerViewDelegate, UIPickerV
     let cat = pickerData[catPicker.selectedRow(inComponent: 0)]
     
     let betItem = BetItem(name: reasonText.text!, description: self.descriptionLabel.text!, challenger_uid: self.profile.key, challenger_name: self.profile.firstName + " " + self.profile.lastName, date_opened: Date().timeIntervalSinceReferenceDate, date_closed: Date().timeIntervalSinceReferenceDate, category: cat, amount: amount_as_float!)
-      betItemRef.setValue(betItem.toAnyObject())
+    betItemRef.setValue(betItem.toAnyObject())
+    let geofireRef = FIRDatabase.database().reference().child("bet_locations")
+    let geoFire = GeoFire(firebaseRef: geofireRef)
+    geoFire?.setLocation(userLocation, forKey: betItemRef.key)
   }
 
   func errorHandler(errorString: String) {
@@ -70,7 +78,20 @@ class CreateNewBetController: UIViewController,  UIPickerViewDelegate, UIPickerV
     })
     
     amountText.keyboardType = UIKeyboardType.numberPad
+    
+    self.locationManager.delegate = self
+    locationManager.requestWhenInUseAuthorization()
+    self.locationManager.requestLocation()
 
+  }
+  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    if let location = locations.first {
+      userLocation = location
+    }
+  }
+  
+  func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+    print("Failed to find user's location: \(error.localizedDescription)")
   }
   
   func numberOfComponents(in pickerView: UIPickerView) -> Int {
