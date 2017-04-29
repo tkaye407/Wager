@@ -328,6 +328,13 @@ class BetViewController: UIViewController {
       self.relabelThings()
     })
     alertController.addAction(DontPay)
+    let DisputeOutcome = UIAlertAction(title: "Dispute Outcome", style: .default, handler: {
+      action in
+      print("Outcome is disputed")
+      bRef.updateChildValues(["arbitration": true])
+    })
+    alertController.addAction(DisputeOutcome)
+      
     self.present(alertController, animated: true, completion: nil)
   }
   
