@@ -1743,5 +1743,13 @@
         <image name="profileIcon" width="26" height="27"/>
         <image name="upload" width="262" height="264"/>
     </resources>
-    
+    <inferredMetricsTieBreakers>
+        <segue reference="j9f-E0-mFL"/>
+        <segue reference="pAj-XM-b1q"/>
+        <segue reference="yoL-jb-eGv"/>
+        <segue reference="z0j-GH-Upb"/>
+        <segue reference="sTM-qw-YuI"/>
+        <segue reference="upF-IU-j5K"/>
+        <segue reference="yUp-bl-tG5"/>
+    </inferredMetricsTieBreakers>
 </document>

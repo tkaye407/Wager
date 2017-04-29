@@ -15,6 +15,9 @@ class FilterViewController: UIViewController, UIPickerViewDelegate, UIPickerView
   @IBOutlet weak var geoOption: UISegmentedControl!
   @IBOutlet weak var categoryOption: UIPickerView!
   @IBOutlet weak var typeOption: UISegmentedControl!
+  var fint = 100
+  var gint = 100
+  var tint = 100
   let cRef = FIRDatabase.database().reference(withPath: "Categories")
   var categories: [String] = [String]()
 
@@ -36,6 +39,16 @@ class FilterViewController: UIViewController, UIPickerViewDelegate, UIPickerView
           }
           self.categoryOption.reloadAllComponents();
         })
+      
+      if (fint != 100) {
+        friendsOption.selectedSegmentIndex = fint
+      }
+      if (gint != 100) {
+        geoOption.selectedSegmentIndex = gint
+      }
+      if (tint != 100) {
+        typeOption.selectedSegmentIndex = tint
+      }
       
 
         // Do any additional setup after loading the view.

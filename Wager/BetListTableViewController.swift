@@ -246,6 +246,14 @@ class BetListTableViewController: UITableViewController, CLLocationManagerDelega
     else if (segue.identifier == "toProfileController") {
       let vc = segue.destination as! ProfileViewController
     }
+    else if (segue.identifier == "applyFilter") {
+      let vc = segue.destination as! FilterViewController
+      vc.fint = self.friendsOnly
+      vc.tint = self.betType
+      if(self.geo) {vc.gint = 1}
+      else {vc.gint = 0}
+
+    }
   }
 }
 
