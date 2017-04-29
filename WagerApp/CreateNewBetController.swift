@@ -48,6 +48,26 @@ class CreateNewBetController: UIViewController,  UIPickerViewDelegate, UIPickerV
     let geoFire = GeoFire(firebaseRef: geofireRef)
     geoFire?.setLocation(userLocation, forKey: betItemRef.key)
   }
+  
+  /*func createLotsOfBets() {
+    for _ in 1...500{
+      let betItemRef = ref.childByAutoId()
+      let betItem = BetItem(name: betItemRef.description(), description: "", challenger_uid: self.profile.key, challenger_name: "Mike", date_opened: Date().timeIntervalSinceReferenceDate, date_closed: Date().timeIntervalSinceReferenceDate, category: "Baseball", amount: 1)
+      betItemRef.setValue(betItem.toAnyObject())
+      let geofireRef = FIRDatabase.database().reference().child("bet_locations")
+      let geoFire = GeoFire(firebaseRef: geofireRef)
+      geoFire?.setLocation(userLocation, forKey: betItemRef.key)
+    }
+    
+    for _ in 1...500 {
+      let betItemRef = ref.childByAutoId()
+      let betItem = BetItem(name: betItemRef.description(), description: "", challenger_uid: "-KhTGIJ_oaFE6F-3K74v", challenger_name: "tkaye407", date_opened: Date().timeIntervalSinceReferenceDate, date_closed: Date().timeIntervalSinceReferenceDate, category: "Other", amount: 1)
+      betItemRef.setValue(betItem.toAnyObject())
+      let geofireRef = FIRDatabase.database().reference().child("bet_locations")
+      let geoFire = GeoFire(firebaseRef: geofireRef)
+      geoFire?.setLocation(userLocation, forKey: betItemRef.key)
+    }
+  }*/
 
   func errorHandler(errorString: String) {
     let alertController = UIAlertController(title: "There was an Error creating the bet", message: errorString, preferredStyle: .alert)

@@ -779,19 +779,8 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="zxo-4G-gyf">
                                         <rect key="frame" x="0.0" y="115" width="345" height="72"/>
                                         <subviews>
-                                            <segmentedControl opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" preservesSuperviewLayoutMargins="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="O3f-ZP-6zh">
-                                                <rect key="frame" x="0.0" y="0.0" width="174" height="73"/>
-                                                <segments>
-                                                    <segment title="Challenger"/>
-                                                    <segment title="Challengee"/>
-                                                </segments>
-                                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <connections>
-                                                    <action selector="challengerChanged:" destination="uzT-6q-WAv" eventType="valueChanged" id="2kw-gX-b5n"/>
-                                                </connections>
-                                            </segmentedControl>
                                             <segmentedControl opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Ms7-HU-5VY">
-                                                <rect key="frame" x="182" y="0.0" width="163" height="73"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="345" height="73"/>
                                                 <segments>
                                                     <segment title="Active"/>
                                                     <segment title="Completed"/>
@@ -1751,5 +1740,12 @@
         <segue reference="sTM-qw-YuI"/>
         <segue reference="upF-IU-j5K"/>
         <segue reference="yUp-bl-tG5"/>
+        <segue reference="yUp-bl-tG5"/>
+        <segue reference="sTM-qw-YuI"/>
+        <segue reference="j9f-E0-mFL"/>
+        <segue reference="pAj-XM-b1q"/>
+        <segue reference="yoL-jb-eGv"/>
+        <segue reference="upF-IU-j5K"/>
+        <segue reference="IgS-LP-HoH"/>
     </inferredMetricsTieBreakers>
 </document>
