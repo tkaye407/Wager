@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		07611C061EAE5FA70022F91A /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07611C051EAE5FA70022F91A /* SearchController.swift */; };
 		07611C081EAE700B0022F91A /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07611C071EAE700B0022F91A /* SearchTableViewCell.swift */; };
+		3B3591821EB41FDD00C7A180 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BB2385651B3DD5AB0079CD01 /* Main.storyboard */; };
 		7A5875F61EAD8A3600DD8D18 /* ProfileBetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A0283C11EAD26F3007A44A0 /* ProfileBetTableViewCell.swift */; };
 		7A5875F71EAD8A3600DD8D18 /* BetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9D7E351E96AE9A00B37448 /* BetTableViewCell.swift */; };
 		7A5875F81EAD8A3600DD8D18 /* ProfileEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A24CB161E9877DF007345B4 /* ProfileEditorViewController.swift */; };
@@ -23,7 +24,6 @@
 		7A5876021EAD8A3600DD8D18 /* NewProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C23C301E9C39A000A0DA27 /* NewProfileViewController.swift */; };
 		7A5876031EAD8A3600DD8D18 /* BetItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF389D001E91D99D00EF0DF9 /* BetItem.swift */; };
 		7A5876041EAD8A3600DD8D18 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2385611B3DD5AB0079CD01 /* AppDelegate.swift */; };
-		7A5876081EAD8A3600DD8D18 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BB2385651B3DD5AB0079CD01 /* Main.storyboard */; };
 		7A5876091EAD8A3600DD8D18 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF389CFE1E91D96500EF0DF9 /* GoogleService-Info.plist */; };
 		7A58760A1EAD8A3600DD8D18 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB23856A1B3DD5AB0079CD01 /* LaunchScreen.xib */; };
 		7A58760B1EAD8A3600DD8D18 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB2385681B3DD5AB0079CD01 /* Images.xcassets */; };
@@ -248,7 +248,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7A5876081EAD8A3600DD8D18 /* Main.storyboard in Resources */,
+				3B3591821EB41FDD00C7A180 /* Main.storyboard in Resources */,
 				7A5876091EAD8A3600DD8D18 /* GoogleService-Info.plist in Resources */,
 				7A58760A1EAD8A3600DD8D18 /* LaunchScreen.xib in Resources */,
 				7A58760B1EAD8A3600DD8D18 /* Images.xcassets in Resources */,
