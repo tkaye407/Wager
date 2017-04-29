@@ -50,6 +50,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     self.venmoIDLabel.text = profile?.venmoID
     self.emailLabel.text = profile?.email
     
+    // testing git 
     self.genderLabel.text = (profile?.gender)! + " - " + getAge()
     self.ratingView.rating = Int(round(profile!.rating))
     self.ratingLabel.text = String(profile!.rating)
