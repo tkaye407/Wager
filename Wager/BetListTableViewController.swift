@@ -7,8 +7,9 @@
 import UIKit
 import Firebase
 import GeoFire
+import CoreLocation
 
-class BetListTableViewController: UITableViewController {
+class BetListTableViewController: UITableViewController, CLLocationManagerDelegate {
   
     let BET_TYPE_ALL = 0
     let BET_TYPE_POSED = 1
@@ -17,36 +18,13 @@ class BetListTableViewController: UITableViewController {
 
     @IBOutlet weak var ChannelsButton: UIButton!
   
-  var channelName = ""
+    var channelName = ""
+    var friendsOnly = 1
+    var geo = false
+    let locationManager = CLLocationManager()
+    var userLocation: CLLocation!
     @IBAction func ChannelSelect(_ sender: Any) {
-      
-      let alertController = UIAlertController(title: "Pick A Channel", message: "select one", preferredStyle: .alert)
-      present(alertController, animated: true, completion: nil)
-      
-      //all channels
-      let callAll = UIAlertAction(title: "All", style: .default, handler: {
-        action in
-        self.channelName = ""
-        self.ChannelsButton.setTitle("All", for: .normal)
-        self.reloadRows()
-      }
-      )
-      alertController.addAction(callAll)
-      
-      //handle individual channels
-      for item in self.channels {
-        let newVal = UIAlertAction(title: item, style: .default, handler: {
-          action in
-          self.channelName = item
-            self.ChannelsButton.setTitle(item, for: .normal)
-          self.reloadRows()
-        })
-        alertController.addAction(newVal)
-      }
-      
-      //cancel
-      let callCancel = UIAlertAction(title: "Cancel", style: .default, handler: nil)
-      alertController.addAction(callCancel)
+      self.performSegue(withIdentifier: "applyFilter", sender: self)
     }
   
   
@@ -129,7 +107,15 @@ class BetListTableViewController: UITableViewController {
       self.items = []
       for item in snapshot.children {
         let betItem = BetItem(snapshot: item as! FIRDataSnapshot)
-        self.checkFriends(betItem: betItem)
+        if (self.friendsOnly == 1) {
+          self.checkFriends(betItem: betItem)
+        }
+        else {
+          if (self.betType == self.BET_TYPE_ALL) {self.items.append(betItem)}
+          else if (self.betType == self.BET_TYPE_POSED && !betItem.accepted) {self.items.append(betItem)}
+          else if (self.betType == self.BET_TYPE_ACTIVE && betItem.accepted && !betItem.completed) {self.items.append(betItem)}
+          else if (self.betType == self.BET_TYPE_COMPLETED && betItem.accepted && betItem.completed) {self.items.append(betItem)}
+        }
       }
       self.items = self.items.sorted{ $0.date_opened > $1.date_opened }
       self.tableView.reloadData()
@@ -181,7 +167,38 @@ class BetListTableViewController: UITableViewController {
         self.reloadRows()
       })
     }
+    self.locationManager.delegate = self
+    locationManager.requestWhenInUseAuthorization()
+    if (self.geo == true) {
+      self.locationManager.requestLocation()
+    }
   }
+  
+  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    print("In the location manager")
+    if let location = locations.first {
+      items = []
+      self.locationManager.stopUpdatingLocation()
+      let currRef = FIRDatabase.database().reference().child("Bets")
+      userLocation = location
+      let geofireRef = FIRDatabase.database().reference().child("bet_locations")
+      let geoFire = GeoFire(firebaseRef: geofireRef)
+      let circleQuery = geoFire?.query(at: userLocation, withRadius: 5)
+      circleQuery?.observe(GFEventType.init(rawValue: 0)!, with: {(key: String!, location: CLLocation!) in
+        
+        currRef.child(key).observeSingleEvent(of: .value, with: { (snapshot) in
+          self.items.append(BetItem(snapshot: snapshot ))
+          self.tableView.reloadData()
+        })
+      })
+      
+    }
+  }
+  
+  func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+    print("Failed to find user's location: \(error.localizedDescription)")
+  }
+
   
   // MARK: UITableView Delegate methods
   
@@ -231,3 +248,36 @@ class BetListTableViewController: UITableViewController {
     }
   }
 }
+
+
+
+/*  OLD CHANNEL SELECT CODE
+ let alertController = UIAlertController(title: "Pick A Channel", message: "select one", preferredStyle: .alert)
+ present(alertController, animated: true, completion: nil)
+ 
+ //all channels
+ let callAll = UIAlertAction(title: "All", style: .default, handler: {
+ action in
+ self.channelName = ""
+ self.ChannelsButton.setTitle("All", for: .normal)
+ self.reloadRows()
+ }
+ )
+ alertController.addAction(callAll)
+ 
+ //handle individual channels
+ for item in self.channels {
+ let newVal = UIAlertAction(title: item, style: .default, handler: {
+ action in
+ self.channelName = item
+ self.ChannelsButton.setTitle(item, for: .normal)
+ self.reloadRows()
+ })
+ alertController.addAction(newVal)
+ }
+ 
+ //cancel
+ let callCancel = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+ alertController.addAction(callCancel)
+ 
+ */
