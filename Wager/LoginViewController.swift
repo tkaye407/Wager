@@ -35,16 +35,23 @@ class LoginViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     self.scrollView.isScrollEnabled = false
-    
-    do {
-      let ref = FIRDatabase.database().reference()
-      try FIRAuth.auth()?.signOut()
-      print("FIRUSER - \(FIRAuth.auth()?.currentUser)")
-      
-    } catch let logOutError {
-      
-      print("Error Logging User Out - \(logOutError)")
+    FIRAuth.auth()!.addStateDidChangeListener() { auth, user in
+      // 2
+      if user != nil {
+        // 3
+        self.performSegue(withIdentifier: self.loginToList, sender: nil)
+      }
     }
+    
+//    do {
+//      let ref = FIRDatabase.database().reference()
+//      try FIRAuth.auth()?.signOut()
+//      print("FIRUSER - \(FIRAuth.auth()?.currentUser)")
+//      
+//    } catch let logOutError {
+//      
+//      print("Error Logging User Out - \(logOutError)")
+//    }
     
     
     

@@ -21,6 +21,7 @@ class BetListTableViewController: UITableViewController, CLLocationManagerDelega
     var channelName = ""
     var friendsOnly = 1
     var geo = false
+    var radius: Float = 1.0
     let locationManager = CLLocationManager()
     var userLocation: CLLocation!
     @IBAction func ChannelSelect(_ sender: Any) {
@@ -183,12 +184,15 @@ class BetListTableViewController: UITableViewController, CLLocationManagerDelega
       userLocation = location
       let geofireRef = FIRDatabase.database().reference().child("bet_locations")
       let geoFire = GeoFire(firebaseRef: geofireRef)
-      let circleQuery = geoFire?.query(at: userLocation, withRadius: 5)
+      let radius_km = self.radius * 1.6
+      let circleQuery = geoFire?.query(at: userLocation, withRadius: Double(radius_km))
       circleQuery?.observe(GFEventType.init(rawValue: 0)!, with: {(key: String!, location: CLLocation!) in
         
         currRef.child(key).observeSingleEvent(of: .value, with: { (snapshot) in
-          self.items.append(BetItem(snapshot: snapshot ))
-          self.tableView.reloadData()
+          if(snapshot != nil && !(snapshot.value is NSNull)) {
+            self.items.append(BetItem(snapshot: snapshot ))
+            self.tableView.reloadData()
+          }
         })
       })
       
@@ -252,6 +256,7 @@ class BetListTableViewController: UITableViewController, CLLocationManagerDelega
       vc.tint = self.betType
       if(self.geo) {vc.gint = 1}
       else {vc.gint = 0}
+      vc.rad = radius
 
     }
   }

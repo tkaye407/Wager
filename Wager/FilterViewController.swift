@@ -10,6 +10,8 @@ import UIKit
 
 class FilterViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
   
+  @IBOutlet weak var radiusLabel: UILabel!
+  @IBOutlet weak var radiusSlider: UISlider!
   @IBOutlet weak var friendsOption: UISegmentedControl!
   @IBOutlet weak var applyFiltersButton: UIButton!
   @IBOutlet weak var geoOption: UISegmentedControl!
@@ -18,6 +20,7 @@ class FilterViewController: UIViewController, UIPickerViewDelegate, UIPickerView
   var fint = 100
   var gint = 100
   var tint = 100
+  var rad: Float = 100000.0
   let cRef = FIRDatabase.database().reference(withPath: "Categories")
   var categories: [String] = [String]()
 
@@ -50,9 +53,33 @@ class FilterViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         typeOption.selectedSegmentIndex = tint
       }
       
+      radiusSlider.minimumValue = 1.00
+      radiusSlider.maximumValue = 50.00
+      radiusSlider.isContinuous = false
+      
+      if (abs(rad - 100000.0) > 0.001) {
+        self.radiusSlider.value = Float(rad)
+      }
+      else {
+        self.radiusSlider.value = 1.0
+      }
+      let slider_mi = self.radiusSlider.value
+      let radius = Int(slider_mi)
+      self.radiusLabel.text = "Radius: \(radius) miles"
+
+      
+      
 
         // Do any additional setup after loading the view.
     }
+  
+  @IBAction func radiusDidChange(_ sender: Any) {
+    let slider_mi = self.radiusSlider.value
+    //let slider_mi = slider_km * 0.621371
+    let radius = Int(slider_mi)
+    radiusLabel.text = "Radius: \(radius) miles"
+  }
+  
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -78,6 +105,7 @@ class FilterViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         vc.betType = typeOption.selectedSegmentIndex
         if (geoOption.selectedSegmentIndex == 1) {vc.geo = true}
         else {vc.geo = false}
+        vc.radius = self.radiusSlider.value
 
       }
 
