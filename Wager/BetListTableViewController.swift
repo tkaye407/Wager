@@ -11,95 +11,90 @@ import CoreLocation
 
 class BetListTableViewController: UITableViewController, CLLocationManagerDelegate {
   
+    // MARK: Constants:
     let BET_TYPE_ALL = 0
     let BET_TYPE_POSED = 1
     let BET_TYPE_ACTIVE = 2
     let BET_TYPE_COMPLETED = 3
-
-    @IBOutlet weak var ChannelsButton: UIButton!
+    let listToUsers = "ListToUsers"
   
+    // MARK: filter variables
     var channelName = ""
     var friendsOnly = 1
     var geo = false
     var radius: Float = 1.0
+    var betType = 0
+
+  
+    // MARK: location
     let locationManager = CLLocationManager()
     var userLocation: CLLocation!
+  
+    // MARK: Database references: 
+    let ref = FIRDatabase.database().reference(withPath: "Bets")
+    let refChannel = FIRDatabase.database().reference(withPath: "Categories")
+    let pRef = FIRDatabase.database().reference(withPath: "Profiles")
+    let fRef = FIRDatabase.database().reference(withPath: "Friends")
+
+  
+    // MARK: outlets
+    @IBOutlet weak var ChannelsButton: UIButton!
+    @IBOutlet weak var TypeButton: UIButton!
+  
+    // Mark: data arrays
+    var items: [BetItem] = []
+    var channels: [String] = []
+  
+    // MARK: placeholders for bet, profile, user
+    var user: User!
+    var selectedBet: BetItem?
+    var profile: Profile?
+  
+  
+  
     @IBAction func ChannelSelect(_ sender: Any) {
       self.performSegue(withIdentifier: "applyFilter", sender: self)
     }
   
   
-  
-    @IBOutlet weak var TypeButton: UIButton!
-    var betType = 0
-    @IBAction func WagerTypeSetter(_ sender: Any) {
-      
-      let alertController = UIAlertController(title: "Pick A Bet Type", message: "select one", preferredStyle: .alert)
-      
-      /*let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)*/
-      
-      present(alertController, animated: true, completion: nil)
-      
-      let callAll = UIAlertAction(title: "All Bet Types", style: .default, handler: {
-        action in
-        self.betType = self.BET_TYPE_ALL
-        self.TypeButton.setTitle("All Bet Types", for: .normal)
-        self.reloadRows()
-      }
-      )
-      alertController.addAction(callAll)
-      
-      let callPosed = UIAlertAction(title: "Posed Bets", style: .default, handler: {
-        action in
-        self.betType = self.BET_TYPE_POSED
-        self.TypeButton.setTitle("Posed Bets", for: .normal)
-        self.reloadRows()
-      }
-      )
-      alertController.addAction(callPosed)
-      
-      let callCurrent = UIAlertAction(title: "Active Bets", style: .default, handler: {
-        action in
-        self.betType = self.BET_TYPE_ACTIVE
-        self.TypeButton.setTitle("Active Bets", for: .normal)
-        self.reloadRows()
-      }
-      )
-      alertController.addAction(callCurrent)
-      
-      let callComplete = UIAlertAction(title: "Completed Bets", style: .default, handler: {
-        action in
-        self.betType = self.BET_TYPE_COMPLETED
-        self.TypeButton.setTitle("Completed Bets", for: .normal)
-        self.reloadRows()
-      }
-      )
-      alertController.addAction(callComplete)
-      
-      //cancel
-      let callCancel = UIAlertAction(title: "Cancel", style: .default, handler: nil)
-      alertController.addAction(callCancel)
-      
-    }
-  
-  // MARK: Constants
-  let listToUsers = "ListToUsers"
-  
-  // MARK: Properties 
-  let ref = FIRDatabase.database().reference(withPath: "Bets")
-  let refChannel = FIRDatabase.database().reference(withPath: "Categories")
-  let pRef = FIRDatabase.database().reference(withPath: "Profiles")
-  let fRef = FIRDatabase.database().reference(withPath: "Friends")
-
-  var items: [BetItem] = []
-  var channels: [String] = []
-  var user: User!
-  var userCountBarButtonItem: UIBarButtonItem!
-  var selectedBet: BetItem?
-  var profile: Profile?
-  
   // MARK: UIViewController Lifecycle
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    
+    tableView.allowsMultipleSelectionDuringEditing = false
+    //channels = []
+    refChannel.observe(.value, with: { snapshot in
+      for item in snapshot.children {
+        let currCat = item as! FIRDataSnapshot
+        let snapshotValue = currCat.value as! String
+        self.channels.append(snapshotValue)
+      }
+    })
+    
+    FIRAuth.auth()!.addStateDidChangeListener { auth, user in
+      guard let user = user else { return }
+      self.user = User(authData: user)
+      self.pRef.queryOrdered(byChild: "userID").queryEqual(toValue: user.uid).observe(.value, with:{ snapshot in
+        for item in snapshot.children {
+          self.profile = Profile(snapshot: item as! FIRDataSnapshot)
+        }
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.user = self.user as? User!
+        appDelegate.profile = self.profile as? Profile!
+        self.reloadRows()
+      })
+    }
+    self.locationManager.delegate = self
+    locationManager.requestWhenInUseAuthorization()
+    if (self.geo == true) {
+      self.locationManager.requestLocation()
+    }
+    //self.TypeButton.isEnabled = false
+    self.TypeButton.setTitle("Wagers", for: .normal)
+  }
+
   
+  // MARK: HELPER FUNCTIONS
   func reloadRows(){
     print((self.profile?.email)! + "\n\n")
     var new_ref = ref.queryOrdered(byChild: "category")
@@ -142,39 +137,9 @@ class BetListTableViewController: UITableViewController, CLLocationManagerDelega
     self.tableView.reloadData()
   }
   
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    
-    tableView.allowsMultipleSelectionDuringEditing = false
-    //channels = []
-    refChannel.observe(.value, with: { snapshot in
-      for item in snapshot.children {
-        let currCat = item as! FIRDataSnapshot
-        let snapshotValue = currCat.value as! String
-        self.channels.append(snapshotValue)
-      }
-    })
-    
-    FIRAuth.auth()!.addStateDidChangeListener { auth, user in
-      guard let user = user else { return }
-      self.user = User(authData: user)
-      self.pRef.queryOrdered(byChild: "userID").queryEqual(toValue: user.uid).observe(.value, with:{ snapshot in
-        for item in snapshot.children {
-          self.profile = Profile(snapshot: item as! FIRDataSnapshot)
-        }
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.user = self.user as? User!
-        appDelegate.profile = self.profile as? Profile!
-        self.reloadRows()
-      })
-    }
-    self.locationManager.delegate = self
-    locationManager.requestWhenInUseAuthorization()
-    if (self.geo == true) {
-      self.locationManager.requestLocation()
-    }
-  }
   
+  
+  // MARK: LOCATION METHODS
   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     print("In the location manager")
     if let location = locations.first {
@@ -205,7 +170,6 @@ class BetListTableViewController: UITableViewController, CLLocationManagerDelega
 
   
   // MARK: UITableView Delegate methods
-  
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return items.count
   }
@@ -238,6 +202,8 @@ class BetListTableViewController: UITableViewController, CLLocationManagerDelega
     self.performSegue(withIdentifier: "toIndividualBet", sender: self);
   }
   
+  
+  // MARK: PREPARE FOR SEGUE
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if (segue.identifier == "toIndividualBet") {
         let vc = segue.destination as! BetViewController
@@ -261,36 +227,3 @@ class BetListTableViewController: UITableViewController, CLLocationManagerDelega
     }
   }
 }
-
-
-
-/*  OLD CHANNEL SELECT CODE
- let alertController = UIAlertController(title: "Pick A Channel", message: "select one", preferredStyle: .alert)
- present(alertController, animated: true, completion: nil)
- 
- //all channels
- let callAll = UIAlertAction(title: "All", style: .default, handler: {
- action in
- self.channelName = ""
- self.ChannelsButton.setTitle("All", for: .normal)
- self.reloadRows()
- }
- )
- alertController.addAction(callAll)
- 
- //handle individual channels
- for item in self.channels {
- let newVal = UIAlertAction(title: item, style: .default, handler: {
- action in
- self.channelName = item
- self.ChannelsButton.setTitle(item, for: .normal)
- self.reloadRows()
- })
- alertController.addAction(newVal)
- }
- 
- //cancel
- let callCancel = UIAlertAction(title: "Cancel", style: .default, handler: nil)
- alertController.addAction(callCancel)
- 
- */
