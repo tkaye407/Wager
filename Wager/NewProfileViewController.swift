@@ -13,6 +13,9 @@ class NewProfileViewController: UIViewController,UIImagePickerControllerDelegate
   
   let ref = FIRDatabase.database().reference(withPath: "Profiles")
 
+
+
+  @IBOutlet weak var signUpButton: UIButton!
   @IBOutlet weak var EmailText: UITextField!
   @IBOutlet weak var PasswordText: UITextField!
   @IBOutlet weak var UsernameText: UITextField!
@@ -52,20 +55,27 @@ class NewProfileViewController: UIViewController,UIImagePickerControllerDelegate
     FIRAuth.auth()!.createUser(withEmail: self.EmailText.text!, password: self.PasswordText.text!) {user, error in
       if error == nil {
         FIRAuth.auth()!.signIn(withEmail: self.EmailText.text!, password: self.PasswordText.text!)
+      
+        var gender = ""
+        if (self.genderPicker.selectedSegmentIndex == 0)
+        {      gender = "Male"}
+        else { gender = "Female"}
         
-        // change gender to be picker button text
         let newProfRef = self.ref.childByAutoId()
-        let profItem = Profile(firstName: self.FirstNameText.text!, lastName: self.LastNameText.text!, email: self.EmailText.text!, pnl: 0, age: 18, venmoID: self.VenmoIdText.text!, gender: "Male", userID: (user?.uid)!, username: self.UsernameText.text!)
+        let profItem = Profile(firstName: self.FirstNameText.text!, lastName: self.LastNameText.text!, email: self.EmailText.text!, pnl: 0, age: 18, venmoID: self.VenmoIdText.text!, gender: gender, userID: (user?.uid)!, username: self.UsernameText.text!)
         newProfRef.setValue(profItem.toAnyObject())
         
         let storageRef = FIRStorage.storage().reference().child((user?.uid)!)
         let finalImage = UIImagePNGRepresentation(self.profileImageView.image!)
+        
         storageRef.put(finalImage!, metadata: nil, completion: {(metadata, error) in
             if(error != nil) {print("error"); return}
             else{ print("metadata")}
         })
       }
     }
+
+    
   }
   
   func errorHandler(errorString: String) {
@@ -110,15 +120,63 @@ class NewProfileViewController: UIViewController,UIImagePickerControllerDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
+      
+      self.signUpButton.layer.cornerRadius = 5;
+      self.profileImageView.clipsToBounds = true
         // CORNERS ON THE PROFILE IMAGE
         self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width / 2;
         self.profileImageView.clipsToBounds = true;
+        
+        self.navigationController?.navigationBar.isHidden = true
+      
+        // to resign keyboard on outside touch
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(LoginViewController.dismissKeyboard))
+        view.addGestureRecognizer(tap)
+      
+      // work around to change height of the nice looking textfields since you cant do in storyboard
+      FirstNameText.borderStyle = .roundedRect
+      LastNameText.borderStyle = .roundedRect
+      EmailText.borderStyle = .roundedRect;
+      UsernameText.borderStyle = .roundedRect;
+      PasswordText.borderStyle = .roundedRect;
+      VenmoIdText.borderStyle = .roundedRect;
+    }
+    
+    //Calls this function when the tap is recognized.
+    func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
+    }
+    @IBAction func unwindToLogin(_ sender: Any) {
+        dismissKeyboard()
+        dismiss(animated: true, completion: nil)
     }
 }
-
     extension NewProfileViewController: UITextFieldDelegate {
-        
         func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+          
+            switch textField {
+            case FirstNameText:
+                LastNameText.becomeFirstResponder()
+                break
+            case LastNameText:
+                EmailText.becomeFirstResponder()
+                break
+            case EmailText:
+                UsernameText.becomeFirstResponder()
+                break
+            case UsernameText:
+                PasswordText.becomeFirstResponder()
+                break
+            case PasswordText:
+                VenmoIdText.becomeFirstResponder()
+            case VenmoIdText:
+                VenmoIdText.resignFirstResponder()
+                break
+            default:
+                textField.resignFirstResponder()
+
+            }
             return true
     }
 }

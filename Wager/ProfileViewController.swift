@@ -187,10 +187,10 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             try FIRAuth.auth()?.signOut()
             print("FIRUSER - \(FIRAuth.auth()?.currentUser)")
             
-            let vc = segue.destination as! LoginViewController
-            vc.navigationItem.hidesBackButton = true
-            vc.tabBarController?.tabBar.isHidden = true
-            
+           // let vc = segue.destination as! LoginViewController
+         //   vc.navigationItem.hidesBackButton = true
+          //  vc.tabBarController?.tabBar.isHidden = true
+         
           } catch let logOutError {
             
             print("Error Logging User Out - \(logOutError)")
@@ -249,9 +249,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
       try FIRAuth.auth()?.signOut()
       print("FIRUSER - \(FIRAuth.auth()?.currentUser)")
       
-      self.navigationController?.performSegue(withIdentifier: "signOutSegue", sender: self.navigationController)
-      
-    } catch let logOutError {
+        } catch let logOutError {
       
       print("Error Logging User Out - \(logOutError)")
     }
@@ -261,7 +259,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
   
     //Mark: Private Methods
     private func calculatePNL() {
-      var pnl = Float((self.profile?.pnl)!)
+      let pnl = Float((self.profile?.pnl)!)
       
       if pnl >= 0.0 {
         pnlLabel.textColor = UIColor.green

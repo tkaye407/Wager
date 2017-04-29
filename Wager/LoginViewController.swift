@@ -20,30 +20,37 @@ class LoginViewController: UIViewController {
   @IBOutlet weak var textFieldLoginPassword: UITextField!
   @IBOutlet weak var signupButton: UIButton!
   
+  
   // MARK: Actions
   @IBAction func loginDidTouch(_ sender: AnyObject) {
     FIRAuth.auth()!.signIn(withEmail: textFieldLoginEmail.text!,
                            password: textFieldLoginPassword.text!)
   }
-
-  
   override func viewDidLoad() {
     super.viewDidLoad()
     self.scrollView.isScrollEnabled = false
     
+    do {
+      let ref = FIRDatabase.database().reference()
+      try FIRAuth.auth()?.signOut()
+      print("FIRUSER - \(FIRAuth.auth()?.currentUser)")
+      
+    } catch let logOutError {
+      
+      print("Error Logging User Out - \(logOutError)")
+    }
+    
+    
+    
+    self.navigationController?.navigationBar.isHidden=true
     // some bullshit to allow me to mess with the keybaord
     NotificationCenter.default.addObserver(self, selector: #selector(LoginViewController.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-    
+
     NotificationCenter.default.addObserver(self, selector: #selector(LoginViewController.keyboardDidHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     
-    
     signupButton.layer.borderColor = UIColor.white.cgColor
-   
     textFieldLoginEmail.borderStyle = .roundedRect
-    
     textFieldLoginPassword.borderStyle = .roundedRect;
-    
-
     self.tabBarController?.tabBar.isHidden = true
     
     FIRAuth.auth()!.addStateDidChangeListener() { auth, user in
@@ -52,14 +59,14 @@ class LoginViewController: UIViewController {
       }
     }
     self.navigationController?.navigationBar.topItem?.leftBarButtonItem = nil;
+    
   }
-  
   func keyboardWillShow(notification:NSNotification) {
     let userInfo:NSDictionary = notification.userInfo! as NSDictionary
     let keyboardFrame:NSValue = userInfo.value(forKey: UIKeyboardFrameEndUserInfoKey) as! NSValue
     let keyboardRectangle = keyboardFrame.cgRectValue
     let keyboardHeight = keyboardRectangle.height
-    let height = UIScreen.main.bounds.size.height-keyboardHeight+200
+    let height = UIScreen.main.bounds.size.height-keyboardHeight+100
     
     if (UIScreen.main.bounds.size.height < 600)
     {
