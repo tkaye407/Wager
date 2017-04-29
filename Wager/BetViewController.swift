@@ -332,6 +332,7 @@ class BetViewController: UIViewController {
       action in
       print("Outcome is disputed")
       bRef.updateChildValues(["arbitration": true])
+      bRef.updateChildValues(["paid":true])
     })
     alertController.addAction(DisputeOutcome)
       
