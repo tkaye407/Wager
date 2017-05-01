@@ -113,7 +113,8 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
       cell.nameLabel.text = item.name
       return cell
     }
-    return 0 as! UITableViewCell
+    let cell = self.searchTableView.dequeueReusableCell(withIdentifier: "SearchTableViewCell") as! SearchTableViewCell
+    return cell
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
