@@ -296,6 +296,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
       let cell = self.betsTableView.dequeueReusableCell(withIdentifier: "ProfileBetTableViewCell") as! ProfileBetTableViewCell
       
       cell.betNameLabel.text = betItem.name
+      cell.challengerLabel.text = betItem.challenger_name
+      cell.amountLabel.text = String(format: "$%.2f", betItem.amount)
+
       
       return cell
       
