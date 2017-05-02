@@ -103,7 +103,7 @@ class BetViewController: UIViewController {
           let imageRef = FIRStorage.storage().reference(withPath: (self.challengeeProfile?.userID)!)
           imageRef.data(withMaxSize: 1 * 10240 * 10240) { data, error in
             if error != nil {
-              print(error)
+              print(error ?? "ERROR")
               print("still nothing")
             }
             else{
@@ -507,7 +507,7 @@ class BetViewController: UIViewController {
       let imageRef = FIRStorage.storage().reference(withPath: (self.challengerProfile?.userID)!)
       imageRef.data(withMaxSize: 1 * 10240 * 10240) { data, error in
         if error != nil {
-          print(error)
+          print(error ?? "ERROR")
         }
         else{
           finalImage = UIImage(data: data!)!
@@ -528,7 +528,7 @@ class BetViewController: UIViewController {
         let imageRef = FIRStorage.storage().reference(withPath: (self.challengeeProfile?.userID)!)
         imageRef.data(withMaxSize: 1 * 10240 * 10240) { data, error in
           if error != nil {
-            print(error)
+            print(error ?? "ERROR")
           }
           else{
             finalImage = UIImage(data: data!)!

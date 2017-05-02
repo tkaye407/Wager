@@ -79,8 +79,8 @@ class BetListTableViewController: UITableViewController, CLLocationManagerDelega
           self.profile = Profile(snapshot: item as! FIRDataSnapshot)
         }
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.user = self.user as? User!
-        appDelegate.profile = self.profile as? Profile!
+        appDelegate.user = self.user 
+        appDelegate.profile = self.profile
         self.reloadRows()
       })
     }
@@ -160,7 +160,7 @@ class BetListTableViewController: UITableViewController, CLLocationManagerDelega
       circleQuery?.observe(GFEventType.init(rawValue: 0)!, with: {(key: String!, location: CLLocation!) in
         
         currRef.child(key).observeSingleEvent(of: .value, with: { (snapshot) in
-          if(snapshot != nil && !(snapshot.value is NSNull)) {
+          if(!(snapshot.value is NSNull)) {
               let currBet = BetItem(snapshot: snapshot )
             
               if (self.friendsOnly == 1) {
@@ -172,7 +172,6 @@ class BetListTableViewController: UITableViewController, CLLocationManagerDelega
           }
         })
       })
-      
     }
   }
   
@@ -226,7 +225,7 @@ class BetListTableViewController: UITableViewController, CLLocationManagerDelega
       }
     }
     else if (segue.identifier == "toProfileController") {
-      let vc = segue.destination as! ProfileViewController
+      
     }
     else if (segue.identifier == "applyFilter") {
       let vc = segue.destination as! FilterViewController

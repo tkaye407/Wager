@@ -87,7 +87,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     let imageRef = FIRStorage.storage().reference(withPath: (self.profile?.userID)!)
     imageRef.data(withMaxSize: 1 * 10240 * 10240) { data, error in
       if error != nil {
-          print(error)
+          print(error ?? "ERROR")
       }
       else{
           finalImage = UIImage(data: data!)!
@@ -235,7 +235,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             let ref = FIRDatabase.database().reference()
         ref.child("Users").child(self.user.uid).removeAllObservers()
             try FIRAuth.auth()?.signOut()
-            print("FIRUSER - \(FIRAuth.auth()?.currentUser)")
             
            // let vc = segue.destination as! LoginViewController
          //   vc.navigationItem.hidesBackButton = true
@@ -333,7 +332,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
   
     
-    func tableView(_ tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
       let indexPath = tableView.indexPathForSelectedRow!
       selectedBet = bets[indexPath.row]
       self.performSegue(withIdentifier: "toIndividualBet", sender: self);
