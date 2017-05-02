@@ -62,7 +62,6 @@ class BetViewController: UIViewController {
       editButton.isHidden = true
       editButton.isEnabled = false
     }
-    print("HI")
   }
   
   func relabelThings() {
