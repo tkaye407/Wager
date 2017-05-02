@@ -148,8 +148,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
           self.user = appDelegate.user
           self.profile = appDelegate.profile
         }
-      
-      if self.profile == nil{
+            if self.profile == nil{
          self.profile = appDelegate.profile
       }
       
@@ -159,6 +158,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
       
       isFriend()
       
+
+       
         // SET THE DELEGATE AND DATA SOURCE TO SELF
         betsTableView.delegate = self
         betsTableView.dataSource = self
@@ -177,8 +178,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     self.fRef.child((appDelegate.profile?.key)!).observeSingleEvent(of: .value, with: {snapshot in
       if snapshot.hasChild((self.profile?.key)!) {
-        self.AddFriendButton.isEnabled = false
-        self.AddFriendButton.setTitle("Your Friend", for: .normal)
+        self.AddFriendButton.setTitle("Delete Friend", for: .normal)
       }
     })
   }
@@ -317,6 +317,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
       let cell = self.betsTableView.dequeueReusableCell(withIdentifier: "ProfileBetTableViewCell") as! ProfileBetTableViewCell
       
       cell.betNameLabel.text = betItem.name
+      cell.challengerLabel.text = betItem.challenger_name
+      cell.amountLabel.text = String(format: "$%.2f", betItem.amount)
+
       
       return cell
       
@@ -390,8 +393,16 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
   
     @IBAction func AddFriendButtonTouched(_ sender: Any) {
       let appDelegate = UIApplication.shared.delegate as! AppDelegate
-      let profRef = fRef.child((appDelegate.profile?.key)!).child((self.profile?.key)!)
-      profRef.setValue(self.profile?.username)
+      if(AddFriendButton.title(for: .normal) == "Delete Friend") {
+        
+        let profRef = fRef.child((appDelegate.profile?.key)!).child((self.profile?.key)!)
+        profRef.removeValue()
+        AddFriendButton.setTitle("Add Friend", for: .normal)
+      }
+      else {
+        let profRef = fRef.child((appDelegate.profile?.key)!).child((self.profile?.key)!)
+        profRef.setValue(self.profile?.username)
+        AddFriendButton.setTitle("Delete Friend", for: .normal)
+      }
   }
-
 }

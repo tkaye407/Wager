@@ -86,7 +86,6 @@ class BetViewController: UIViewController {
       editButton.isHidden = true
       editButton.isEnabled = false
     }
-    print("HI")
   }
   
   func relabelThings() {
@@ -154,7 +153,12 @@ class BetViewController: UIViewController {
     }
     else if (bet.completed && !bet.confirmed){
       if ((bet.winner && (self.profile.key == self.bet.challengee_uid)) || (!bet.winner && (self.profile.key == self.bet.challenger_uid))) {
-        if (!bet.paid){
+        if (bet.arbitration) {
+          self.InformationLabel.text = "You challenged the outcome your opponent indicated."
+          self.takeBetButton.setTitle("Bet in arbitration", for: UIControlState.normal)
+          self.takeBetButton.isEnabled = false
+        }
+        else if (!bet.paid){
           /*loser is current player and has not yet paid*/
           self.InformationLabel.text = "You lost this bet"
           self.takeBetButton.setTitle("Pay Up", for: UIControlState.normal)
@@ -167,7 +171,13 @@ class BetViewController: UIViewController {
         }
       }
       else if ((bet.winner && (self.profile.key == self.bet.challenger_uid)) || (!bet.winner && (self.profile.key == self.bet.challengee_uid))) {
-        if (!bet.paid) {
+        if (bet.arbitration) {
+          /*winner is current player and has not confirmed the payment yet*/
+          self.InformationLabel.text = "Your oponent has disagrees with the outcome you indicated. Bet in arbitration."
+          self.takeBetButton.setTitle("Bet in arbitration", for: UIControlState.normal)
+          self.takeBetButton.isEnabled = false
+        }
+        else if (!bet.paid) {
           /*winner is current player and opponent has not yet paid*/
           self.InformationLabel.text = "Your opponent is in the process of paying this bet"
           self.takeBetButton.setTitle("Waiting for payment", for: UIControlState.normal)
@@ -179,6 +189,7 @@ class BetViewController: UIViewController {
           self.InformationLabel.text = "Your opponent says that they paid. Confirm that they did"
           self.takeBetButton.setTitle("Confirm Payment", for: UIControlState.normal)
         }
+        
       }
     }
     else if (bet.confirmed){
@@ -378,7 +389,6 @@ class BetViewController: UIViewController {
       action in
       print("Outcome is disputed")
       bRef.updateChildValues(["arbitration": true])
-      bRef.updateChildValues(["paid":true])
     })
     alertController.addAction(DisputeOutcome)
       

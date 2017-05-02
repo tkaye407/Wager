@@ -22,8 +22,8 @@ class BetListTableViewController: UITableViewController, CLLocationManagerDelega
     var channelName = ""
     var friendsOnly = 1
     var geo = false
-    var radius: Float = 1.0
-    var betType = 0
+    var radius: Float = 5.0
+    var betType = 1
 
   
     // MARK: location
@@ -91,6 +91,8 @@ class BetListTableViewController: UITableViewController, CLLocationManagerDelega
     }
     //self.TypeButton.isEnabled = false
     self.TypeButton.setTitle("Wagers", for: .normal)
+
+
   }
 
   
@@ -119,10 +121,15 @@ class BetListTableViewController: UITableViewController, CLLocationManagerDelega
 }
   
   func checkFriends(betItem: BetItem) {
-    print(self.profile?.key)
     self.fRef.child(self.profile!.key).observeSingleEvent(of: .value, with: {snapshot in
       print(betItem.challenger_uid)
       if (snapshot.hasChild(betItem.challenger_uid)) {
+        if (self.betType == self.BET_TYPE_ALL) {self.addVal(betItem: betItem) }
+        else if(self.betType == self.BET_TYPE_POSED && !betItem.accepted) {self.addVal(betItem: betItem) }
+        else if(self.betType == self.BET_TYPE_ACTIVE && betItem.accepted && !betItem.completed) {self.addVal(betItem: betItem) }
+        else if(self.betType == self.BET_TYPE_COMPLETED && betItem.completed) {self.addVal(betItem: betItem) }
+      }
+      else if(betItem.accepted && betItem.challengee_uid != "" && snapshot.hasChild(betItem.challengee_uid)) {
         if (self.betType == self.BET_TYPE_ALL) {self.addVal(betItem: betItem) }
         else if(self.betType == self.BET_TYPE_POSED && !betItem.accepted) {self.addVal(betItem: betItem) }
         else if(self.betType == self.BET_TYPE_ACTIVE && betItem.accepted && !betItem.completed) {self.addVal(betItem: betItem) }
@@ -132,7 +139,6 @@ class BetListTableViewController: UITableViewController, CLLocationManagerDelega
   }
   
   func addVal(betItem: BetItem) {
-    print("Hello")
     items.append(betItem)
     self.tableView.reloadData()
   }
@@ -155,8 +161,14 @@ class BetListTableViewController: UITableViewController, CLLocationManagerDelega
         
         currRef.child(key).observeSingleEvent(of: .value, with: { (snapshot) in
           if(snapshot != nil && !(snapshot.value is NSNull)) {
-            self.items.append(BetItem(snapshot: snapshot ))
-            self.tableView.reloadData()
+              let currBet = BetItem(snapshot: snapshot )
+            
+              if (self.friendsOnly == 1) {
+                self.checkFriends(betItem: currBet)
+              }
+              else {
+                self.addVal(betItem: currBet)
+              }
           }
         })
       })

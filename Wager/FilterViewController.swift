@@ -13,7 +13,6 @@ class FilterViewController: UIViewController, UIPickerViewDelegate, UIPickerView
   @IBOutlet weak var radiusLabel: UILabel!
   @IBOutlet weak var radiusSlider: UISlider!
   @IBOutlet weak var friendsOption: UISegmentedControl!
-  @IBOutlet weak var applyFiltersButton: UIButton!
   @IBOutlet weak var geoOption: UISegmentedControl!
   @IBOutlet weak var categoryOption: UIPickerView!
   @IBOutlet weak var typeOption: UISegmentedControl!
@@ -67,11 +66,15 @@ class FilterViewController: UIViewController, UIPickerViewDelegate, UIPickerView
       let radius = Int(slider_mi)
       self.radiusLabel.text = "Radius: \(radius) miles"
 
+      // make the add filter button
+      navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Set Filters", style: .plain, target: self, action: #selector(addTapped))
       
-      
+  }
+  
+  func addTapped() {
+    performSegue(withIdentifier: "backToList", sender: self)
+  }
 
-        // Do any additional setup after loading the view.
-    }
   
   @IBAction func radiusDidChange(_ sender: Any) {
     let slider_mi = self.radiusSlider.value
@@ -113,10 +116,7 @@ class FilterViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
-  
-  @IBAction func applyFilters(_ sender: Any) {
-    performSegue(withIdentifier: "backToList", sender: self)
-  }
+
   
   
   // The number of rows of data
@@ -128,8 +128,10 @@ class FilterViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     return categories.count
   }
   
-  func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-    return categories[row]
+  func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+    let titleData = categories[row]
+    let myTitle = NSAttributedString(string: titleData, attributes: [NSFontAttributeName:UIFont(name: "Georgia", size: 15.0)!,NSForegroundColorAttributeName:UIColor.white])
+    return myTitle
   }
 
 }
