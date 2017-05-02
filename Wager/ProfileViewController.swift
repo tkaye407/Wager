@@ -122,7 +122,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
           self.profile = appDelegate.profile
         }
       
-      isFriend()
+        isFriend()
 
         // SET THE DELEGATE AND DATA SOURCE TO SELF
         betsTableView.delegate = self
@@ -142,8 +142,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     self.fRef.child((appDelegate.profile?.key)!).observeSingleEvent(of: .value, with: {snapshot in
       if snapshot.hasChild((self.profile?.key)!) {
-        self.AddFriendButton.isEnabled = false
-        self.AddFriendButton.setTitle("Your Friend", for: .normal)
+        self.AddFriendButton.setTitle("Delete Friend", for: .normal)
       }
     })
   }
@@ -372,8 +371,16 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
   
     @IBAction func AddFriendButtonTouched(_ sender: Any) {
       let appDelegate = UIApplication.shared.delegate as! AppDelegate
-      let profRef = fRef.child((appDelegate.profile?.key)!).child((self.profile?.key)!)
-      profRef.setValue(self.profile?.username)
+      if(AddFriendButton.title(for: .normal) == "Delete Friend") {
+        
+        let profRef = fRef.child((appDelegate.profile?.key)!).child((self.profile?.key)!)
+        profRef.removeValue()
+        AddFriendButton.setTitle("Add Friend", for: .normal)
+      }
+      else {
+        let profRef = fRef.child((appDelegate.profile?.key)!).child((self.profile?.key)!)
+        profRef.setValue(self.profile?.username)
+        AddFriendButton.setTitle("Delete Friend", for: .normal)
+      }
   }
-
 }

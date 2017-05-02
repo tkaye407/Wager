@@ -129,11 +129,16 @@ class BetListTableViewController: UITableViewController, CLLocationManagerDelega
         else if(self.betType == self.BET_TYPE_ACTIVE && betItem.accepted && !betItem.completed) {self.addVal(betItem: betItem) }
         else if(self.betType == self.BET_TYPE_COMPLETED && betItem.completed) {self.addVal(betItem: betItem) }
       }
+      else if(betItem.accepted && betItem.challengee_uid != "" && snapshot.hasChild(betItem.challengee_uid)) {
+        if (self.betType == self.BET_TYPE_ALL) {self.addVal(betItem: betItem) }
+        else if(self.betType == self.BET_TYPE_POSED && !betItem.accepted) {self.addVal(betItem: betItem) }
+        else if(self.betType == self.BET_TYPE_ACTIVE && betItem.accepted && !betItem.completed) {self.addVal(betItem: betItem) }
+        else if(self.betType == self.BET_TYPE_COMPLETED && betItem.completed) {self.addVal(betItem: betItem) }
+      }
     })
   }
   
   func addVal(betItem: BetItem) {
-    print("Hello")
     items.append(betItem)
     self.tableView.reloadData()
   }
@@ -159,51 +164,11 @@ class BetListTableViewController: UITableViewController, CLLocationManagerDelega
               let currBet = BetItem(snapshot: snapshot )
             
               if (self.friendsOnly == 1) {
-                self.fRef.child(self.profile!.key).observeSingleEvent(of: .value, with: {snapshot in
-                  if (snapshot.hasChild(currBet.challenger_uid)) {
-                    if (self.betType == self.BET_TYPE_ALL) {
-                      self.items.append(currBet)
-                      self.tableView.reloadData()
-                    }
-                    else if(self.betType == self.BET_TYPE_POSED && !currBet.accepted) {
-                      self.items.append(currBet)
-                      self.tableView.reloadData()
-                    }
-                    else if(self.betType == self.BET_TYPE_ACTIVE && currBet.accepted && !currBet.completed) {
-                      self.items.append(currBet)
-                      self.tableView.reloadData()
-                    }
-                    else if(self.betType == self.BET_TYPE_COMPLETED && currBet.completed) {
-                      self.items.append(currBet)
-                      self.tableView.reloadData()
-                    }
-                    else if(currBet.accepted && currBet.challengee_uid != "") {
-                       if (snapshot.hasChild(currBet.challengee_uid)) {
-                        if (self.betType == self.BET_TYPE_ALL) {
-                          self.items.append(currBet)
-                          self.tableView.reloadData()
-                        }
-                        else if(self.betType == self.BET_TYPE_POSED && !currBet.accepted) {
-                          self.items.append(currBet)
-                          self.tableView.reloadData()
-                        }
-                        else if(self.betType == self.BET_TYPE_ACTIVE && currBet.accepted && !currBet.completed) {
-                          self.items.append(currBet)
-                          self.tableView.reloadData()
-                        }
-                        else if(self.betType == self.BET_TYPE_COMPLETED && currBet.completed) {
-                          self.items.append(currBet)
-                          self.tableView.reloadData()
-                        }
-                      }
-                    }
-                  }
-              })
-            }
-            else {
-              self.items.append(currBet)
-              self.tableView.reloadData()
-            }
+                self.checkFriends(betItem: currBet)
+              }
+              else {
+                self.addVal(betItem: currBet)
+              }
           }
         })
       })
