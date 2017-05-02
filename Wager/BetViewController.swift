@@ -9,14 +9,14 @@ import Firebase
 
 class BetViewController: UIViewController {
   @IBOutlet weak var nameLabel: UILabel!
-  @IBOutlet weak var descriptionLabel: UILabel!
+  @IBOutlet weak var descriptionLabel: UITextView!
   @IBOutlet weak var categoryLabel: UILabel!
   @IBOutlet weak var takeBetButton: UIButton!
-  @IBOutlet weak var challengerButton: UIButton!
+  //@IBOutlet weak var challengerButton: UIButton!
   @IBOutlet weak var amountLabel: UILabel!
-  @IBOutlet weak var challengeeButton: UIButton!
-  @IBOutlet weak var dateOpenedLabel: UILabel!
-  @IBOutlet weak var dateClosedLabel: UILabel!
+  //@IBOutlet weak var challengeeButton: UIButton!
+  //@IBOutlet weak var dateOpenedLabel: UILabel!
+  //@IBOutlet weak var dateClosedLabel: UILabel!
   @IBOutlet weak var InformationLabel: UILabel!
   @IBOutlet weak var editButton: UIButton!
   
@@ -70,21 +70,21 @@ class BetViewController: UIViewController {
     self.takeBetButton.isHidden = false
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "hh:mm a MMM dd, yy"
-    let dateOpened = Date(timeIntervalSinceReferenceDate: bet.date_opened)
+  //  let dateOpened = Date(timeIntervalSinceReferenceDate: bet.date_opened)
     
     self.nameLabel.text = bet.name
     self.categoryLabel.text = bet.category
-    self.challengerButton.setTitle(bet.challenger_name, for: UIControlState.normal)
+   // self.challengerButton.setTitle(bet.challenger_name, for: UIControlState.normal)
     self.descriptionLabel.text = bet.description
     self.amountLabel.text = bet.amount.description
-    self.dateOpenedLabel.text = dateFormatter.string(from: dateOpened)
+   // self.dateOpenedLabel.text = dateFormatter.string(from: dateOpened)
     if (bet.challengee_uid != "") {
-      self.challengeeButton.setTitle(bet.challengee_name, for: UIControlState.normal)
-      self.challengeeButton.isEnabled = true
+  //    self.challengeeButton.setTitle(bet.challengee_name, for: UIControlState.normal)
+    //  self.challengeeButton.isEnabled = true
     }
     else {
-      self.challengeeButton.isEnabled = false
-      self.challengeeButton.setTitle("Not Taken", for: UIControlState.normal)
+  //    self.challengeeButton.isEnabled = false
+   //   self.challengeeButton.setTitle("Not Taken", for: UIControlState.normal)
     }
     
     if ((self.profile.key == self.bet.challenger_uid) && bet.accepted == false && bet.confirmed == false && bet.completed == false) {
