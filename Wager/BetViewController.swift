@@ -12,6 +12,8 @@ class BetViewController: UIViewController {
   @IBOutlet weak var descriptionLabel: UITextView!
   @IBOutlet weak var categoryLabel: UILabel!
   @IBOutlet weak var takeBetButton: UIButton!
+  @IBOutlet weak var challengerUserLabel: UILabel!
+  @IBOutlet weak var challengeeUserLabel: UILabel!
   //@IBOutlet weak var challengerButton: UIButton!
   @IBOutlet weak var amountLabel: UILabel!
   //@IBOutlet weak var challengeeButton: UIButton!
@@ -19,8 +21,11 @@ class BetViewController: UIViewController {
   //@IBOutlet weak var dateClosedLabel: UILabel!
   @IBOutlet weak var InformationLabel: UILabel!
   @IBOutlet weak var editButton: UIButton!
-  
-  
+  @IBOutlet weak var challengerImageView: UIImageView!
+  @IBOutlet weak var challengeeImageView: UIImageView!
+  @IBOutlet var challengerTap: UITapGestureRecognizer!
+  @IBOutlet var challengeeTap: UITapGestureRecognizer!
+
   var bet: BetItem!
   var betName = "h"
   var user: User!
@@ -30,17 +35,21 @@ class BetViewController: UIViewController {
   var challengerProfile: Profile?
   var challengeeProfile: Profile?
   var winnerProfile: Profile!
+  var challengerImageSet = false
+  var challengeeImageSet = false
   
   func reloadBet() {
     let bRef = FIRDatabase.database().reference().child("Bets")
     bRef.child(bet.key).observeSingleEvent(of: .value, with: { (snapshot) in
       // Get user value
       self.bet = BetItem(snapshot: snapshot)
+      
     })
+
     self.nameLabel.text = self.bet.name
     self.descriptionLabel.text = self.bet.description
-    self.amountLabel.text = self.bet.amount.description
-  }
+    self.amountLabel.text = String(format:"$%.2f",Float(self.bet.amount.description)!)
+   }
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
@@ -49,7 +58,20 @@ class BetViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.view.backgroundColor = UIColor(red: 62.0, green: 152.0, blue: 106.0, alpha: 1.0)
+    
+    if (bet.accepted)
+    {
+      challengeeImageView.isUserInteractionEnabled = true
+    }
+    // CORNERS ON THE PROFILE IMAGE
+    self.challengerImageView.layer.cornerRadius = self.challengerImageView.frame.size.width / 2;
+    self.challengerImageView.clipsToBounds = true;
+    
+    self.challengeeImageView.layer.cornerRadius = self.challengeeImageView.frame.size.width / 2;
+    self.challengeeImageView.clipsToBounds = true;
+
+
+    //self.view.backgroundColor = UIColor(red: 62.0, green: 152.0, blue: 106.0, alpha: 1.0)
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     self.user = appDelegate.user
     self.profile = appDelegate.profile
@@ -58,6 +80,7 @@ class BetViewController: UIViewController {
     
     self.setUpProfiles()
     relabelThings()
+    
     //if(bet.challenger_uid == profile.key && bet.date_closed < )
     if !(bet.challenger_uid == profile.key && bet.accepted == false && bet.completed == false && bet.confirmed == false) {
       editButton.isHidden = true
@@ -72,7 +95,28 @@ class BetViewController: UIViewController {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "hh:mm a MMM dd, yy"
   //  let dateOpened = Date(timeIntervalSinceReferenceDate: bet.date_opened)
+    if(bet.accepted) {
+      if(self.challengeeProfile != nil){
     
+       if (!self.challengeeImageSet){
+          var finalImage: UIImage? = nil
+          // set challenger photo
+          let imageRef = FIRStorage.storage().reference(withPath: (self.challengeeProfile?.userID)!)
+          imageRef.data(withMaxSize: 1 * 10240 * 10240) { data, error in
+            if error != nil {
+              print(error)
+              print("still nothing")
+            }
+            else{
+              finalImage = UIImage(data: data!)!
+              self.challengeeImageView.image = finalImage
+              self.challengeeImageSet = true
+            }
+          }
+         self.challengeeUserLabel.text = self.challengeeProfile?.username
+        }
+      }
+    }
     self.nameLabel.text = bet.name
     self.categoryLabel.text = bet.category
    // self.challengerButton.setTitle(bet.challenger_name, for: UIControlState.normal)
@@ -87,6 +131,7 @@ class BetViewController: UIViewController {
   //    self.challengeeButton.isEnabled = false
    //   self.challengeeButton.setTitle("Not Taken", for: UIControlState.normal)
     }
+    
     
     if ((self.profile.key == self.bet.challenger_uid) && bet.accepted == false && bet.confirmed == false && bet.completed == false) {
       self.InformationLabel.text = "You created this bet. Would you like to Delete It?"
@@ -406,13 +451,12 @@ class BetViewController: UIViewController {
     self.bet.challengee_uid = self.profile.key
     self.bet.challengee_name = self.profile.firstName + " " + self.profile.lastName
     
-    
     bRef.updateChildValues(["accepted":true])
     bRef.updateChildValues(["challengee_name": self.profile.firstName + " " + self.profile.lastName])
     bRef.updateChildValues(["challengee_uid":self.profile.key])
     
     self.challengeeProfile = self.profile
-    
+    self.challengeeImageView.isUserInteractionEnabled = true
     self.relabelThings()
   }
   
@@ -421,15 +465,19 @@ class BetViewController: UIViewController {
     // Dispose of any resources that can be recreated.
   }
   
-  @IBAction func challengeeClicked(_ sender: Any) {
+  @IBAction func challengeeTapped(_ sender: Any) {
+    print("challengee tapped")
+    
+    
     if (self.challengeeProfile == nil) {errorHandler(errorString: "Profile not yet loaded. Try again in a couple seconds!")}
     else {performSegue(withIdentifier: "betToChallengee", sender: self)}
+    
   }
-  
-  @IBAction func challengerClicked(_ sender: Any) {
+  @IBAction func challengerTapped(_ sender: Any) {
+    print("challenger tapepd")
+    
     if (self.challengerProfile == nil) {errorHandler(errorString: "Profile not yet loaded. Try again in a couple seconds!")}
     else {performSegue(withIdentifier: "betToChallenger", sender: self)}
-    
   }
   
   @IBAction func unwindEditProfile(sender: UIStoryboardSegue) {
@@ -442,19 +490,55 @@ class BetViewController: UIViewController {
     let pRef = FIRDatabase.database().reference().child("Profiles")
     pRef.child(bet.challenger_uid).observeSingleEvent(of: .value, with: { (snapshot) in
       self.challengerProfile = Profile(snapshot: snapshot)
+     
+      if (!self.challengerImageSet){
+      var finalImage: UIImage? = nil
+      // set challenger photo
+      let imageRef = FIRStorage.storage().reference(withPath: (self.challengerProfile?.userID)!)
+      imageRef.data(withMaxSize: 1 * 10240 * 10240) { data, error in
+        if error != nil {
+          print(error)
+        }
+        else{
+          finalImage = UIImage(data: data!)!
+          self.challengerImageView.image = finalImage
+          self.challengerImageSet = true
+        }
+      }
+      self.challengerUserLabel.text = self.challengerProfile?.username
+      }
     })
     if(bet.accepted) {
       pRef.child(bet.challengee_uid).observeSingleEvent(of: .value, with: { (snapshot) in
         self.challengeeProfile = Profile(snapshot: snapshot)
+        
+        if (!self.challengeeImageSet){
+        var finalImage: UIImage? = nil
+        // set challenger photo
+        let imageRef = FIRStorage.storage().reference(withPath: (self.challengeeProfile?.userID)!)
+        imageRef.data(withMaxSize: 1 * 10240 * 10240) { data, error in
+          if error != nil {
+            print(error)
+          }
+          else{
+            finalImage = UIImage(data: data!)!
+            self.challengeeImageView.image = finalImage
+            self.challengeeImageSet = true
+          }
+        }
+        self.challengeeUserLabel.text = self.challengeeProfile?.username
+        }
       })
     }
+    
+
   }
-  
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     super.prepare(for: segue, sender: sender)
     if (segue.identifier == "betToChallenger") {
       let vc = segue.destination as! ProfileViewController
       vc.profile = self.challengerProfile
+      vc.shouldShowSignout = false
     }
     if (segue.identifier == "editBet") {
       let nav = segue.destination as! UINavigationController
@@ -468,6 +552,7 @@ class BetViewController: UIViewController {
     if (segue.identifier == "betToChallengee") {
       let vc = segue.destination as! ProfileViewController
       vc.profile = self.challengeeProfile
+      vc.shouldShowSignout = false
     }
     
   }

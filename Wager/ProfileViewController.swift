@@ -35,17 +35,44 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     var selectedBet: BetItem?
     var challengerPicked: Bool = true
     var completedPicked: Bool = false
+    var shouldShowSignout: Bool = true
   
   
+  func signOutTouched(_ sender: Any) {
+    do {
+      print(self.user.uid)
+      let ref = FIRDatabase.database().reference()
+      ref.child("Users").child(self.user.uid).removeAllObservers()
+      try FIRAuth.auth()?.signOut()
+      print("FIRUSER - \(String(describing: FIRAuth.auth()?.currentUser))")
+      performSegue(withIdentifier: "signout", sender: self)
+      
+    } catch let logOutError {
+      
+      print("Error Logging User Out - \(logOutError)")
+    }
+  }
   func setProfile() {
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     if self.profile?.userID != appDelegate.profile?.userID {
       self.navigationItem.rightBarButtonItem?.isEnabled = false
       self.navigationItem.rightBarButtonItem?.tintColor = UIColor.clear
-      self.navigationItem.leftBarButtonItem?.isEnabled = false
-      self.navigationItem.leftBarButtonItem?.tintColor = UIColor.clear
-
+    //  self.navigationItem.leftBarButtonItem?.isEnabled = false
+    //  self.navigationItem.leftBarButtonItem?.tintColor = UIColor.clear
+      //self.navigationItem.hidesBackButton = true
     }
+    else
+    {
+        if (shouldShowSignout)
+        {
+          navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Sign Out", style: .plain, target: self, action: #selector(signOutTouched))
+          navigationItem.leftBarButtonItem?.tintColor = UIColor.white
+        }
+    }
+      // set the left nav bar to be the signout with the slector method and shit
+     // self.navigationController?.navigationBar.isHidden = true
+   //  self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
+    
     self.UserNameLabel.text = profile?.username
     self.venmoIDLabel.text = profile?.venmoID
     self.emailLabel.text = profile?.email
@@ -122,8 +149,16 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
           self.profile = appDelegate.profile
         }
       
+      if self.profile == nil{
+         self.profile = appDelegate.profile
+      }
+      
+      if self.user == nil {
+        self.user = appDelegate.user
+      }
+      
       isFriend()
-
+      
         // SET THE DELEGATE AND DATA SOURCE TO SELF
         betsTableView.delegate = self
         betsTableView.dataSource = self
@@ -194,10 +229,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         switch(segue.identifier ?? "") {
-        case "signOut":
+        case "signout":
           do {
+            print(self.user.uid)
             let ref = FIRDatabase.database().reference()
-            ref.child("Users").child(self.user.uid).removeAllObservers()
+        ref.child("Users").child(self.user.uid).removeAllObservers()
             try FIRAuth.auth()?.signOut()
             print("FIRUSER - \(FIRAuth.auth()?.currentUser)")
             
@@ -253,23 +289,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             setProfile()
         }
       setProfile()
-    }
-  
-  
-  @IBAction func signOutTouched(_ sender: Any) {
-    do {
-      let ref = FIRDatabase.database().reference()
-      ref.child("Users").child(self.user.uid).removeAllObservers()
-      try FIRAuth.auth()?.signOut()
-      print("FIRUSER - \(FIRAuth.auth()?.currentUser)")
-      
-        } catch let logOutError {
-      
-      print("Error Logging User Out - \(logOutError)")
-    }
   }
-    
-  
+
   
     //Mark: Private Methods
     private func calculatePNL() {
