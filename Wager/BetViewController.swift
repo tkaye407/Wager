@@ -49,6 +49,7 @@ class BetViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    self.view.backgroundColor = UIColor(red: 62.0, green: 152.0, blue: 106.0, alpha: 1.0)
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     self.user = appDelegate.user
     self.profile = appDelegate.profile

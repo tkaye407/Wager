@@ -472,64 +472,6 @@
             </objects>
             <point key="canvasLocation" x="3905" y="-484"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="Alm-6a-it6">
-            <objects>
-                <viewController id="q4d-G9-2Fl" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="ahv-YA-bwA"/>
-                        <viewControllerLayoutGuide type="bottom" id="s12-Ou-NOo"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="reD-uR-yCK">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Bet name" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lU3-bj-dNb">
-                                <rect key="frame" x="0.0" y="227" width="375" height="76"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="41"/>
-                                <color key="textColor" red="0.23921568630000001" green="0.59607843140000005" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="neS-Uf-iaW">
-                                <rect key="frame" x="152" y="169" width="71" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="$100.00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PGV-NF-Rr3">
-                                <rect key="frame" x="29" y="311" width="317" height="43"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="27"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pfu-VN-ENZ">
-                                <rect key="frame" x="82" y="504" width="210" height="49"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.23921568630000001" green="0.59607843140000005" blue="0.41568627450000001" alpha="0.31389712590000002" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                <state key="normal" title="Take bet">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="takeBet:" destination="7nr-Lc-mbm" eventType="touchUpInside" id="9ZM-Bf-ngO"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dVB-Pd-JYJ">
-                                <rect key="frame" x="160" y="617" width="54" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Edit Bet"/>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="iHG-Vv-bby" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4777" y="-518"/>
-        </scene>
         <!--Bet View Controller-->
         <scene sceneID="mxU-NZ-bd7">
             <objects>
@@ -543,7 +485,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Hc-bX-wlC">
-                                <rect key="frame" x="132" y="86" width="117" height="34"/>
+                                <rect key="frame" x="132" y="86" width="117" height="33.5"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.31389712590000002" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -569,9 +511,9 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bet_Name" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZNv-85-lEe">
-                                <rect key="frame" x="0.0" y="167" width="375" height="76"/>
+                                <rect key="frame" x="0.0" y="166.5" width="375" height="76.5"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
-                                <color key="textColor" red="0.23921568627450981" green="0.59607843137254901" blue="0.41568627450980394" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="llS-b8-pQL">
@@ -589,7 +531,7 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="1wS-WO-o5a">
-                                <rect key="frame" x="14" y="45" width="100" height="100"/>
+                                <rect key="frame" x="14" y="44.5" width="100" height="100"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="TxX-WI-ZGk">
                                         <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
@@ -606,19 +548,19 @@
                                 </subviews>
                             </stackView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="upload" translatesAutoresizingMaskIntoConstraints="NO" id="dPx-jh-iaM">
-                                <rect key="frame" x="257" y="45" width="100" height="100"/>
+                                <rect key="frame" x="257" y="44.5" width="100" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="iPh-pZ-m4n"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Challenger uid" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H1U-yB-Fbz">
-                                <rect key="frame" x="9" y="9" width="111" height="21"/>
+                                <rect key="frame" x="9.5" y="9" width="110.5" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Challengee uid" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RKV-2B-PEU">
-                                <rect key="frame" x="250" y="8" width="114" height="21"/>
+                                <rect key="frame" x="250" y="8" width="114" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -643,7 +585,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.23921568627450979" green="0.59607843137254901" blue="0.41568627450980389" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="RFw-rS-nXz" firstAttribute="centerX" secondItem="hLM-uA-XuT" secondAttribute="centerX" id="4D9-Cv-312"/>
                             <constraint firstItem="RFw-rS-nXz" firstAttribute="trailing" secondItem="PT1-Tc-tlN" secondAttribute="trailingMargin" id="4gM-Cw-ngc"/>
@@ -693,7 +635,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aA0-AC-SDs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4044" y="-358.4707646176912"/>
+            <point key="canvasLocation" x="3904.8000000000002" y="277.51124437781112"/>
         </scene>
         <!--Bet Feed-->
         <scene sceneID="5Ek-Z0-CEa">
@@ -1699,11 +1641,11 @@
         <image name="upload" width="262" height="264"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="HI1-QR-qRS"/>
-        <segue reference="yUp-bl-tG5"/>
+        <segue reference="j9f-E0-mFL"/>
+        <segue reference="yoL-jb-eGv"/>
         <segue reference="sTM-qw-YuI"/>
+        <segue reference="yUp-bl-tG5"/>
         <segue reference="slK-sz-sa6"/>
         <segue reference="ujZ-n3-ETv"/>
-        <segue reference="yoL-jb-eGv"/>
     </inferredMetricsTieBreakers>
 </document>
