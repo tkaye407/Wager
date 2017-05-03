@@ -23,17 +23,49 @@ class FilterViewController: UIViewController, UIPickerViewDelegate, UIPickerView
   var category = ""
   var rad: Float = 100000.0
   var categories: [String] = [String]()
-
-
-
-override func viewDidLoad() {
-      super.viewDidLoad()
-      let appDelegate = UIApplication.shared.delegate as! AppDelegate
-
-      // Connect data:
-      self.categoryOption.delegate = self
-      self.categoryOption.dataSource = self
+  
+  @IBAction func segmentedControlValueChanged(segment: UISegmentedControl)
+  {
     
+    if segment.selectedSegmentIndex == 0
+    {
+      print("in here 1")
+      self.radiusSlider.isHidden = true
+      self.radiusLabel.isHidden  = true
+    }
+    else if segment.selectedSegmentIndex == 1
+    {
+      print("in here 2")
+      self.radiusSlider.isHidden = false
+      self.radiusLabel.isHidden = false
+    }
+    
+    
+  }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+      
+      // initially hide these since we start on all bets
+      self.radiusSlider.isHidden = true
+      self.radiusLabel.isHidden  = true
+      
+      // hide radius unless the bets near you is selected
+    geoOption.addTarget(self, action: #selector(self.segmentedControlValueChanged(segment:)), for: .valueChanged)
+        
+        // Connect data:
+        self.categoryOption.delegate = self
+        self.categoryOption.dataSource = self
+/*
+        categories.append("All")
+        cRef.observe(.value, with: { snapshot in
+          for item in snapshot.children {
+            let currCat = item as! FIRDataSnapshot
+            let snapshotValue = currCat.value as! String
+            self.categories.append(snapshotValue)
+          }
+          self.categoryOption.reloadAllComponents();
+        })
+
       self.categories = appDelegate.categories
       self.categoryOption.reloadAllComponents()
       if (self.category == "") {
@@ -45,7 +77,7 @@ override func viewDidLoad() {
       else {
         self.categoryOption.selectRow(0, inComponent: 0, animated: true)
       }
-      
+ */
       if (fint != 100) {
         friendsOption.selectedSegmentIndex = fint
       }
@@ -70,9 +102,9 @@ override func viewDidLoad() {
       let radius = Int(slider_mi)
       self.radiusLabel.text = "Radius: \(radius) miles"
 
-      // make the add filter button
+      /* make the add filter button
       navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Set Default Filters", style: .plain, target: self, action: #selector(addTapped))
-      
+      */
   }
   
   func addTapped() {

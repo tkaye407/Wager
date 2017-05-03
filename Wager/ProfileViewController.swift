@@ -22,7 +22,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var ratingView: RatingControl!
     @IBOutlet weak var ratingLabel: UILabel!
     @IBOutlet weak var completedController: UISegmentedControl!
-    @IBOutlet weak var signUpButton: UINavigationItem!
+
 
     //MARK: Properties
     var user: User!
@@ -159,7 +159,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
           self.user = appDelegate.user
           self.profile = appDelegate.profile
         }
-            if self.profile == nil{
+          if self.profile == nil{
+            
          self.profile = appDelegate.profile
       }
       
@@ -169,8 +170,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
       
       isFriend()
       
-
-       
         // SET THE DELEGATE AND DATA SOURCE TO SELF
         betsTableView.delegate = self
         betsTableView.dataSource = self

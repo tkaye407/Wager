@@ -20,11 +20,12 @@ class BetViewController: UIViewController {
   //@IBOutlet weak var dateOpenedLabel: UILabel!
   //@IBOutlet weak var dateClosedLabel: UILabel!
   @IBOutlet weak var InformationLabel: UILabel!
-  @IBOutlet weak var editButton: UIButton!
+  //@IBOutlet weak var editButton: UIButton!
   @IBOutlet weak var challengerImageView: UIImageView!
   @IBOutlet weak var challengeeImageView: UIImageView!
   @IBOutlet var challengerTap: UITapGestureRecognizer!
   @IBOutlet var challengeeTap: UITapGestureRecognizer!
+  @IBOutlet weak var bottomView: UIView!
 
   var bet: BetItem!
   var betName = "h"
@@ -53,12 +54,27 @@ class BetViewController: UIViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+    self.navigationItem.title = "Wager"
     reloadBet()
   }
   
+    func editBet()
+    {
+        self.performSegue(withIdentifier: "editBet", sender: self)
+    }
+    
   override func viewDidLoad() {
     super.viewDidLoad()
     
+  
+    self.nameLabel.adjustsFontSizeToFitWidth = true
+    self.bottomView.layer.borderWidth = 1.0
+    self.bottomView.layer.borderColor = UIColor.white.cgColor
+   // self.bottomView.frame.size.width   =  UIScreen.main.bounds.size.width + 50
+    self.descriptionLabel.flashScrollIndicators()
+    self.takeBetButton.layer.cornerRadius = 5;
+    self.takeBetButton.layer.borderColor = UIColor.white.cgColor
+    self.takeBetButton.layer.borderWidth = 1.5
     if (bet.accepted)
     {
       challengeeImageView.isUserInteractionEnabled = true
@@ -82,9 +98,11 @@ class BetViewController: UIViewController {
     relabelThings()
     
     //if(bet.challenger_uid == profile.key && bet.date_closed < )
-    if !(bet.challenger_uid == profile.key && bet.accepted == false && bet.completed == false && bet.confirmed == false) {
-      editButton.isHidden = true
-      editButton.isEnabled = false
+    if (bet.challenger_uid == profile.key && bet.accepted == false && bet.completed == false && bet.confirmed == false) {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editBet))
+        navigationItem.leftBarButtonItem?.tintColor = UIColor.white
+   //   editButton.isHidden = true
+   //   editButton.isEnabled = false
     }
   }
   
@@ -120,8 +138,7 @@ class BetViewController: UIViewController {
     self.categoryLabel.text = bet.category
    // self.challengerButton.setTitle(bet.challenger_name, for: UIControlState.normal)
     self.descriptionLabel.text = bet.description
-    self.amountLabel.text = bet.amount.description
-   // self.dateOpenedLabel.text = dateFormatter.string(from: dateOpened)
+    self.amountLabel.text = String(format:"$%.2f",Float(self.bet.amount.description)!)   // self.dateOpenedLabel.text = dateFormatter.string(from: dateOpened)
     if (bet.challengee_uid != "") {
   //    self.challengeeButton.setTitle(bet.challengee_name, for: UIControlState.normal)
     //  self.challengeeButton.isEnabled = true
