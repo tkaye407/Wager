@@ -20,11 +20,11 @@ class BetListTableViewController: UITableViewController, CLLocationManagerDelega
   
     // MARK: filter variables
     var channelName = ""
-    var friendsOnly = 1
+    var friendsOnly = 0
     var geo = false
     var radius: Float = 5.0
     var betType = 1
-
+    private var setUpOnce = DispatchOnce()
   
     // MARK: location
     let locationManager = CLLocationManager()
@@ -60,6 +60,8 @@ class BetListTableViewController: UITableViewController, CLLocationManagerDelega
   // MARK: UIViewController Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
+    setUpOnce = DispatchOnce()
+
     
     tableView.allowsMultipleSelectionDuringEditing = false
     //channels = []
@@ -85,10 +87,14 @@ class BetListTableViewController: UITableViewController, CLLocationManagerDelega
       })
     }
     self.locationManager.delegate = self
+    locationManager.distanceFilter = 100.0
     locationManager.requestWhenInUseAuthorization()
     if (self.geo == true) {
+      items = []
+      self.tableView.reloadData()
       self.locationManager.requestLocation()
     }
+    
     //self.TypeButton.isEnabled = false
     self.TypeButton.setTitle("Wagers", for: .normal)
 
@@ -109,10 +115,7 @@ class BetListTableViewController: UITableViewController, CLLocationManagerDelega
           self.checkFriends(betItem: betItem)
         }
         else {
-          if (self.betType == self.BET_TYPE_ALL) {self.items.append(betItem)}
-          else if (self.betType == self.BET_TYPE_POSED && !betItem.accepted) {self.items.append(betItem)}
-          else if (self.betType == self.BET_TYPE_ACTIVE && betItem.accepted && !betItem.completed) {self.items.append(betItem)}
-          else if (self.betType == self.BET_TYPE_COMPLETED && betItem.accepted && betItem.completed) {self.items.append(betItem)}
+          self.checkBet(bet: betItem)
         }
       }
       self.items = self.items.sorted{ $0.date_opened > $1.date_opened }
@@ -122,24 +125,25 @@ class BetListTableViewController: UITableViewController, CLLocationManagerDelega
   
   func checkFriends(betItem: BetItem) {
     self.fRef.child(self.profile!.key).observeSingleEvent(of: .value, with: {snapshot in
-      print(betItem.challenger_uid)
       if (snapshot.hasChild(betItem.challenger_uid)) {
-        if (self.betType == self.BET_TYPE_ALL) {self.addVal(betItem: betItem) }
-        else if(self.betType == self.BET_TYPE_POSED && !betItem.accepted) {self.addVal(betItem: betItem) }
-        else if(self.betType == self.BET_TYPE_ACTIVE && betItem.accepted && !betItem.completed) {self.addVal(betItem: betItem) }
-        else if(self.betType == self.BET_TYPE_COMPLETED && betItem.completed) {self.addVal(betItem: betItem) }
+        self.checkBet(bet: betItem)
       }
       else if(betItem.accepted && betItem.challengee_uid != "" && snapshot.hasChild(betItem.challengee_uid)) {
-        if (self.betType == self.BET_TYPE_ALL) {self.addVal(betItem: betItem) }
-        else if(self.betType == self.BET_TYPE_POSED && !betItem.accepted) {self.addVal(betItem: betItem) }
-        else if(self.betType == self.BET_TYPE_ACTIVE && betItem.accepted && !betItem.completed) {self.addVal(betItem: betItem) }
-        else if(self.betType == self.BET_TYPE_COMPLETED && betItem.completed) {self.addVal(betItem: betItem) }
+        self.checkBet(bet: betItem)
       }
     })
   }
   
+  func checkBet(bet: BetItem) {
+    if (self.betType == self.BET_TYPE_ALL) {self.addVal(betItem: bet) }
+    else if(self.betType == self.BET_TYPE_POSED && !bet.accepted) {self.addVal(betItem: bet) }
+    else if(self.betType == self.BET_TYPE_ACTIVE && bet.accepted && !bet.completed) {self.addVal(betItem: bet) }
+    else if(self.betType == self.BET_TYPE_COMPLETED && bet.completed) {self.addVal(betItem: bet) }
+  }
+  
   func addVal(betItem: BetItem) {
     items.append(betItem)
+    self.items = self.items.sorted{ $0.date_opened > $1.date_opened }
     self.tableView.reloadData()
   }
   
@@ -147,31 +151,31 @@ class BetListTableViewController: UITableViewController, CLLocationManagerDelega
   
   // MARK: LOCATION METHODS
   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-    print("In the location manager")
-    if let location = locations.first {
-      items = []
+    setUpOnce.perform {
       self.locationManager.stopUpdatingLocation()
-      let currRef = FIRDatabase.database().reference().child("Bets")
-      userLocation = location
-      let geofireRef = FIRDatabase.database().reference().child("bet_locations")
-      let geoFire = GeoFire(firebaseRef: geofireRef)
-      let radius_km = self.radius * 1.6
-      let circleQuery = geoFire?.query(at: userLocation, withRadius: Double(radius_km))
-      circleQuery?.observe(GFEventType.init(rawValue: 0)!, with: {(key: String!, location: CLLocation!) in
-        
-        currRef.child(key).observeSingleEvent(of: .value, with: { (snapshot) in
-          if(!(snapshot.value is NSNull)) {
+      print("In the location manager")
+      if let location = locations.first {
+        let currRef = FIRDatabase.database().reference().child("Bets")
+        userLocation = location
+        let geofireRef = FIRDatabase.database().reference().child("bet_locations")
+        let geoFire = GeoFire(firebaseRef: geofireRef)
+        let radius_km = self.radius * 1.6
+        let circleQuery = geoFire?.query(at: userLocation, withRadius: Double(radius_km))
+        circleQuery?.observe(GFEventType.init(rawValue: 0)!, with: {(key: String!, location: CLLocation!) in
+          currRef.child(key).observeSingleEvent(of: .value, with: { (snapshot) in
+            if(!(snapshot.value is NSNull)) {
               let currBet = BetItem(snapshot: snapshot )
-            
+              
               if (self.friendsOnly == 1) {
                 self.checkFriends(betItem: currBet)
               }
               else {
-                self.addVal(betItem: currBet)
+                self.checkBet(bet: currBet)
               }
-          }
+            }
+          })
         })
-      })
+      }
     }
   }
   
