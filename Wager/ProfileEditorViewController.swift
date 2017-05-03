@@ -113,6 +113,7 @@ class ProfileEditorViewController: UIViewController {
         ref.updateChildValues(["username":username])
         profile.username = username
     }
+      updatePreviousBets()
       
       let appDelegate = UIApplication.shared.delegate as! AppDelegate
       appDelegate.profile = self.profile
@@ -128,6 +129,26 @@ class ProfileEditorViewController: UIViewController {
     present(alertController, animated: true, completion: nil)
     let callOK = UIAlertAction(title: "OK", style: .default, handler: nil)
     alertController.addAction(callOK)
+  }
+  
+  func updatePreviousBets() {
+    let ref_challenger = FIRDatabase.database().reference(withPath: "Bets").queryOrdered(byChild: "challenger_uid").queryEqual(toValue: self.profile?.key)
+    ref_challenger.observe(.value, with: { snapshot in
+      for item in snapshot.children {
+        let betItem = BetItem(snapshot: item as! FIRDataSnapshot)
+          let bRef = FIRDatabase.database().reference().child("Bets").child(betItem.key)
+          bRef.updateChildValues(["challenger_name":self.profile.firstName + " " + self.profile.lastName])
+      }
+    })
+    
+    let ref_challengee = FIRDatabase.database().reference(withPath: "Bets").queryOrdered(byChild: "challengee_uid").queryEqual(toValue: self.profile?.key)
+    ref_challengee.observe(.value, with: { snapshot in
+      for item in snapshot.children {
+        let betItem = BetItem(snapshot: item as! FIRDataSnapshot)
+        let bRef = FIRDatabase.database().reference().child("Bets").child(betItem.key)
+        bRef.updateChildValues(["challengee_name":self.profile.firstName + " " + self.profile.lastName])
+      }
+    })
   }
   
   

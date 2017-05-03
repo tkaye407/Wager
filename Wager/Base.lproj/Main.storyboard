@@ -173,19 +173,19 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="xw6-3Q-JfN">
-                                <rect key="frame" x="56" y="163" width="263" height="348"/>
+                                <rect key="frame" x="56" y="163" width="263" height="299"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rEI-P7-AvA">
-                                        <rect key="frame" x="0.0" y="0.0" width="263" height="61.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="263" height="52"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wager:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YlN-EW-JH0">
-                                                <rect key="frame" x="0.0" y="0.0" width="92.5" height="61.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="92.5" height="52"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Bet Reason" textAlignment="natural" minimumFontSize="20" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="ZY0-8f-F9E">
-                                                <rect key="frame" x="92.5" y="0.0" width="170.5" height="61.5"/>
+                                                <rect key="frame" x="92.5" y="0.0" width="170.5" height="52"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
@@ -193,16 +193,16 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6wa-AI-dbO">
-                                        <rect key="frame" x="0.0" y="71.5" width="263" height="61.5"/>
+                                        <rect key="frame" x="0.0" y="62" width="263" height="51.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uMW-d2-9vR">
-                                                <rect key="frame" x="0.0" y="0.0" width="92.5" height="61.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="92.5" height="51.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Bet Description" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Hyr-bP-lYb">
-                                                <rect key="frame" x="92.5" y="0.0" width="170.5" height="61.5"/>
+                                                <rect key="frame" x="92.5" y="0.0" width="170.5" height="51.5"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
@@ -210,16 +210,16 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="epX-Vv-Mz9">
-                                        <rect key="frame" x="0.0" y="143" width="263" height="62"/>
+                                        <rect key="frame" x="0.0" y="123.5" width="263" height="52"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Amount: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5pG-Zz-ulx">
-                                                <rect key="frame" x="0.0" y="0.0" width="92.5" height="62"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="92.5" height="52"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Bet Amount" textAlignment="natural" minimumFontSize="20" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="aId-KU-Gcp">
-                                                <rect key="frame" x="92.5" y="0.0" width="170.5" height="62"/>
+                                                <rect key="frame" x="92.5" y="0.0" width="170.5" height="52"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
@@ -227,13 +227,13 @@
                                         </subviews>
                                     </stackView>
                                     <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aJ5-ai-bUn">
-                                        <rect key="frame" x="0.0" y="215" width="263" height="61.5"/>
+                                        <rect key="frame" x="0.0" y="185.5" width="263" height="51.5"/>
                                     </pickerView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="ZaJ-B9-tOb">
-                                        <rect key="frame" x="0.0" y="286.5" width="263" height="61.5"/>
+                                        <rect key="frame" x="0.0" y="247" width="263" height="52"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nEf-i6-zRZ">
-                                                <rect key="frame" x="0.0" y="0.0" width="131.5" height="61.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="131.5" height="52"/>
                                                 <color key="backgroundColor" red="0.0" green="0.96466159330000001" blue="0.085715509730154474" alpha="0.25258582750000003" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <state key="normal" title="Create Bet">
                                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -246,7 +246,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xE4-Cw-bKZ">
-                                                <rect key="frame" x="131.5" y="0.0" width="131.5" height="61.5"/>
+                                                <rect key="frame" x="131.5" y="0.0" width="131.5" height="52"/>
                                                 <color key="backgroundColor" red="1" green="0.11160649694224967" blue="0.078532094196601565" alpha="0.15036311619718309" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <state key="normal" title="Cancel">
                                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
