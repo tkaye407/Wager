@@ -31,11 +31,12 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     let bRef = FIRDatabase.database().reference(withPath: "Bets")
     let fRef = FIRDatabase.database().reference(withPath: "Friends")
     var bets: [BetItem] = []
-    var items: [BetItem] = []
+    var allItems: [BetItem] = []
     var selectedBet: BetItem?
     var challengerPicked: Bool = true
     var completedPicked: Bool = false
     var shouldShowSignout: Bool = true
+  
   
   
   func signOutTouched(_ sender: Any) {
@@ -98,17 +99,27 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     let new_ref = bRef.queryOrdered(byChild: "challenger_uid").queryEqual(toValue: self.profile?.key)
     new_ref.observe(.value, with: { snapshot in
-      var newItems: [BetItem] = []
       for item in snapshot.children {
         let betItem = BetItem(snapshot: item as! FIRDataSnapshot)
-        if (betItem.completed) {
-          newItems.append(betItem)
+        if (!betItem.accepted) {
+          self.bets.append(betItem)
         }
+        self.allItems.append(betItem)
       }
-      self.bets = newItems
       self.betsTableView.reloadData()
     })
-
+    
+    let new_new_ref = bRef.queryOrdered(byChild: "challengee_uid").queryEqual(toValue: self.profile?.key)
+    new_new_ref.observe(.value, with: { snapshot in
+      for item in snapshot.children {
+        let betItem = BetItem(snapshot: item as! FIRDataSnapshot)
+        if (!betItem.accepted) {
+          self.bets.append(betItem)
+        }
+        self.allItems.append(betItem)
+      }
+      self.betsTableView.reloadData()
+    })
   }
   
   func getAge() -> String {
@@ -162,7 +173,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         // SET THE DELEGATE AND DATA SOURCE TO SELF
         betsTableView.delegate = self
         betsTableView.dataSource = self
-        self.completedController.selectedSegmentIndex = 1
+        self.completedController.selectedSegmentIndex = 0
       
         // CORNERS ON THE PROFILE IMAGE
         self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width / 2;
@@ -191,16 +202,24 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
       // The info dictionary may contain multiple representations of the image. You want to use the original.
-      guard let selectedImage = info[UIImagePickerControllerOriginalImage] as? UIImage else {
+      guard let selectedImage = info[UIImagePickerControllerEditedImage] as? UIImage else {
           fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
       }
-        
+      
+      if (selectedImage.size.width != selectedImage.size.height) {
+        dismiss(animated: true, completion: nil)
+        let alertController = UIAlertController(title: "Profile Image Not Square!", message: "You did not fit your image to the box. Rechoose the image and crop it into the square", preferredStyle: .alert)
+        present(alertController, animated: true, completion: nil)
+        let callOK = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(callOK)
+        return
+      }
       // Set photoImageView to display the selected image.
-      profileImageView.image = selectedImage
+      profileImageView.image = self.resizeImage(image: selectedImage, targetSize: CGSize(width:100.0, height:100.0))
       
       
       let storageRef = FIRStorage.storage().reference().child((self.profile?.userID)!)
-      let finalImage = UIImagePNGRepresentation(selectedImage)
+      let finalImage = UIImagePNGRepresentation(profileImageView.image!)
       storageRef.put(finalImage!, metadata: nil, completion: {(metadata, error) in
         if(error != nil) {print("error"); return}
         else{ print("metadata")}
@@ -208,6 +227,33 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
       // Dismiss the picker.
       dismiss(animated: true, completion: nil)
     }
+  
+  //Copied this function from stack overflow
+  func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
+    let size = image.size
+    
+    let widthRatio  = targetSize.width  / image.size.width
+    let heightRatio = targetSize.height / image.size.height
+    
+    // Figure out what our orientation is, and use that to form the rectangle
+    var newSize: CGSize
+    if(widthRatio > heightRatio) {
+      newSize = CGSize(width:size.width * heightRatio, height:size.height * heightRatio)
+    } else {
+      newSize = CGSize(width:size.width * widthRatio,  height:size.height * widthRatio)
+    }
+    
+    // This is the rect that we've calculated out and this is what is actually used below
+    let rect = CGRect(x:0, y:0, width:newSize.width, height:newSize.height)
+    
+    // Actually do the resizing to the rect using the ImageContext stuff
+    UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+    image.draw(in: rect)
+    let newImage = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    
+    return newImage!
+  }
     
     //MARK: Navigation
     // This method lets you configure a view controller before it's presented.
@@ -230,7 +276,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         switch(segue.identifier ?? "") {
         case "signout":
           do {
-            print(self.user.uid)
             let ref = FIRDatabase.database().reference()
         ref.child("Users").child(self.user.uid).removeAllObservers()
             try FIRAuth.auth()?.signOut()
@@ -274,119 +319,98 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         // Only allow photos to be picked, not taken.
         imagePickerController.sourceType = .photoLibrary
+        imagePickerController.allowsEditing = true;
         
         // Make sure ViewController is notified when the user picks an image.
         imagePickerController.delegate = self
+        
         present(imagePickerController, animated: true, completion: nil)
+        
       }
     }
     
-    @IBAction func unwindEditProfile(sender: UIStoryboardSegue) {
-        if let sourceViewController = sender.source as? ProfileEditorViewController, let profile = sourceViewController.profile {
-            self.profile = profile
-            setProfile()
-        }
+  @IBAction func unwindEditProfile(sender: UIStoryboardSegue) {
+      if let sourceViewController = sender.source as? ProfileEditorViewController, let profile = sourceViewController.profile {
+          self.profile = profile
+          setProfile()
+      }
       setProfile()
   }
 
   
-    //Mark: Private Methods
-    private func calculatePNL() {
-      let pnl = Float((self.profile?.pnl)!)
-      
-      if pnl >= 0.0 {
-        pnlLabel.textColor = UIColor.green
-        pnlLabel.text = String(format:"$%.2f",pnl)
+  //Mark: Private Methods
+  private func calculatePNL() {
+    let pnl = Float((self.profile?.pnl)!)
+    
+    if pnl >= 0.0 {
+      pnlLabel.textColor = UIColor.green
+      pnlLabel.text = String(format:"$%.2f",pnl)
+    }
+    else {
+      pnlLabel.textColor = UIColor.red
+      pnlLabel.text = String(format:"$%.2f",pnl)
       }
-      else {
-        pnlLabel.textColor = UIColor.red
-        pnlLabel.text = String(format:"$%.2f",pnl)
-        }
-    }
+  }
   
   
-    // MARK: TABLE VIEW DELEGATE AND DATASOURCE
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-      return bets.count
-    }
+  // MARK: TABLE VIEW DELEGATE AND DATASOURCE
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return bets.count
+  }
+  
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let betItem = bets[indexPath.row]
+    let cell = self.betsTableView.dequeueReusableCell(withIdentifier: "ProfileBetTableViewCell") as! ProfileBetTableViewCell
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-      let betItem = bets[indexPath.row]
-      let cell = self.betsTableView.dequeueReusableCell(withIdentifier: "ProfileBetTableViewCell") as! ProfileBetTableViewCell
-      
-      cell.betNameLabel.text = betItem.name
-      cell.challengerLabel.text = betItem.challenger_name
-      cell.amountLabel.text = String(format: "$%.2f", betItem.amount)
+    cell.betNameLabel.text = betItem.name
+    cell.challengerLabel.text = betItem.challenger_name
+    cell.amountLabel.text = String(format: "$%.2f", betItem.amount)
 
-      
-      return cell
-      
-    }
-    @IBAction func sayHi()
-    {
-      print("hi")
-    }
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-      return true
-    }
-  
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-      let indexPath = tableView.indexPathForSelectedRow!
-      selectedBet = bets[indexPath.row]
-      self.performSegue(withIdentifier: "toIndividualBet", sender: self);
-    }
+    return cell
+    
+  }
+  @IBAction func sayHi()
+  {
+    print("hi")
+  }
+  func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    return true
+  }
+
+  
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    let indexPath = tableView.indexPathForSelectedRow!
+    selectedBet = bets[indexPath.row]
+    self.performSegue(withIdentifier: "toIndividualBet", sender: self);
+  }
   
   
   // MARK: Segment Control Methods
   @IBAction func completedChanged(_ sender: UISegmentedControl) {
+    self.bets = []
     switch completedController.selectedSegmentIndex
     {
-    case 0:
-      completedPicked = false
-      var child: String = ""
-      if (self.challengerPicked) {
-        child = "challenger_uid"
-      }
-      else {
-        child = "challengee_uid"
-      }
-      let new_ref = bRef.queryOrdered(byChild: child).queryEqual(toValue: self.profile?.key)
-      new_ref.observe(.value, with: { snapshot in
-        var newItems: [BetItem] = []
-        for item in snapshot.children {
-          let betItem = BetItem(snapshot: item as! FIRDataSnapshot)
-          if(betItem.confirmed == false) {
-            newItems.append(betItem)
-          }
+      case 0:
+        for item in allItems {
+          if (!item.accepted) {bets.append(item)}
         }
-        self.bets = newItems
-        self.betsTableView.reloadData()
-      })
-    case 1:
-      completedPicked = true
-      var child: String = ""
-      if (self.challengerPicked) {
-        child = "challenger_uid"
-      }
-      else {
-        child = "challengee_uid"
-      }
-      let new_ref = bRef.queryOrdered(byChild: child).queryEqual(toValue: self.profile?.key)
-      new_ref.observe(.value, with: { snapshot in
-        var newItems: [BetItem] = []
-        for item in snapshot.children {
-          let betItem = BetItem(snapshot: item as! FIRDataSnapshot)
-          if(betItem.confirmed == true) {
-            newItems.append(betItem)
-          }
+      case 1:
+        for item in allItems {
+          if (item.accepted && !item.completed) {bets.append(item)}
         }
-        self.bets = newItems
-        self.betsTableView.reloadData()
-      })
-    default:
-      break
+      case 2:
+        for item in allItems {
+          if (item.accepted && item.completed && !item.confirmed) {bets.append(item)}
+        }
+      case 3:
+        for item in allItems {
+          if (item.accepted && item.completed && item.confirmed) {bets.append(item)}
+        }
+      default:
+        break
     }
+    self.betsTableView.reloadData()
   }
   
     @IBAction func AddFriendButtonTouched(_ sender: Any) {

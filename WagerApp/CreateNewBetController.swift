@@ -13,7 +13,6 @@ class CreateNewBetController: UIViewController,  UIPickerViewDelegate, UIPickerV
 
   @IBOutlet weak var reasonText: UITextField!
   let ref = FIRDatabase.database().reference(withPath: "Bets")
-  let cRef = FIRDatabase.database().reference(withPath: "Categories")
   @IBOutlet weak var amountText: UITextField!
   var user: User!
   var profile: Profile!
@@ -78,24 +77,16 @@ class CreateNewBetController: UIViewController,  UIPickerViewDelegate, UIPickerV
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
+
     self.user = appDelegate.user
     self.profile = appDelegate.profile
-    //self.pickerData = ["Baseball", "Basketball", "Football", "Fighting", "School"]
     
     // Connect data:
     self.catPicker.delegate = self
     self.catPicker.dataSource = self
-    
-    cRef.observe(.value, with: { snapshot in
-      for item in snapshot.children {
-        let currCat = item as! FIRDataSnapshot
-        let snapshotValue = currCat.value as! String
-        self.pickerData.append(snapshotValue)
-      }
-      self.catPicker.reloadAllComponents();
-    })
+    self.pickerData = appDelegate.categories
+    self.catPicker.reloadAllComponents()
     
     amountText.keyboardType = UIKeyboardType.numberPad
     
