@@ -10,7 +10,7 @@ import UIKit
 
 class FilterViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
   
-  @IBOutlet weak var setDefaultButton: UIButton!
+  @IBOutlet weak var setFiltersButton: UIButton!
   @IBOutlet weak var radiusLabel: UILabel!
   @IBOutlet weak var radiusSlider: UISlider!
   @IBOutlet weak var friendsOption: UISegmentedControl!
@@ -55,6 +55,19 @@ class FilterViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         // Connect data:
         self.categoryOption.delegate = self
         self.categoryOption.dataSource = self
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        self.categories = appDelegate.categories
+        self.categoryOption.reloadAllComponents()
+        if (self.category == "") {
+          self.categoryOption.selectRow(0, inComponent: 0, animated: true)
+        }
+        else if let i = self.categories.index(of: self.category) {
+          self.categoryOption.selectRow(i, inComponent: 0, animated: true)
+        }
+        else {
+          self.categoryOption.selectRow(0, inComponent: 0, animated: true)
+        }
+
 /*
         categories.append("All")
         cRef.observe(.value, with: { snapshot in
@@ -66,18 +79,7 @@ class FilterViewController: UIViewController, UIPickerViewDelegate, UIPickerView
           self.categoryOption.reloadAllComponents();
         })
 
-      self.categories = appDelegate.categories
-      self.categoryOption.reloadAllComponents()
-      if (self.category == "") {
-        self.categoryOption.selectRow(0, inComponent: 0, animated: true)
-      }
-      else if let i = self.categories.index(of: self.category) {
-        self.categoryOption.selectRow(i, inComponent: 0, animated: true)
-      }
-      else {
-        self.categoryOption.selectRow(0, inComponent: 0, animated: true)
-      }
- */
+    */
       if (fint != 100) {
         friendsOption.selectedSegmentIndex = fint
       }
@@ -102,9 +104,7 @@ class FilterViewController: UIViewController, UIPickerViewDelegate, UIPickerView
       let radius = Int(slider_mi)
       self.radiusLabel.text = "Radius: \(radius) miles"
 
-      /* make the add filter button
       navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Set Default Filters", style: .plain, target: self, action: #selector(addTapped))
-      */
   }
   
   func addTapped() {
@@ -182,10 +182,8 @@ class FilterViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     let myTitle = NSAttributedString(string: titleData, attributes: [NSFontAttributeName:UIFont(name: "Georgia", size: 15.0)!,NSForegroundColorAttributeName:UIColor.white])
     return myTitle
   }
-  
-  @IBAction func setDefaultSettings(_ sender: Any) {
+  @IBAction func setFiltersTouched(_ sender: Any) {
     performSegue(withIdentifier: "backToList", sender: self)
   }
-  
 
 }
