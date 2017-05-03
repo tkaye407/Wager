@@ -541,7 +541,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="TxX-WI-ZGk">
                                         <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                         <subviews>
-                                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="betIcon" translatesAutoresizingMaskIntoConstraints="NO" id="hAN-ah-ZP8">
+                                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="hAN-ah-ZP8">
                                                 <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                                 <gestureRecognizers/>
                                                 <constraints>
@@ -556,7 +556,7 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="betIcon" translatesAutoresizingMaskIntoConstraints="NO" id="dPx-jh-iaM">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="dPx-jh-iaM">
                                 <rect key="frame" x="257" y="64.5" width="100" height="100"/>
                                 <gestureRecognizers/>
                                 <constraints>
