@@ -24,6 +24,7 @@ class BetListTableViewController: UITableViewController {
     var geo = false
     var radius: Float = 5.0
     var betType = 1
+    var fromFilter = false
     //private var setUpOnce = DispatchOnce()
     private let getCats = DispatchOnce()
   
@@ -53,10 +54,45 @@ class BetListTableViewController: UITableViewController {
       self.performSegue(withIdentifier: "applyFilter", sender: self)
     }
   
+  func isKeyPresentInUserDefaults(key: String) -> Bool {
+    return UserDefaults.standard.object(forKey: key) != nil
+  }
+  
   
   // MARK: UIViewController Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    if (!fromFilter) {
+      print("GETTING USER DEFAULTS")
+      if(isKeyPresentInUserDefaults(key: "dict")) {
+        let result = UserDefaults.standard.value(forKey: "dict") as! [String:String]
+        
+        if let cat = result["category"] {
+          if (cat == "All") {self.channelName = ""}
+          else { self.channelName = cat }
+        }
+        if let rad = result["radius"] {
+          if let radF = Float(rad) {
+            self.radius = radF
+          }
+        }
+        if let bt = result["type"] {
+          let bti = (bt as NSString).integerValue
+          self.betType = bti
+        }
+        if let friend = result["friend"] {
+          let friendi = (friend as NSString).integerValue
+          self.friendsOnly = friendi
+        }
+        if let geos = result["geo"] {
+          let geosi = (geos as NSString).integerValue
+          if (geosi == 1) {self.geo = true}
+          else {self.geo = false}
+        }
+        print(result)
+      }
+    }
 
     tableView.allowsMultipleSelectionDuringEditing = false
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -91,8 +127,6 @@ class BetListTableViewController: UITableViewController {
     
     //self.TypeButton.isEnabled = false
     self.TypeButton.setTitle("Wagers", for: .normal)
-
-
   }
 
   

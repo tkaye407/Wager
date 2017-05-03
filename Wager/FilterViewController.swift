@@ -10,6 +10,7 @@ import UIKit
 
 class FilterViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
   
+  @IBOutlet weak var setDefaultButton: UIButton!
   @IBOutlet weak var radiusLabel: UILabel!
   @IBOutlet weak var radiusSlider: UISlider!
   @IBOutlet weak var friendsOption: UISegmentedControl!
@@ -70,11 +71,20 @@ override func viewDidLoad() {
       self.radiusLabel.text = "Radius: \(radius) miles"
 
       // make the add filter button
-      navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Set Filters", style: .plain, target: self, action: #selector(addTapped))
+      navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Set Default Filters", style: .plain, target: self, action: #selector(addTapped))
       
   }
   
   func addTapped() {
+    let cat = categories[categoryOption.selectedRow(inComponent: 0)]
+    let friend = String(describing: friendsOption.selectedSegmentIndex)
+    let type = String(describing: typeOption.selectedSegmentIndex)
+    let geo = String(describing: geoOption.selectedSegmentIndex)
+    let radius = String(describing: self.radiusSlider.value)
+    let dict:[String:String] = ["category":cat, "friend":friend, "type":type, "geo":geo, "radius":radius]
+    UserDefaults.standard.set(dict, forKey: "dict")
+    let result = UserDefaults.standard.value(forKey: "dict") as! [String:String]
+    print(result)
     performSegue(withIdentifier: "backToList", sender: self)
   }
 
@@ -112,7 +122,11 @@ override func viewDidLoad() {
         if (geoOption.selectedSegmentIndex == 1) {vc.geo = true}
         else {vc.geo = false}
         vc.radius = self.radiusSlider.value
+        vc.fromFilter = true
 
+      }
+      else if (segue.identifier == "setDefaults") {
+       
       }
 
       
@@ -136,5 +150,10 @@ override func viewDidLoad() {
     let myTitle = NSAttributedString(string: titleData, attributes: [NSFontAttributeName:UIFont(name: "Georgia", size: 15.0)!,NSForegroundColorAttributeName:UIColor.white])
     return myTitle
   }
+  
+  @IBAction func setDefaultSettings(_ sender: Any) {
+    performSegue(withIdentifier: "backToList", sender: self)
+  }
+  
 
 }

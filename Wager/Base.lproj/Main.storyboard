@@ -449,6 +449,18 @@
                                 </segments>
                                 <color key="tintColor" red="0.98207131410000004" green="0.51699285849999999" blue="0.01448638444" alpha="1" colorSpace="calibratedRGB"/>
                             </segmentedControl>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hMv-Ay-vPT">
+                                <rect key="frame" x="117" y="416" width="141" height="33"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.98207131410000004" green="0.51699285849999999" blue="0.01448638444" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <state key="normal" title="Apply Filters">
+                                    <color key="titleColor" red="0.99989169836044312" green="1" blue="0.99988096952438354" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="setDefaultSettings:" destination="wz1-JI-0r4" eventType="touchUpInside" id="nrW-PD-6xM"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.23921568630000001" green="0.59607843140000005" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="tintColor" red="0.23921568630000001" green="0.59607843140000005" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -459,13 +471,15 @@
                         <outlet property="geoOption" destination="muF-3Q-oUU" id="KB2-nC-h2I"/>
                         <outlet property="radiusLabel" destination="ljj-pJ-pgK" id="JW1-CK-e6K"/>
                         <outlet property="radiusSlider" destination="PN4-I0-oj8" id="ARn-jo-I0M"/>
+                        <outlet property="setDefaultButton" destination="hMv-Ay-vPT" id="FcQ-EU-ujl"/>
                         <outlet property="typeOption" destination="jj3-sS-hvw" id="GrM-7R-PNf"/>
                         <segue destination="WRG-qR-ebT" kind="show" identifier="backToList" id="yoL-jb-eGv"/>
+                        <segue destination="WRG-qR-ebT" kind="show" identifier="setDefaults" id="Zel-jd-7OV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xb7-Jh-SZI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3905" y="-484"/>
+            <point key="canvasLocation" x="3904.8000000000002" y="-484.40779610194909"/>
         </scene>
         <!--Bet View Controller-->
         <scene sceneID="mxU-NZ-bd7">
@@ -1656,11 +1670,11 @@
         <image name="upload" width="262" height="264"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="IgS-LP-HoH"/>
         <segue reference="ujZ-n3-ETv"/>
-        <segue reference="sTM-qw-YuI"/>
+        <segue reference="IgS-LP-HoH"/>
         <segue reference="HI1-QR-qRS"/>
         <segue reference="yUp-bl-tG5"/>
-        <segue reference="yoL-jb-eGv"/>
+        <segue reference="sTM-qw-YuI"/>
+        <segue reference="Zel-jd-7OV"/>
     </inferredMetricsTieBreakers>
 </document>
