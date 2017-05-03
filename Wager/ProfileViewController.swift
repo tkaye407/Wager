@@ -195,7 +195,16 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
       guard let selectedImage = info[UIImagePickerControllerEditedImage] as? UIImage else {
           fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
       }
-        
+      
+      if (selectedImage.size.width != selectedImage.size.height) {
+        print("no way")
+        dismiss(animated: true, completion: nil)
+        let alertController = UIAlertController(title: "Profile Image Not Square!", message: "You did not fit your image to the box. Rechoose the image and crop it into the square", preferredStyle: .alert)
+        present(alertController, animated: true, completion: nil)
+        let callOK = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(callOK)
+        return
+      }
       // Set photoImageView to display the selected image.
       profileImageView.image = self.resizeImage(image: selectedImage, targetSize: CGSize(width:100.0, height:100.0))
       
@@ -306,7 +315,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         // Make sure ViewController is notified when the user picks an image.
         imagePickerController.delegate = self
+        
         present(imagePickerController, animated: true, completion: nil)
+        
       }
     }
     
