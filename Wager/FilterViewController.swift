@@ -19,28 +19,31 @@ class FilterViewController: UIViewController, UIPickerViewDelegate, UIPickerView
   var fint = 100
   var gint = 100
   var tint = 100
+  var category = ""
   var rad: Float = 100000.0
-  let cRef = FIRDatabase.database().reference(withPath: "Categories")
   var categories: [String] = [String]()
 
 
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-      
-        // Connect data:
-        self.categoryOption.delegate = self
-        self.categoryOption.dataSource = self
-      
-        categories.append("All")
-        cRef.observe(.value, with: { snapshot in
-          for item in snapshot.children {
-            let currCat = item as! FIRDataSnapshot
-            let snapshotValue = currCat.value as! String
-            self.categories.append(snapshotValue)
-          }
-          self.categoryOption.reloadAllComponents();
-        })
+override func viewDidLoad() {
+      super.viewDidLoad()
+      let appDelegate = UIApplication.shared.delegate as! AppDelegate
+
+      // Connect data:
+      self.categoryOption.delegate = self
+      self.categoryOption.dataSource = self
+    
+      self.categories = appDelegate.categories
+      self.categoryOption.reloadAllComponents()
+      if (self.category == "") {
+        self.categoryOption.selectRow(0, inComponent: 0, animated: true)
+      }
+      else if let i = self.categories.index(of: self.category) {
+        self.categoryOption.selectRow(i, inComponent: 0, animated: true)
+      }
+      else {
+        self.categoryOption.selectRow(0, inComponent: 0, animated: true)
+      }
       
       if (fint != 100) {
         friendsOption.selectedSegmentIndex = fint

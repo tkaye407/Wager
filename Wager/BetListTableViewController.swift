@@ -24,7 +24,8 @@ class BetListTableViewController: UITableViewController {
     var geo = false
     var radius: Float = 5.0
     var betType = 1
-    private var setUpOnce = DispatchOnce()
+    //private var setUpOnce = DispatchOnce()
+    private let getCats = DispatchOnce()
   
     // MARK: Database references: 
     let ref = FIRDatabase.database().reference(withPath: "Bets")
@@ -56,17 +57,23 @@ class BetListTableViewController: UITableViewController {
   // MARK: UIViewController Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
-    setUpOnce = DispatchOnce()
-    
+
     tableView.allowsMultipleSelectionDuringEditing = false
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     //channels = []
-    refChannel.observe(.value, with: { snapshot in
-      for item in snapshot.children {
-        let currCat = item as! FIRDataSnapshot
-        let snapshotValue = currCat.value as! String
-        self.channels.append(snapshotValue)
-      }
-    })
+    if (appDelegate.categories.count <= 1) {
+      print("GETTING CATEGORIES")
+      channels.append("All")
+      refChannel.observe(.value, with: { snapshot in
+        for item in snapshot.children {
+          let currCat = item as! FIRDataSnapshot
+          let snapshotValue = currCat.value as! String
+          self.channels.append(snapshotValue)
+        }
+        appDelegate.categories = self.channels
+      })
+    }
+    
     
     FIRAuth.auth()!.addStateDidChangeListener { auth, user in
       guard let user = user else { return }
@@ -75,8 +82,7 @@ class BetListTableViewController: UITableViewController {
         for item in snapshot.children {
           self.profile = Profile(snapshot: item as! FIRDataSnapshot)
         }
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.user = self.user 
+        appDelegate.user = self.user
         appDelegate.profile = self.profile
         
         self.reloadRows()
@@ -209,6 +215,7 @@ class BetListTableViewController: UITableViewController {
       if(self.geo) {vc.gint = 1}
       else {vc.gint = 0}
       vc.rad = radius
+      vc.category = self.channelName
 
     }
   }
