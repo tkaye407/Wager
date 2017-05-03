@@ -330,61 +330,61 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
       }
     }
     
-    @IBAction func unwindEditProfile(sender: UIStoryboardSegue) {
-        if let sourceViewController = sender.source as? ProfileEditorViewController, let profile = sourceViewController.profile {
-            self.profile = profile
-            setProfile()
-        }
+  @IBAction func unwindEditProfile(sender: UIStoryboardSegue) {
+      if let sourceViewController = sender.source as? ProfileEditorViewController, let profile = sourceViewController.profile {
+          self.profile = profile
+          setProfile()
+      }
       setProfile()
   }
 
   
-    //Mark: Private Methods
-    private func calculatePNL() {
-      let pnl = Float((self.profile?.pnl)!)
-      
-      if pnl >= 0.0 {
-        pnlLabel.textColor = UIColor.green
-        pnlLabel.text = String(format:"$%.2f",pnl)
+  //Mark: Private Methods
+  private func calculatePNL() {
+    let pnl = Float((self.profile?.pnl)!)
+    
+    if pnl >= 0.0 {
+      pnlLabel.textColor = UIColor.green
+      pnlLabel.text = String(format:"$%.2f",pnl)
+    }
+    else {
+      pnlLabel.textColor = UIColor.red
+      pnlLabel.text = String(format:"$%.2f",pnl)
       }
-      else {
-        pnlLabel.textColor = UIColor.red
-        pnlLabel.text = String(format:"$%.2f",pnl)
-        }
-    }
+  }
   
   
-    // MARK: TABLE VIEW DELEGATE AND DATASOURCE
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-      return bets.count
-    }
+  // MARK: TABLE VIEW DELEGATE AND DATASOURCE
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return bets.count
+  }
+  
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let betItem = bets[indexPath.row]
+    let cell = self.betsTableView.dequeueReusableCell(withIdentifier: "ProfileBetTableViewCell") as! ProfileBetTableViewCell
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-      let betItem = bets[indexPath.row]
-      let cell = self.betsTableView.dequeueReusableCell(withIdentifier: "ProfileBetTableViewCell") as! ProfileBetTableViewCell
-      
-      cell.betNameLabel.text = betItem.name
-      cell.challengerLabel.text = betItem.challenger_name
-      cell.amountLabel.text = String(format: "$%.2f", betItem.amount)
+    cell.betNameLabel.text = betItem.name
+    cell.challengerLabel.text = betItem.challenger_name
+    cell.amountLabel.text = String(format: "$%.2f", betItem.amount)
 
-      
-      return cell
-      
-    }
-    @IBAction func sayHi()
-    {
-      print("hi")
-    }
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-      return true
-    }
-  
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-      let indexPath = tableView.indexPathForSelectedRow!
-      selectedBet = bets[indexPath.row]
-      self.performSegue(withIdentifier: "toIndividualBet", sender: self);
-    }
+    return cell
+    
+  }
+  @IBAction func sayHi()
+  {
+    print("hi")
+  }
+  func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    return true
+  }
+
+  
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    let indexPath = tableView.indexPathForSelectedRow!
+    selectedBet = bets[indexPath.row]
+    self.performSegue(withIdentifier: "toIndividualBet", sender: self);
+  }
   
   
   // MARK: Segment Control Methods
@@ -392,25 +392,24 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     self.bets = []
     switch completedController.selectedSegmentIndex
     {
-    case 0:
-      for item in allItems {
-        if (!item.accepted) {bets.append(item)}
-      }
-      
-    case 1:
-      for item in allItems {
-        if (item.accepted && !item.completed) {bets.append(item)}
-      }
-    case 2:
-      for item in allItems {
-        if (item.accepted && item.completed && !item.confirmed) {bets.append(item)}
-      }
-    case 3:
-      for item in allItems {
-        if (item.accepted && item.completed && item.confirmed) {bets.append(item)}
-      }
-    default:
-      break
+      case 0:
+        for item in allItems {
+          if (!item.accepted) {bets.append(item)}
+        }
+      case 1:
+        for item in allItems {
+          if (item.accepted && !item.completed) {bets.append(item)}
+        }
+      case 2:
+        for item in allItems {
+          if (item.accepted && item.completed && !item.confirmed) {bets.append(item)}
+        }
+      case 3:
+        for item in allItems {
+          if (item.accepted && item.completed && item.confirmed) {bets.append(item)}
+        }
+      default:
+        break
     }
     self.betsTableView.reloadData()
   }
