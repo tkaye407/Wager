@@ -192,16 +192,25 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
       // The info dictionary may contain multiple representations of the image. You want to use the original.
-      guard let selectedImage = info[UIImagePickerControllerOriginalImage] as? UIImage else {
+      guard let selectedImage = info[UIImagePickerControllerEditedImage] as? UIImage else {
           fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
       }
-        
+      
+      if (selectedImage.size.width != selectedImage.size.height) {
+        print("no way")
+        dismiss(animated: true, completion: nil)
+        let alertController = UIAlertController(title: "Profile Image Not Square!", message: "You did not fit your image to the box. Rechoose the image and crop it into the square", preferredStyle: .alert)
+        present(alertController, animated: true, completion: nil)
+        let callOK = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(callOK)
+        return
+      }
       // Set photoImageView to display the selected image.
-      profileImageView.image = selectedImage
+      profileImageView.image = self.resizeImage(image: selectedImage, targetSize: CGSize(width:100.0, height:100.0))
       
       
       let storageRef = FIRStorage.storage().reference().child((self.profile?.userID)!)
-      let finalImage = UIImagePNGRepresentation(selectedImage)
+      let finalImage = UIImagePNGRepresentation(profileImageView.image!)
       storageRef.put(finalImage!, metadata: nil, completion: {(metadata, error) in
         if(error != nil) {print("error"); return}
         else{ print("metadata")}
@@ -209,6 +218,33 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
       // Dismiss the picker.
       dismiss(animated: true, completion: nil)
     }
+  
+  //Copied this function from stack overflow
+  func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
+    let size = image.size
+    
+    let widthRatio  = targetSize.width  / image.size.width
+    let heightRatio = targetSize.height / image.size.height
+    
+    // Figure out what our orientation is, and use that to form the rectangle
+    var newSize: CGSize
+    if(widthRatio > heightRatio) {
+      newSize = CGSize(width:size.width * heightRatio, height:size.height * heightRatio)
+    } else {
+      newSize = CGSize(width:size.width * widthRatio,  height:size.height * widthRatio)
+    }
+    
+    // This is the rect that we've calculated out and this is what is actually used below
+    let rect = CGRect(x:0, y:0, width:newSize.width, height:newSize.height)
+    
+    // Actually do the resizing to the rect using the ImageContext stuff
+    UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+    image.draw(in: rect)
+    let newImage = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    
+    return newImage!
+  }
     
     //MARK: Navigation
     // This method lets you configure a view controller before it's presented.
@@ -275,10 +311,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         // Only allow photos to be picked, not taken.
         imagePickerController.sourceType = .photoLibrary
+        imagePickerController.allowsEditing = true;
         
         // Make sure ViewController is notified when the user picks an image.
         imagePickerController.delegate = self
+        
         present(imagePickerController, animated: true, completion: nil)
+        
       }
     }
     
