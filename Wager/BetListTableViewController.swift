@@ -9,7 +9,7 @@ import Firebase
 import GeoFire
 import CoreLocation
 
-class BetListTableViewController: UITableViewController, CLLocationManagerDelegate {
+class BetListTableViewController: UITableViewController {
   
     // MARK: Constants:
     let BET_TYPE_ALL = 0
@@ -25,10 +25,6 @@ class BetListTableViewController: UITableViewController, CLLocationManagerDelega
     var radius: Float = 5.0
     var betType = 1
     private var setUpOnce = DispatchOnce()
-  
-    // MARK: location
-    let locationManager = CLLocationManager()
-    var userLocation: CLLocation!
   
     // MARK: Database references: 
     let ref = FIRDatabase.database().reference(withPath: "Bets")
@@ -61,10 +57,6 @@ class BetListTableViewController: UITableViewController, CLLocationManagerDelega
   override func viewDidLoad() {
     super.viewDidLoad()
     setUpOnce = DispatchOnce()
-    self.locationManager.delegate = self
-    locationManager.distanceFilter = 100.0
-    locationManager.requestWhenInUseAuthorization()
-
     
     tableView.allowsMultipleSelectionDuringEditing = false
     //channels = []
@@ -87,14 +79,6 @@ class BetListTableViewController: UITableViewController, CLLocationManagerDelega
         appDelegate.user = self.user 
         appDelegate.profile = self.profile
         
-        if (appDelegate.currLocation == nil) {
-          print("GETTING LOCATION")
-          self.locationManager.requestLocation()
-        }
-        else {
-          print("ALREADY HAVE LOCATION")
-          self.userLocation = appDelegate.currLocation
-        }
         self.reloadRows()
       })
     }
@@ -111,21 +95,24 @@ class BetListTableViewController: UITableViewController, CLLocationManagerDelega
     print((self.profile?.email)! + "\n\n")
     if (self.geo) {
       print("GEO")
+      let appDelegate = UIApplication.shared.delegate as! AppDelegate
       let currRef = FIRDatabase.database().reference().child("Bets")
       let geofireRef = FIRDatabase.database().reference().child("bet_locations")
       let geoFire = GeoFire(firebaseRef: geofireRef)
       let radius_km = self.radius * 1.6
-      let circleQuery = geoFire?.query(at: userLocation, withRadius: Double(radius_km))
-      self.items = []
-      circleQuery?.observe(GFEventType.init(rawValue: 0)!, with: {(key: String!, location: CLLocation!) in
-        currRef.child(key).observeSingleEvent(of: .value, with: { (snapshot) in
-          if(!(snapshot.value is NSNull)) {
-            let currBet = BetItem(snapshot: snapshot )
-            if (self.friendsOnly == 1) { self.checkFriends(betItem: currBet) }
-            else { self.checkBet(bet: currBet) }
-          }
+      if let uLocation = appDelegate.currLocation {
+        let circleQuery = geoFire?.query(at: uLocation, withRadius: Double(radius_km))
+        self.items = []
+        circleQuery?.observe(GFEventType.init(rawValue: 0)!, with: {(key: String!, location: CLLocation!) in
+          currRef.child(key).observeSingleEvent(of: .value, with: { (snapshot) in
+            if(!(snapshot.value is NSNull)) {
+              let currBet = BetItem(snapshot: snapshot )
+              if (self.friendsOnly == 1) { self.checkFriends(betItem: currBet) }
+              else { self.checkBet(bet: currBet) }
+            }
+          })
         })
-      })
+      }
     }
     else {
       print("NOT GEO")
@@ -155,7 +142,6 @@ class BetListTableViewController: UITableViewController, CLLocationManagerDelega
   
   func checkBet(bet: BetItem) {
     if (bet.category == self.channelName || self.channelName == "") {
-      print("BET")
       if (self.betType == self.BET_TYPE_ALL) {self.addVal(betItem: bet) }
       else if(self.betType == self.BET_TYPE_POSED && !bet.accepted) {self.addVal(betItem: bet) }
       else if(self.betType == self.BET_TYPE_ACTIVE && bet.accepted && !bet.completed) {self.addVal(betItem: bet) }
@@ -168,50 +154,6 @@ class BetListTableViewController: UITableViewController, CLLocationManagerDelega
     self.items = self.items.sorted{ $0.date_opened > $1.date_opened }
     self.tableView.reloadData()
   }
-  
-  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    if let location = locations.first {
-      print("SETTING APP DELEGATE LOCATION")
-      appDelegate.currLocation = location
-    }
-
-  }
-  
-//  // MARK: LOCATION METHODS
-//  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//    setUpOnce.perform {
-//      self.locationManager.stopUpdatingLocation()
-//      print("In the location manager")
-//      if let location = locations.first {
-//        let currRef = FIRDatabase.database().reference().child("Bets")
-//        userLocation = location
-//        let geofireRef = FIRDatabase.database().reference().child("bet_locations")
-//        let geoFire = GeoFire(firebaseRef: geofireRef)
-//        let radius_km = self.radius * 1.6
-//        let circleQuery = geoFire?.query(at: userLocation, withRadius: Double(radius_km))
-//        circleQuery?.observe(GFEventType.init(rawValue: 0)!, with: {(key: String!, location: CLLocation!) in
-//          currRef.child(key).observeSingleEvent(of: .value, with: { (snapshot) in
-//            if(!(snapshot.value is NSNull)) {
-//              let currBet = BetItem(snapshot: snapshot )
-//              
-//              if (self.friendsOnly == 1) {
-//                self.checkFriends(betItem: currBet)
-//              }
-//              else {
-//                self.checkBet(bet: currBet)
-//              }
-//            }
-//          })
-//        })
-//      }
-//    }
-//  }
-  
-  func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-    print("Failed to find user's location: \(error.localizedDescription)")
-  }
-
   
   // MARK: UITableView Delegate methods
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
