@@ -23,15 +23,40 @@ class FilterViewController: UIViewController, UIPickerViewDelegate, UIPickerView
   let cRef = FIRDatabase.database().reference(withPath: "Categories")
   var categories: [String] = [String]()
 
-
-
+  
+  @IBAction func segmentedControlValueChanged(segment: UISegmentedControl)
+  {
+    
+    if segment.selectedSegmentIndex == 0
+    {
+      print("in here 1")
+      self.radiusSlider.isHidden = true
+      self.radiusLabel.isHidden  = true
+    }
+    else if segment.selectedSegmentIndex == 1
+    {
+      print("in here 2")
+      self.radiusSlider.isHidden = false
+      self.radiusLabel.isHidden = false
+    }
+    
+    
+  }
     override func viewDidLoad() {
         super.viewDidLoad()
       
+      // initially hide these since we start on all bets
+      self.radiusSlider.isHidden = true
+      self.radiusLabel.isHidden  = true
+      
+      // hide radius unless the bets near you is selected
+    geoOption.addTarget(self, action: #selector(self.segmentedControlValueChanged(segment:)), for: .valueChanged)
+        
         // Connect data:
         self.categoryOption.delegate = self
         self.categoryOption.dataSource = self
       
+
         categories.append("All")
         cRef.observe(.value, with: { snapshot in
           for item in snapshot.children {

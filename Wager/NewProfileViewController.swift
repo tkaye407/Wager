@@ -121,6 +121,8 @@ class NewProfileViewController: UIViewController,UIImagePickerControllerDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
       
+      self.signUpButton.layer.borderColor = UIColor.white.cgColor
+      self.signUpButton.layer.borderWidth = 1.5
       self.signUpButton.layer.cornerRadius = 5;
       self.profileImageView.clipsToBounds = true
         // CORNERS ON THE PROFILE IMAGE
