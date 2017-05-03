@@ -192,7 +192,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
       // The info dictionary may contain multiple representations of the image. You want to use the original.
-      guard let selectedImage = info[UIImagePickerControllerOriginalImage] as? UIImage else {
+      guard let selectedImage = info[UIImagePickerControllerEditedImage] as? UIImage else {
           fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
       }
         
@@ -275,6 +275,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         // Only allow photos to be picked, not taken.
         imagePickerController.sourceType = .photoLibrary
+        imagePickerController.allowsEditing = true;
         
         // Make sure ViewController is notified when the user picks an image.
         imagePickerController.delegate = self
