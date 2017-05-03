@@ -43,6 +43,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     if let location = locations.first {
       print("SETTING APP DELEGATE LOCATION")
       self.currLocation = location
+      let nc = NotificationCenter.default
+      nc.post(name:Notification.Name(rawValue:"reloadData"),
+              object: nil,
+              userInfo: ["message":"Hello there!", "date":Date()])
     }
     
   }

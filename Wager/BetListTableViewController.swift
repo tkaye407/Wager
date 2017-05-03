@@ -62,6 +62,13 @@ class BetListTableViewController: UITableViewController {
   // MARK: UIViewController Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
+
+    let nc = NotificationCenter.default // Note that default is now a property, not a method call
+    nc.addObserver(forName:Notification.Name(rawValue:"reloadData"),
+                   object:nil, queue:nil) {
+                    notification in
+       self.reloadRows()
+    }
     
     if (!fromFilter) {
       print("GETTING USER DEFAULTS")
@@ -132,6 +139,7 @@ class BetListTableViewController: UITableViewController {
   
   // MARK: HELPER FUNCTIONS
   func reloadRows(){
+    var failed = true
     print((self.profile?.email)! + "\n\n")
     if (self.geo) {
       print("GEO")
@@ -141,6 +149,7 @@ class BetListTableViewController: UITableViewController {
       let geoFire = GeoFire(firebaseRef: geofireRef)
       let radius_km = self.radius * 1.6
       if let uLocation = appDelegate.currLocation {
+        failed = false
         let circleQuery = geoFire?.query(at: uLocation, withRadius: Double(radius_km))
         self.items = []
         circleQuery?.observe(GFEventType.init(rawValue: 0)!, with: {(key: String!, location: CLLocation!) in
@@ -154,7 +163,7 @@ class BetListTableViewController: UITableViewController {
         })
       }
     }
-    else {
+    else if (failed == true) {
       print("NOT GEO")
       var new_ref = ref.queryOrdered(byChild: "category")
       if (channelName != "") {new_ref = ref.queryOrdered(byChild: "category").queryEqual(toValue: channelName)}
