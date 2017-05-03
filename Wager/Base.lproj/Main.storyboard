@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="ySw-NR-5vS">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="ySw-NR-5vS">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -381,7 +381,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fRX-FK-8Yw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3238" y="1065"/>
+            <point key="canvasLocation" x="2761" y="262"/>
         </scene>
         <!--Filter View Controller-->
         <scene sceneID="T36-8q-GcS">
@@ -798,11 +798,13 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="zxo-4G-gyf">
                                         <rect key="frame" x="0.0" y="115" width="345" height="72"/>
                                         <subviews>
-                                            <segmentedControl opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Ms7-HU-5VY">
+                                            <segmentedControl opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Ms7-HU-5VY">
                                                 <rect key="frame" x="0.0" y="0.0" width="345" height="73"/>
                                                 <segments>
+                                                    <segment title="Open"/>
                                                     <segment title="Active"/>
                                                     <segment title="Completed"/>
+                                                    <segment title="Confirmed"/>
                                                 </segments>
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <connections>
@@ -818,53 +820,35 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="345" height="236"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <prototypes>
-                                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ProfileBetTableViewCell" rowHeight="60" id="Dre-qo-2KJ" customClass="ProfileBetTableViewCell" customModule="Wager" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="28" width="345" height="60"/>
+                                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ProfileBetTableViewCell" rowHeight="64" id="Dre-qo-2KJ" customClass="ProfileBetTableViewCell" customModule="Wager" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="28" width="345" height="64"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Dre-qo-2KJ" id="WGd-R2-vYe" customClass="ProfileBetTableViewCell" customModule="Wager" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="0.0" width="345" height="59.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="345" height="63.5"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
-                                                                <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Sab-Ty-QYy">
-                                                                    <rect key="frame" x="8" y="30" width="89" height="20.5"/>
-                                                                </stackView>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Bet Name: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lU8-vM-ibX">
-                                                                    <rect key="frame" x="9" y="7" width="217" height="23"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Bet Name: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lU8-vM-ibX">
+                                                                    <rect key="frame" x="8" y="1" width="247" height="23"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                                     <color key="textColor" red="0.2901960784" green="0.65098039220000004" blue="0.4941176471" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Amount" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xTf-hs-uEO">
-                                                                    <rect key="frame" x="276" y="7" width="60" height="21"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" constant="60" id="l8d-I2-4ea"/>
-                                                                    </constraints>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Amount" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xTf-hs-uEO">
+                                                                    <rect key="frame" x="270" y="1" width="75" height="21"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="c" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5mt-n1-ZB5">
-                                                                    <rect key="frame" x="9" y="30" width="250" height="21"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" constant="250" id="k3v-54-sOu"/>
-                                                                    </constraints>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="c" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5mt-n1-ZB5">
+                                                                    <rect key="frame" x="8" y="21" width="247" height="21"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                             </subviews>
-                                                            <constraints>
-                                                                <constraint firstAttribute="leadingMargin" secondItem="lU8-vM-ibX" secondAttribute="leading" constant="1" id="3ss-to-toq"/>
-                                                                <constraint firstItem="Sab-Ty-QYy" firstAttribute="centerY" secondItem="WGd-R2-vYe" secondAttribute="centerY" id="D1J-7P-3Gq"/>
-                                                                <constraint firstItem="xTf-hs-uEO" firstAttribute="top" secondItem="WGd-R2-vYe" secondAttribute="topMargin" constant="-1" id="PzY-Fr-w9p"/>
-                                                                <constraint firstItem="5mt-n1-ZB5" firstAttribute="leading" secondItem="WGd-R2-vYe" secondAttribute="leadingMargin" constant="1" id="Q7m-66-vWr"/>
-                                                                <constraint firstAttribute="bottomMargin" secondItem="5mt-n1-ZB5" secondAttribute="bottom" constant="0.5" id="Qkp-gr-C6U"/>
-                                                                <constraint firstItem="lU8-vM-ibX" firstAttribute="trailing" secondItem="5mt-n1-ZB5" secondAttribute="trailing" id="hEQ-Yu-Cll"/>
-                                                                <constraint firstItem="lU8-vM-ibX" firstAttribute="leading" secondItem="5mt-n1-ZB5" secondAttribute="leading" id="ibi-dE-Unv"/>
-                                                                <constraint firstItem="Sab-Ty-QYy" firstAttribute="leading" secondItem="WGd-R2-vYe" secondAttribute="leadingMargin" id="igr-Oi-NsH"/>
-                                                                <constraint firstAttribute="trailingMargin" secondItem="xTf-hs-uEO" secondAttribute="trailing" constant="1" id="xSw-76-IDW"/>
-                                                                <constraint firstItem="5mt-n1-ZB5" firstAttribute="top" secondItem="lU8-vM-ibX" secondAttribute="bottom" constant="1" id="xgB-CN-CJk"/>
-                                                            </constraints>
                                                         </tableViewCellContentView>
                                                         <connections>
                                                             <outlet property="amountLabel" destination="xTf-hs-uEO" id="RaD-kX-5nq"/>
@@ -954,7 +938,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="3076" y="1049"/>
+            <point key="canvasLocation" x="3076" y="1048.4257871064469"/>
         </scene>
         <!--Edit Profile-->
         <scene sceneID="3oW-q1-eck">
@@ -1672,11 +1656,11 @@
         <image name="upload" width="262" height="264"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="HI1-QR-qRS"/>
-        <segue reference="yUp-bl-tG5"/>
-        <segue reference="sTM-qw-YuI"/>
         <segue reference="IgS-LP-HoH"/>
         <segue reference="ujZ-n3-ETv"/>
+        <segue reference="sTM-qw-YuI"/>
+        <segue reference="HI1-QR-qRS"/>
+        <segue reference="yUp-bl-tG5"/>
         <segue reference="yoL-jb-eGv"/>
     </inferredMetricsTieBreakers>
 </document>

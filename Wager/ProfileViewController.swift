@@ -31,11 +31,12 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     let bRef = FIRDatabase.database().reference(withPath: "Bets")
     let fRef = FIRDatabase.database().reference(withPath: "Friends")
     var bets: [BetItem] = []
-    var items: [BetItem] = []
+    var allItems: [BetItem] = []
     var selectedBet: BetItem?
     var challengerPicked: Bool = true
     var completedPicked: Bool = false
     var shouldShowSignout: Bool = true
+  
   
   
   func signOutTouched(_ sender: Any) {
@@ -98,17 +99,27 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     let new_ref = bRef.queryOrdered(byChild: "challenger_uid").queryEqual(toValue: self.profile?.key)
     new_ref.observe(.value, with: { snapshot in
-      var newItems: [BetItem] = []
       for item in snapshot.children {
         let betItem = BetItem(snapshot: item as! FIRDataSnapshot)
-        if (betItem.completed) {
-          newItems.append(betItem)
+        if (!betItem.accepted) {
+          self.bets.append(betItem)
         }
+        self.allItems.append(betItem)
       }
-      self.bets = newItems
       self.betsTableView.reloadData()
     })
-
+    
+    let new_new_ref = bRef.queryOrdered(byChild: "challengee_uid").queryEqual(toValue: self.profile?.key)
+    new_new_ref.observe(.value, with: { snapshot in
+      for item in snapshot.children {
+        let betItem = BetItem(snapshot: item as! FIRDataSnapshot)
+        if (!betItem.accepted) {
+          self.bets.append(betItem)
+        }
+        self.allItems.append(betItem)
+      }
+      self.betsTableView.reloadData()
+    })
   }
   
   func getAge() -> String {
@@ -163,7 +174,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         // SET THE DELEGATE AND DATA SOURCE TO SELF
         betsTableView.delegate = self
         betsTableView.dataSource = self
-        self.completedController.selectedSegmentIndex = 1
+        self.completedController.selectedSegmentIndex = 0
       
         // CORNERS ON THE PROFILE IMAGE
         self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width / 2;
@@ -197,7 +208,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
       }
       
       if (selectedImage.size.width != selectedImage.size.height) {
-        print("no way")
         dismiss(animated: true, completion: nil)
         let alertController = UIAlertController(title: "Profile Image Not Square!", message: "You did not fit your image to the box. Rechoose the image and crop it into the square", preferredStyle: .alert)
         present(alertController, animated: true, completion: nil)
@@ -267,7 +277,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         switch(segue.identifier ?? "") {
         case "signout":
           do {
-            print(self.user.uid)
             let ref = FIRDatabase.database().reference()
         ref.child("Users").child(self.user.uid).removeAllObservers()
             try FIRAuth.auth()?.signOut()
@@ -380,53 +389,30 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
   
   // MARK: Segment Control Methods
   @IBAction func completedChanged(_ sender: UISegmentedControl) {
+    self.bets = []
     switch completedController.selectedSegmentIndex
     {
     case 0:
-      completedPicked = false
-      var child: String = ""
-      if (self.challengerPicked) {
-        child = "challenger_uid"
+      for item in allItems {
+        if (!item.accepted) {bets.append(item)}
       }
-      else {
-        child = "challengee_uid"
-      }
-      let new_ref = bRef.queryOrdered(byChild: child).queryEqual(toValue: self.profile?.key)
-      new_ref.observe(.value, with: { snapshot in
-        var newItems: [BetItem] = []
-        for item in snapshot.children {
-          let betItem = BetItem(snapshot: item as! FIRDataSnapshot)
-          if(betItem.confirmed == false) {
-            newItems.append(betItem)
-          }
-        }
-        self.bets = newItems
-        self.betsTableView.reloadData()
-      })
+      
     case 1:
-      completedPicked = true
-      var child: String = ""
-      if (self.challengerPicked) {
-        child = "challenger_uid"
+      for item in allItems {
+        if (item.accepted && !item.completed) {bets.append(item)}
       }
-      else {
-        child = "challengee_uid"
+    case 2:
+      for item in allItems {
+        if (item.accepted && item.completed && !item.confirmed) {bets.append(item)}
       }
-      let new_ref = bRef.queryOrdered(byChild: child).queryEqual(toValue: self.profile?.key)
-      new_ref.observe(.value, with: { snapshot in
-        var newItems: [BetItem] = []
-        for item in snapshot.children {
-          let betItem = BetItem(snapshot: item as! FIRDataSnapshot)
-          if(betItem.confirmed == true) {
-            newItems.append(betItem)
-          }
-        }
-        self.bets = newItems
-        self.betsTableView.reloadData()
-      })
+    case 3:
+      for item in allItems {
+        if (item.accepted && item.completed && item.confirmed) {bets.append(item)}
+      }
     default:
       break
     }
+    self.betsTableView.reloadData()
   }
   
     @IBAction func AddFriendButtonTouched(_ sender: Any) {
