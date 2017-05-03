@@ -55,8 +55,7 @@ class FilterViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         // Connect data:
         self.categoryOption.delegate = self
         self.categoryOption.dataSource = self
-  /*
-
+/*
         categories.append("All")
         cRef.observe(.value, with: { snapshot in
           for item in snapshot.children {
@@ -78,7 +77,7 @@ class FilterViewController: UIViewController, UIPickerViewDelegate, UIPickerView
       else {
         self.categoryOption.selectRow(0, inComponent: 0, animated: true)
       }
-  */
+ */
       if (fint != 100) {
         friendsOption.selectedSegmentIndex = fint
       }
@@ -103,9 +102,9 @@ class FilterViewController: UIViewController, UIPickerViewDelegate, UIPickerView
       let radius = Int(slider_mi)
       self.radiusLabel.text = "Radius: \(radius) miles"
 
-      // make the add filter button
+      /* make the add filter button
       navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Set Default Filters", style: .plain, target: self, action: #selector(addTapped))
-      
+      */
   }
   
   func addTapped() {
