@@ -28,8 +28,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     return true
   }
   
-  
-  
   func applicationWillResignActive(_ application: UIApplication) {
     print("Resigning")
     currLocation = nil

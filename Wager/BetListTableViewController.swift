@@ -136,7 +136,6 @@ class BetListTableViewController: UITableViewController {
     self.TypeButton.setTitle("Wagers", for: .normal)
   }
 
-  
   // MARK: HELPER FUNCTIONS
   func reloadRows(){
     var failed = true

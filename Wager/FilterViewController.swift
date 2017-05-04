@@ -45,6 +45,9 @@ class FilterViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     override func viewDidLoad() {
         super.viewDidLoad()
       
+    self.setFiltersButton.layer.cornerRadius = 5;
+    self.setFiltersButton.layer.borderColor = UIColor.white.cgColor
+    self.setFiltersButton.layer.borderWidth = 1.5
       // initially hide these since we start on all bets
       self.radiusSlider.isHidden = true
       self.radiusLabel.isHidden  = true
