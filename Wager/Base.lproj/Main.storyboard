@@ -590,7 +590,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="upload" translatesAutoresizingMaskIntoConstraints="NO" id="dPx-jh-iaM">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="dPx-jh-iaM">
                                 <rect key="frame" x="259" y="33" width="100" height="100"/>
                                 <gestureRecognizers/>
                                 <constraints>
@@ -1897,11 +1897,11 @@
         <image name="upload" width="262" height="264"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="ujZ-n3-ETv"/>
+        <segue reference="slK-sz-sa6"/>
         <segue reference="HI1-QR-qRS"/>
         <segue reference="yUp-bl-tG5"/>
         <segue reference="sTM-qw-YuI"/>
         <segue reference="yoL-jb-eGv"/>
-        <segue reference="ujZ-n3-ETv"/>
-        <segue reference="IgS-LP-HoH"/>
     </inferredMetricsTieBreakers>
 </document>
