@@ -11,6 +11,8 @@ import GeoFire
 
 class CreateNewBetController: UIViewController,  UIPickerViewDelegate, UIPickerViewDataSource, CLLocationManagerDelegate {
 
+    @IBOutlet weak var cancelButton: UIButton!
+    @IBOutlet weak var createBet: UIButton!
   @IBOutlet weak var reasonText: UITextField!
   let ref = FIRDatabase.database().reference(withPath: "Bets")
   @IBOutlet weak var amountText: UITextField!
@@ -24,8 +26,6 @@ class CreateNewBetController: UIViewController,  UIPickerViewDelegate, UIPickerV
   var userLocation: CLLocation!
 
 
-  
-  
   @IBAction func CreateNewBetPressed(_ sender: AnyObject) {
     /*purge inputs*/
     let amount_as_float = Float(amountText.text!)
@@ -79,6 +79,13 @@ class CreateNewBetController: UIViewController,  UIPickerViewDelegate, UIPickerV
     super.viewDidLoad()
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
 
+    
+    self.cancelButton.layer.cornerRadius = 5;
+    self.createBet.layer.cornerRadius = 5;
+    self.createBet.layer.borderColor = UIColor.white.cgColor
+    self.createBet.layer.borderWidth = 1.5
+    self.cancelButton.layer.borderColor = UIColor.white.cgColor
+    self.cancelButton.layer.borderWidth = 1.5
     self.user = appDelegate.user
     self.profile = appDelegate.profile
     
