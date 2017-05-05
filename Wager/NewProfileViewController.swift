@@ -12,7 +12,7 @@ import UIKit
 class NewProfileViewController: UIViewController,UIImagePickerControllerDelegate, UINavigationControllerDelegate{
   
   let ref = FIRDatabase.database().reference(withPath: "Profiles")
-
+  let uRef = FIRDatabase.database().reference(withPath: "Usernames")
 
 
   @IBOutlet weak var signUpButton: UIButton!
@@ -41,17 +41,34 @@ class NewProfileViewController: UIViewController,UIImagePickerControllerDelegate
       errorHandler(errorString: "Username must be only alphanumeric or \"_\"")
       return
     }
-    /* Trying to get no duplicate usernames
-    var isSeen = false
-    /*check to make sure the username has not yet been used*/
-    let ref = FIRDatabase.database().reference(withPath: "Profiles")
-    ref.observeSingleEvent(of: FIRDataEventType.value, with: { (snapshot) in
-      if snapshot.hasChild(usernameStr){
-        
+    
+    self.uRef.observeSingleEvent(of: .value, with: {snapshot in
+      print(self.UsernameText.text!)
+      if (snapshot.hasChild(self.UsernameText.text!)) {
+        print("HELLO1")
+        self.userAlreadyExists()
+      }
+      else {
+        print("HELLO2")
+        self.createUser()
       }
     })
-    if (isSeen) {errorHandler(errorString: "Username is already in use"); return}*/
-
+  }
+  
+  func segueSuccess() {
+    performSegue(withIdentifier: "success", sender: self)
+  }
+  
+  override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+    if (identifier == "failure") {return false}
+    return true
+  }
+  
+  func userAlreadyExists() {
+    errorHandler(errorString: "This username is already taken. Please choose a different one")
+  }
+  
+  func createUser() {
     FIRAuth.auth()!.createUser(withEmail: self.EmailText.text!, password: self.PasswordText.text!) {user, error in
       if error == nil {
         FIRAuth.auth()!.signIn(withEmail: self.EmailText.text!, password: self.PasswordText.text!)
@@ -65,17 +82,19 @@ class NewProfileViewController: UIViewController,UIImagePickerControllerDelegate
         let profItem = Profile(firstName: self.FirstNameText.text!, lastName: self.LastNameText.text!, email: self.EmailText.text!, pnl: 0, age: 18, venmoID: self.VenmoIdText.text!, gender: gender, userID: (user?.uid)!, username: self.UsernameText.text!)
         newProfRef.setValue(profItem.toAnyObject())
         
+        let usernameRef = self.uRef.child(self.UsernameText.text!)
+        usernameRef.setValue(true)
+        
         let storageRef = FIRStorage.storage().reference().child((user?.uid)!)
         let finalImage = UIImagePNGRepresentation(self.profileImageView.image!)
         
         storageRef.put(finalImage!, metadata: nil, completion: {(metadata, error) in
             if(error != nil) {print("error"); return}
             else{ print("metadata")}
+        self.segueSuccess()
         })
       }
     }
-
-    
   }
   
   func errorHandler(errorString: String) {
@@ -220,4 +239,11 @@ class NewProfileViewController: UIViewController,UIImagePickerControllerDelegate
             }
             return true
     }
+      
+      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        if (segue.identifier == "success") {
+          
+        }
+      }
 }

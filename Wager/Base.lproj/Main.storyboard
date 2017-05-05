@@ -1381,7 +1381,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dfy-qs-S96" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="Sx7-hq-iHk" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3905" y="2427"/>
+            <point key="canvasLocation" x="3846" y="2561"/>
         </scene>
         <!--Edit Bet View Controller-->
         <scene sceneID="Sua-97-Jmu">
@@ -1677,7 +1677,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="t1y-7F-scM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3905" y="1792"/>
+            <point key="canvasLocation" x="3666" y="1818"/>
         </scene>
         <!--New Profile View Controller-->
         <scene sceneID="GTL-0M-fGm">
@@ -1806,7 +1806,6 @@
                                 </state>
                                 <connections>
                                     <action selector="SignUpPressed:" destination="zNZ-uq-6uU" eventType="touchUpInside" id="o42-IM-CvQ"/>
-                                    <segue destination="nYH-eh-c1r" kind="show" id="HI1-QR-qRS"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -1855,6 +1854,7 @@
                         <outlet property="genderPicker" destination="swm-PT-Oo0" id="a1U-82-7Vx"/>
                         <outlet property="profileImageView" destination="2Vh-S2-uHN" id="Z2z-q5-BB7"/>
                         <outlet property="signUpButton" destination="CfD-TN-y8P" id="DZp-wl-czK"/>
+                        <segue destination="nYH-eh-c1r" kind="show" identifier="success" id="0xw-Mq-Xx8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c0z-Vj-x2z" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1916,7 +1916,11 @@
         <image name="upload" width="262" height="264"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="j9f-E0-mFL"/>
+        <segue reference="sTM-qw-YuI"/>
+        <segue reference="0xw-Mq-Xx8"/>
+        <segue reference="yUp-bl-tG5"/>
+        <segue reference="slK-sz-sa6"/>
+        <segue reference="ZsG-wJ-tIe"/>
         <segue reference="yoL-jb-eGv"/>
         <segue reference="sTM-qw-YuI"/>
         <segue reference="yUp-bl-tG5"/>
