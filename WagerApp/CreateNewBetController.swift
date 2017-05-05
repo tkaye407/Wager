@@ -9,10 +9,14 @@ import UIKit
 import Firebase
 import GeoFire
 
-class CreateNewBetController: UIViewController,  UIPickerViewDelegate, UIPickerViewDataSource, CLLocationManagerDelegate {
+class CreateNewBetController: UIViewController,  UIPickerViewDelegate, UIPickerViewDataSource, CLLocationManagerDelegate  {
 
-    @IBOutlet weak var cancelButton: UIButton!
-    @IBOutlet weak var createBet: UIButton!
+  @IBOutlet weak var wagerAmount: UITextField!
+  @IBOutlet weak var wagerDescription: UITextField!
+  @IBOutlet weak var wagerReason: UITextField!
+  @IBOutlet weak var scrollView: UIScrollView!
+  @IBOutlet weak var cancelButton: UIButton!
+  @IBOutlet weak var createBet: UIButton!
   @IBOutlet weak var reasonText: UITextField!
   let ref = FIRDatabase.database().reference(withPath: "Bets")
   @IBOutlet weak var amountText: UITextField!
@@ -77,9 +81,17 @@ class CreateNewBetController: UIViewController,  UIPickerViewDelegate, UIPickerV
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    wagerDescription.delegate = self
+    wagerAmount.delegate = self
+    wagerReason.delegate = self 
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-
+  
+    // some bs to allow me to mess with the keyboard
+    NotificationCenter.default.addObserver(self, selector: #selector(CreateNewBetController.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
     
+    NotificationCenter.default.addObserver(self, selector: #selector(CreateNewBetController.keyboardDidHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+
+    self.scrollView.isScrollEnabled = false
     self.cancelButton.layer.cornerRadius = 5;
     self.createBet.layer.cornerRadius = 5;
     self.createBet.layer.borderColor = UIColor.white.cgColor
@@ -101,6 +113,38 @@ class CreateNewBetController: UIViewController,  UIPickerViewDelegate, UIPickerV
     locationManager.requestWhenInUseAuthorization()
     self.locationManager.requestLocation()
 
+  }
+  
+  
+  func keyboardWillShow(notification:NSNotification) {
+    let userInfo:NSDictionary = notification.userInfo! as NSDictionary
+    let keyboardFrame:NSValue = userInfo.value(forKey: UIKeyboardFrameEndUserInfoKey) as! NSValue
+    let keyboardRectangle = keyboardFrame.cgRectValue
+    let keyboardHeight = keyboardRectangle.height
+    let height = UIScreen.main.bounds.size.height-keyboardHeight+200//-keyboardHeight
+    let width = UIScreen.main.bounds.size.width
+      self.scrollView.isScrollEnabled = true
+      self.scrollView.contentSize=CGSize(width: width, height: height)
+      self.scrollView.flashScrollIndicators()
+    
+    //Looks for single or multiple taps.
+    let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(CreateNewBetController.dismissKeyboard))
+    
+    //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
+    //tap.cancelsTouchesInView = false
+    
+    view.addGestureRecognizer(tap)
+  }
+  
+  //Calls this function when the tap is recognized.
+  func dismissKeyboard() {
+    //Causes the view (or one of its embedded text fields) to resign the first responder status.
+    view.endEditing(true)
+  }
+  
+  func keyboardDidHide(notification:NSNotification) {
+    self.scrollView.setContentOffset(CGPoint(x: 0, y:0), animated: true)
+    self.scrollView.isScrollEnabled = false
   }
   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     if let location = locations.first {
@@ -127,4 +171,25 @@ class CreateNewBetController: UIViewController,  UIPickerViewDelegate, UIPickerV
   }
 
 
+}
+
+extension CreateNewBetController: UITextFieldDelegate {
+  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    
+    print("in here")
+    switch textField {
+    case wagerReason:
+      wagerDescription.becomeFirstResponder()
+      break
+    case self.wagerDescription:
+      self.wagerAmount.becomeFirstResponder()
+      break
+    case self.wagerAmount:
+      self.wagerAmount.resignFirstResponder()
+    default:
+       textField.resignFirstResponder()
+      
+    }
+    return true
+  }
 }
