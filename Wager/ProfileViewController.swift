@@ -74,11 +74,10 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
      // self.navigationController?.navigationBar.isHidden = true
    //  self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
     
-    self.UserNameLabel.text = profile?.username
+    self.UserNameLabel.text = (profile?.firstName)! + " " + (profile?.lastName)!
     self.venmoIDLabel.text = profile?.venmoID
-    self.emailLabel.text = profile?.email
-    
-    self.genderLabel.text = (profile?.gender)! + " - " + getAge()
+    self.emailLabel.text = "@" + (profile?.username)!
+    self.genderLabel.text = profile?.gender
     self.ratingView.rating = Int(round(profile!.rating))
     self.ratingLabel.text = String(profile!.rating)
     calculatePNL()

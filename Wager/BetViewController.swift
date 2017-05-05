@@ -96,11 +96,11 @@ class BetViewController: UIViewController {
     
     self.setUpProfiles()
     relabelThings()
+    navigationItem.leftBarButtonItem?.tintColor = UIColor.white
     
     //if(bet.challenger_uid == profile.key && bet.date_closed < )
     if (bet.challenger_uid == profile.key && bet.accepted == false && bet.completed == false && bet.confirmed == false) {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editBet))
-        navigationItem.leftBarButtonItem?.tintColor = UIColor.white
    //   editButton.isHidden = true
    //   editButton.isEnabled = false
     }

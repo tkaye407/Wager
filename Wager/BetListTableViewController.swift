@@ -58,16 +58,14 @@ class BetListTableViewController: UITableViewController {
     return UserDefaults.standard.object(forKey: key) != nil
   }
   
-  
-  // MARK: UIViewController Lifecycle
-  override func viewDidLoad() {
-    super.viewDidLoad()
-
+  func restOfViewDidLoad() {
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    print(appDelegate.profile)
     let nc = NotificationCenter.default // Note that default is now a property, not a method call
     nc.addObserver(forName:Notification.Name(rawValue:"reloadData"),
                    object:nil, queue:nil) {
                     notification in
-       self.reloadRows()
+                    self.reloadRows()
     }
     
     if (!fromFilter) {
@@ -100,9 +98,8 @@ class BetListTableViewController: UITableViewController {
         print(result)
       }
     }
-
+    
     tableView.allowsMultipleSelectionDuringEditing = false
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     //channels = []
     if (appDelegate.categories.count <= 1) {
       print("GETTING CATEGORIES")
@@ -134,6 +131,30 @@ class BetListTableViewController: UITableViewController {
     
     //self.TypeButton.isEnabled = false
     self.TypeButton.setTitle("Wagers", for: .normal)
+  }
+  
+  // MARK: UIViewController Lifecycle
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    
+    if (appDelegate.profile == nil) {
+      print("Hello")
+      FIRAuth.auth()!.addStateDidChangeListener { auth, user in
+        guard let user = user else { return }
+        self.user = User(authData: user)
+        self.pRef.queryOrdered(byChild: "userID").queryEqual(toValue: user.uid).observe(.value, with:{ snapshot in
+          for item in snapshot.children {
+            self.profile = Profile(snapshot: item as! FIRDataSnapshot)
+          }
+          appDelegate.user = self.user
+          appDelegate.profile = self.profile
+          
+          self.restOfViewDidLoad()
+        })
+      }
+    }
+    else {self.restOfViewDidLoad()}
   }
 
   // MARK: HELPER FUNCTIONS
