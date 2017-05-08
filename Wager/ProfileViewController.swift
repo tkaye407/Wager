@@ -54,6 +54,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
   }
   func setProfile() {
+    self.completedController.selectedSegmentIndex = 0
+    self.bets = []
+    self.allItems = []
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     if self.profile?.userID != appDelegate.profile?.userID {
       self.navigationItem.rightBarButtonItem?.isEnabled = false
@@ -333,7 +336,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
           self.profile = profile
           setProfile()
       }
-      setProfile()
+      //setProfile()
   }
 
   
