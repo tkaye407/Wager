@@ -85,6 +85,15 @@ struct BetItem {
 
   }
   
+   func isEqual(_ object: Any?) -> Bool {
+    if let other = object as? BetItem {
+      return self.key == other.key
+    }
+    else {
+      return false
+    }
+  }
+  
   func toAnyObject() -> Any {
     return [
       "name": name,

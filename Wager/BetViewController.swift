@@ -50,6 +50,9 @@ class BetViewController: UIViewController {
     self.nameLabel.text = self.bet.name
     self.descriptionLabel.text = self.bet.description
     self.amountLabel.text = String(format:"$%.2f",Float(self.bet.amount.description)!)
+    self.navigationController?.navigationBar.tintColor = UIColor.white
+    let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.white]
+    self.navigationController?.navigationBar.titleTextAttributes = titleDict as! [String : Any]
    }
   
   override func viewWillAppear(_ animated: Bool) {
