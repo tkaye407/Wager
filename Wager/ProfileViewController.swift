@@ -53,37 +53,35 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
       print("Error Logging User Out - \(logOutError)")
     }
   }
+  
   func setProfile() {
     self.completedController.selectedSegmentIndex = 0
-    self.bets = []
-    self.allItems = []
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     if self.profile?.userID != appDelegate.profile?.userID {
       self.navigationItem.rightBarButtonItem?.isEnabled = false
       self.navigationItem.rightBarButtonItem?.tintColor = UIColor.clear
-    //  self.navigationItem.leftBarButtonItem?.isEnabled = false
-    //  self.navigationItem.leftBarButtonItem?.tintColor = UIColor.clear
+      //  self.navigationItem.leftBarButtonItem?.isEnabled = false
+      //  self.navigationItem.leftBarButtonItem?.tintColor = UIColor.clear
       //self.navigationItem.hidesBackButton = true
       navigationItem.leftBarButtonItem?.tintColor = UIColor.white
-
     }
     else
     {
-        if (shouldShowSignout)
-        {
-          navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Sign Out", style: .plain, target: self, action: #selector(signOutTouched))
-          navigationItem.leftBarButtonItem?.tintColor = UIColor.white
-        }
-        else
-        {
-          navigationItem.leftBarButtonItem?.tintColor = UIColor.white
-
-        }
+      if (shouldShowSignout)
+      {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Sign Out", style: .plain, target: self, action: #selector(signOutTouched))
+        navigationItem.leftBarButtonItem?.tintColor = UIColor.white
+      }
+      else
+      {
+        navigationItem.leftBarButtonItem?.tintColor = UIColor.white
+        
+      }
     }
-  
-      // set the left nav bar to be the signout with the slector method and shit
-     // self.navigationController?.navigationBar.isHidden = true
-   //  self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
+    
+    // set the left nav bar to be the signout with the slector method and shit
+    // self.navigationController?.navigationBar.isHidden = true
+    //  self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
     
     self.UserNameLabel.text = (profile?.firstName)! + " " + (profile?.lastName)!
     self.venmoIDLabel.text = profile?.venmoID
@@ -98,36 +96,28 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     let imageRef = FIRStorage.storage().reference(withPath: (self.profile?.userID)!)
     imageRef.data(withMaxSize: 1 * 10240 * 10240) { data, error in
       if error != nil {
-          print(error ?? "ERROR")
+        print(error ?? "ERROR")
       }
       else{
-          finalImage = UIImage(data: data!)!
-          self.profileImageView.image = finalImage
+        finalImage = UIImage(data: data!)!
+        self.profileImageView.image = finalImage
       }
     }
     
-    
-    let new_ref = bRef.queryOrdered(byChild: "challenger_uid").queryEqual(toValue: self.profile?.key)
+    bets = []
+    allItems = []
+    self.createBetListener(challenger_or_challengee: "challenger_uid")
+    self.createBetListener(challenger_or_challengee: "challengee_uid")
+  }
+  
+  func createBetListener(challenger_or_challengee: String) {
+    let new_ref = bRef.queryOrdered(byChild: challenger_or_challengee).queryEqual(toValue: self.profile?.key)
     new_ref.observe(.value, with: { snapshot in
       for item in snapshot.children {
         let betItem = BetItem(snapshot: item as! FIRDataSnapshot)
-        if (!betItem.accepted) {
-          self.bets.append(betItem)
-        }
         self.allItems.append(betItem)
       }
-      self.betsTableView.reloadData()
-    })
-    
-    let new_new_ref = bRef.queryOrdered(byChild: "challengee_uid").queryEqual(toValue: self.profile?.key)
-    new_new_ref.observe(.value, with: { snapshot in
-      for item in snapshot.children {
-        let betItem = BetItem(snapshot: item as! FIRDataSnapshot)
-        if (!betItem.accepted) {
-          self.bets.append(betItem)
-        }
-        self.allItems.append(betItem)
-      }
+      self.completedChanged(self.completedController)
       self.betsTableView.reloadData()
     })
   }
@@ -160,38 +150,39 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
 //    debugPrint("Profile: " + (self.profile?.email)!)
 //  }
   
-    override func viewDidLoad() {
-        super.viewDidLoad()
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    
+    // SET THE APP DELEGATE VALUES
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    if self.profile == nil && self.user == nil {
+      self.user = appDelegate.user
+      self.profile = appDelegate.profile
+    }
+    if self.profile == nil{
       
-        // SET THE APP DELEGATE VALUES
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        if self.profile == nil && self.user == nil {
-          self.user = appDelegate.user
-          self.profile = appDelegate.profile
-        }
-          if self.profile == nil{
-            
-         self.profile = appDelegate.profile
-      }
-      
-      if self.user == nil {
-        self.user = appDelegate.user
-      }
-      
-      isFriend()
-      
-        // SET THE DELEGATE AND DATA SOURCE TO SELF
-        betsTableView.delegate = self
-        betsTableView.dataSource = self
-        self.completedController.selectedSegmentIndex = 0
-      
-        // CORNERS ON THE PROFILE IMAGE
-        self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width / 2;
-        self.profileImageView.clipsToBounds = true;
-
-        // CALCULATE THE TEXT
-        setProfile()
-        calculatePNL()
+      self.profile = appDelegate.profile
+    }
+    
+    if self.user == nil {
+      self.user = appDelegate.user
+    }
+    
+    pRef.child((self.profile?.key)!).observe(FIRDataEventType.value, with: { (snapshot) in
+      self.profile = Profile(snapshot: snapshot)
+      self.setProfile()
+    })
+    
+    isFriend()
+    
+    // SET THE DELEGATE AND DATA SOURCE TO SELF
+    betsTableView.delegate = self
+    betsTableView.dataSource = self
+    self.completedController.selectedSegmentIndex = 0
+    
+    // CORNERS ON THE PROFILE IMAGE
+    self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width / 2;
+    self.profileImageView.clipsToBounds = true;
   }
   
   func isFriend() {
@@ -283,6 +274,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
+      //bRef.queryOrdered(byChild: "challenger_uid").queryEqual(toValue: self.profile?.key).removeAllObservers()
+      //bRef.queryOrdered(byChild: "challengee_uid").queryEqual(toValue: self.profile?.key).removeAllObservers()
         switch(segue.identifier ?? "") {
         case "signout":
           do {
@@ -342,9 +335,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
   @IBAction func unwindEditProfile(sender: UIStoryboardSegue) {
       if let sourceViewController = sender.source as? ProfileEditorViewController, let profile = sourceViewController.profile {
           self.profile = profile
-          setProfile()
+          //self.setProfile()
       }
-      //setProfile()
+      self.setProfile()//setProfile()
   }
 
   

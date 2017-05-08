@@ -257,8 +257,11 @@ class BetViewController: UIViewController {
     }
     
     
-    if (bet.challenger_uid == profile.key && bet.accepted == false && bet.completed == false && bet.confirmed == false) {
+    if (bet.challenger_uid == profile.key && !bet.accepted) {
       navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editBet))
+    }
+    else {
+      navigationItem.rightBarButtonItem = nil
     }
   }
   
