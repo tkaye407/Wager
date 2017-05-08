@@ -175,7 +175,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6m6-qu-ZtK">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Wager Reason" textAlignment="natural" minimumFontSize="20" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="ZY0-8f-F9E">
                                         <rect key="frame" x="126" y="67" width="241" height="62"/>
@@ -1952,12 +1952,12 @@
         <image name="upload" width="262" height="264"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="slK-sz-sa6"/>
         <segue reference="0xw-Mq-Xx8"/>
         <segue reference="yUp-bl-tG5"/>
         <segue reference="sTM-qw-YuI"/>
         <segue reference="nTq-lc-YGf"/>
         <segue reference="yoL-jb-eGv"/>
+        <segue reference="NQl-yW-VlT"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>
