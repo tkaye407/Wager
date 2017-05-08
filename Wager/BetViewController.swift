@@ -38,21 +38,27 @@ class BetViewController: UIViewController {
   var winnerProfile: Profile!
   var challengerImageSet = false
   var challengeeImageSet = false
+  var orangeColor: UIColor?
   
   func reloadBet() {
     let bRef = FIRDatabase.database().reference().child("Bets")
-    bRef.child(bet.key).observeSingleEvent(of: .value, with: { (snapshot) in
+    bRef.child(bet.key).observe(FIRDataEventType.value, with: { (snapshot) in
       // Get user value
       self.bet = BetItem(snapshot: snapshot)
-      
+      /*self.nameLabel.text = self.bet.name
+      self.descriptionLabel.text = self.bet.description
+      self.amountLabel.text = String(format:"$%.2f",Float(self.bet.amount.description)!)
+      self.navigationController?.navigationBar.tintColor = UIColor.white
+      let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.white]
+      self.navigationController?.navigationBar.titleTextAttributes = titleDict as! [String : Any]*/
+      self.relabelThings()
     })
-
-    self.nameLabel.text = self.bet.name
+    /*self.nameLabel.text = self.bet.name
     self.descriptionLabel.text = self.bet.description
     self.amountLabel.text = String(format:"$%.2f",Float(self.bet.amount.description)!)
     self.navigationController?.navigationBar.tintColor = UIColor.white
     let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.white]
-    self.navigationController?.navigationBar.titleTextAttributes = titleDict as! [String : Any]
+    self.navigationController?.navigationBar.titleTextAttributes = titleDict as! [String : Any]*/
    }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -68,7 +74,7 @@ class BetViewController: UIViewController {
     
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+    orangeColor = self.takeBetButton.backgroundColor
   
     navigationItem.leftBarButtonItem?.tintColor = UIColor.white
     self.nameLabel.adjustsFontSizeToFitWidth = true
@@ -103,11 +109,12 @@ class BetViewController: UIViewController {
     navigationItem.leftBarButtonItem?.tintColor = UIColor.white
     
     //if(bet.challenger_uid == profile.key && bet.date_closed < )
-    if (bet.challenger_uid == profile.key && bet.accepted == false && bet.completed == false && bet.confirmed == false) {
+    /*if (bet.challenger_uid == profile.key && bet.accepted == false && bet.completed == false && bet.confirmed == false) {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editBet))
    //   editButton.isHidden = true
    //   editButton.isEnabled = false
-    }
+    }*/
+    self.reloadBet()
   }
   
   func relabelThings() {
@@ -144,14 +151,38 @@ class BetViewController: UIViewController {
     self.descriptionLabel.text = bet.description
     self.amountLabel.text = String(format:"$%.2f",Float(self.bet.amount.description)!)   // self.dateOpenedLabel.text = dateFormatter.string(from: dateOpened)
     if (bet.challengee_uid != "") {
-  //    self.challengeeButton.setTitle(bet.challengee_name, for: UIControlState.normal)
-    //  self.challengeeButton.isEnabled = true
+      //self.challengeeButton.setTitle(bet.challengee_name, for: UIControlState.normal)
+      //self.challengeeButton.isEnabled = true
     }
     else {
   //    self.challengeeButton.isEnabled = false
    //   self.challengeeButton.setTitle("Not Taken", for: UIControlState.normal)
     }
+    self.takeBetButton.backgroundColor = orangeColor
     
+    if (self.bet.accepted && !self.challengeeImageSet && self.bet.challengee_uid != "") {
+      let pRef = FIRDatabase.database().reference().child("Profiles")
+      pRef.child(bet.challengee_uid).observeSingleEvent(of: .value, with: { (snapshot) in
+        self.challengeeProfile = Profile(snapshot: snapshot)
+        
+        if (!self.challengeeImageSet){
+          var finalImage: UIImage? = nil
+          // set challenger photo
+          let imageRef = FIRStorage.storage().reference(withPath: (self.challengeeProfile?.userID)!)
+          imageRef.data(withMaxSize: 1 * 10240 * 10240) { data, error in
+            if error != nil {
+              print(error ?? "ERROR")
+            }
+            else{
+              finalImage = UIImage(data: data!)!
+              self.challengeeImageView.image = finalImage
+              self.challengeeImageSet = true
+            }
+          }
+          self.challengeeUserLabel.text = self.challengeeProfile?.username
+        }
+      })
+    }
     
     if ((self.profile.key == self.bet.challenger_uid) && bet.accepted == false && bet.confirmed == false && bet.completed == false) {
       self.InformationLabel.text = "You created this bet. Would you like to Delete It?"
@@ -223,6 +254,11 @@ class BetViewController: UIViewController {
       self.takeBetButton.isEnabled = false;
       self.InformationLabel.text = "No Action"
       self.takeBetButton.setTitle("???", for:UIControlState.normal)
+    }
+    
+    
+    if (bet.challenger_uid == profile.key && bet.accepted == false && bet.completed == false && bet.confirmed == false) {
+      navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editBet))
     }
   }
   
