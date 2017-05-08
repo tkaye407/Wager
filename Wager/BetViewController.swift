@@ -265,6 +265,8 @@ class BetViewController: UIViewController {
   @IBAction func takeBet(_ sender: Any) {
     if (self.takeBetButton.titleLabel?.text == "Delete Bet?") {
       // DELETE THE BET and NAVIGATE AWAY
+      let bRef = FIRDatabase.database().reference().child("Bets")
+      bRef.child(bet.key).removeAllObservers()
       self.bet.ref?.removeValue()
       performSegue(withIdentifier: "toProfile", sender: self)
     }
