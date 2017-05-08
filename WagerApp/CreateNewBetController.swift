@@ -50,6 +50,7 @@ class CreateNewBetController: UIViewController,  UIPickerViewDelegate, UIPickerV
     let geofireRef = FIRDatabase.database().reference().child("bet_locations")
     let geoFire = GeoFire(firebaseRef: geofireRef)
     geoFire?.setLocation(userLocation, forKey: betItemRef.key)
+    self.navigationController?.popViewController(animated: true)
   }
   
   /*func createLotsOfBets() {

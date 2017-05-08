@@ -427,7 +427,7 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="QGM-U2-dHv">
                             <connections>
                                 <action selector="addButtonDidTouch:" destination="WRG-qR-ebT" id="5P0-iy-CPv"/>
-                                <segue destination="gro-KT-nCj" kind="show" id="pAj-XM-b1q"/>
+                                <segue destination="gro-KT-nCj" kind="show" identifier="toBetList" id="pAj-XM-b1q"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -1942,8 +1942,8 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="yoL-jb-eGv"/>
+        <segue reference="j9f-E0-mFL"/>
         <segue reference="sTM-qw-YuI"/>
-        <segue reference="0xw-Mq-Xx8"/>
         <segue reference="yUp-bl-tG5"/>
         <segue reference="slK-sz-sa6"/>
         <segue reference="ujZ-n3-ETv"/>
