@@ -61,6 +61,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     //  self.navigationItem.leftBarButtonItem?.isEnabled = false
     //  self.navigationItem.leftBarButtonItem?.tintColor = UIColor.clear
       //self.navigationItem.hidesBackButton = true
+      navigationItem.leftBarButtonItem?.tintColor = UIColor.white
+
     }
     else
     {
@@ -69,7 +71,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
           navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Sign Out", style: .plain, target: self, action: #selector(signOutTouched))
           navigationItem.leftBarButtonItem?.tintColor = UIColor.white
         }
+        else
+        {
+          navigationItem.leftBarButtonItem?.tintColor = UIColor.white
+
+        }
     }
+  
       // set the left nav bar to be the signout with the slector method and shit
      // self.navigationController?.navigationBar.isHidden = true
    //  self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton

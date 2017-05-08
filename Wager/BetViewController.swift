@@ -67,6 +67,7 @@ class BetViewController: UIViewController {
     super.viewDidLoad()
     
   
+    navigationItem.leftBarButtonItem?.tintColor = UIColor.white
     self.nameLabel.adjustsFontSizeToFitWidth = true
     self.bottomView.layer.borderWidth = 1.0
     self.bottomView.layer.borderColor = UIColor.white.cgColor
