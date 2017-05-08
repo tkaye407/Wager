@@ -348,6 +348,9 @@ class BetViewController: UIViewController {
         // additional error checking needed here in case the other user doesnt have
         let url = URL(string: "venmo://paycharge?txt=pay&amount=\(self.bet.amount)&note=\(self.bet.name)&recipients=\((self.newProfile?.venmoID)!)".replacingOccurrences(of: " ", with: "%20"))
         
+        
+        // TODO - fix this to not just be the
+        print(url)
         if #available(iOS 10.0, *) {
           UIApplication.shared.open(url!)
         } else {

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="ySw-NR-5vS">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="ySw-NR-5vS">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -1528,7 +1528,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search users (e.g. &quot;Mike Example&quot;)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Lzb-uV-weH">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search here" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Lzb-uV-weH">
                                 <rect key="frame" x="10" y="72" width="255" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -1601,12 +1601,22 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LpJ-SY-xE0">
+                                <rect key="frame" x="94" y="28" width="187" height="39"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="187" id="7Fo-xs-V0T"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                                <color key="textColor" red="1" green="0.99924409677620885" blue="0.95729625908801486" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.23921568630000001" green="0.59607843140000005" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="1AW-pV-HF5" firstAttribute="leading" secondItem="Lzb-uV-weH" secondAttribute="trailing" constant="8" symbolic="YES" id="4Xy-4x-lPs"/>
                             <constraint firstItem="Lzb-uV-weH" firstAttribute="leading" secondItem="IcR-7B-nFa" secondAttribute="leadingMargin" constant="-6" id="54A-ZO-sxR"/>
                             <constraint firstItem="Lzb-uV-weH" firstAttribute="top" secondItem="q6N-7h-MXv" secondAttribute="bottom" constant="52" id="5FC-b1-ugP"/>
+                            <constraint firstItem="LpJ-SY-xE0" firstAttribute="centerX" secondItem="IcR-7B-nFa" secondAttribute="centerX" id="C4F-sJ-z8H"/>
                             <constraint firstItem="kuV-Tw-dzI" firstAttribute="leading" secondItem="IcR-7B-nFa" secondAttribute="leadingMargin" id="EYk-IO-fId"/>
                             <constraint firstItem="oAa-7F-aFY" firstAttribute="leading" secondItem="IcR-7B-nFa" secondAttribute="leadingMargin" constant="-11" id="Eco-Cb-Qfk"/>
                             <constraint firstItem="kuV-Tw-dzI" firstAttribute="trailing" secondItem="IcR-7B-nFa" secondAttribute="trailingMargin" id="GIv-EU-oOR"/>
@@ -1614,6 +1624,7 @@
                             <constraint firstItem="kuV-Tw-dzI" firstAttribute="centerX" secondItem="oAa-7F-aFY" secondAttribute="centerX" id="XNi-DL-Pew"/>
                             <constraint firstItem="1AW-pV-HF5" firstAttribute="trailing" secondItem="oAa-7F-aFY" secondAttribute="trailing" id="bop-pT-qFY"/>
                             <constraint firstItem="kuV-Tw-dzI" firstAttribute="top" secondItem="Lzb-uV-weH" secondAttribute="bottom" constant="8" symbolic="YES" id="dg4-aI-4C6"/>
+                            <constraint firstItem="Lzb-uV-weH" firstAttribute="top" secondItem="LpJ-SY-xE0" secondAttribute="bottom" constant="5" id="h4S-Vg-NfC"/>
                             <constraint firstItem="Lzb-uV-weH" firstAttribute="top" secondItem="1AW-pV-HF5" secondAttribute="top" id="ias-2A-xfu"/>
                             <constraint firstItem="oAa-7F-aFY" firstAttribute="top" secondItem="kuV-Tw-dzI" secondAttribute="bottom" constant="15" id="qNS-9H-1Sh"/>
                         </constraints>
@@ -1638,7 +1649,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="894" y="1838"/>
+            <point key="canvasLocation" x="948" y="1835.5322338830586"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="LIU-VK-e6v">
@@ -1941,12 +1952,12 @@
         <image name="upload" width="262" height="264"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="yoL-jb-eGv"/>
-        <segue reference="upF-IU-j5K"/>
-        <segue reference="sTM-qw-YuI"/>
+        <segue reference="slK-sz-sa6"/>
         <segue reference="0xw-Mq-Xx8"/>
         <segue reference="yUp-bl-tG5"/>
-        <segue reference="IgS-LP-HoH"/>
+        <segue reference="sTM-qw-YuI"/>
+        <segue reference="nTq-lc-YGf"/>
+        <segue reference="yoL-jb-eGv"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>
