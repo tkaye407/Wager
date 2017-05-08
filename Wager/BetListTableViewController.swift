@@ -220,7 +220,7 @@ class BetListTableViewController: UITableViewController {
   }
   
   func addVal(betItem: BetItem) {
-    if (items.filter{$0.key == betItem.key}.count > 0) {return}
+    //if (items.filter{$0.key == betItem.key}.count > 0) {return}
     items.append(betItem)
     self.items = self.items.sorted{ $0.date_opened > $1.date_opened }
     self.tableView.reloadData()
