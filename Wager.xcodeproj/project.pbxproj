@@ -137,14 +137,14 @@
 		BB2385811B3DD8310079CD01 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				FF7306DA1EB3E3C00038B0A5 /* FilterViewController.swift */,
-				FF7306D61EB3AA820038B0A5 /* GeoTableViewController.swift */,
-				FF341FC91EAA9425007DC11D /* EditBetViewController.swift */,
-				FF9317FD1E95B3880060FDCB /* BetViewController.swift */,
 				BB2385631B3DD5AB0079CD01 /* LoginViewController.swift */,
 				07C23C301E9C39A000A0DA27 /* NewProfileViewController.swift */,
-				7A025E321E9568940086099C /* ProfileViewController.swift */,
 				BB2385831B3DD8660079CD01 /* BetListTableViewController.swift */,
+				FF7306DA1EB3E3C00038B0A5 /* FilterViewController.swift */,
+				FF7306D61EB3AA820038B0A5 /* GeoTableViewController.swift */,
+				FF9317FD1E95B3880060FDCB /* BetViewController.swift */,
+				FF341FC91EAA9425007DC11D /* EditBetViewController.swift */,
+				7A025E321E9568940086099C /* ProfileViewController.swift */,
 				071917E51E92FA2200EAFF5F /* CreateNewBetController.swift */,
 				07611C051EAE5FA70022F91A /* SearchController.swift */,
 				7A24CB161E9877DF007345B4 /* ProfileEditorViewController.swift */,

@@ -87,10 +87,12 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
           if (nameStr.range(of: searchStr) != nil){
             newItems.append(bItem)
           }
-          var descStr = bItem.description
-          descStr = descStr.uppercased()
-          if (descStr.range(of: searchStr) != nil){
-            newItems.append(bItem)
+          else {
+            var descStr = bItem.description
+            descStr = descStr.uppercased()
+            if (descStr.range(of: searchStr) != nil){
+              newItems.append(bItem)
+            }
           }
         }
         self.b_items = newItems
