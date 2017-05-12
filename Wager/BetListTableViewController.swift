@@ -11,48 +11,48 @@ import CoreLocation
 
 class BetListTableViewController: UITableViewController {
   
-    // MARK: Constants:
-    let BET_TYPE_ALL = 0
-    let BET_TYPE_POSED = 1
-    let BET_TYPE_ACTIVE = 2
-    let BET_TYPE_COMPLETED = 3
-    let listToUsers = "ListToUsers"
+  // MARK: Constants:
+  let BET_TYPE_ALL = 0
+  let BET_TYPE_POSED = 1
+  let BET_TYPE_ACTIVE = 2
+  let BET_TYPE_COMPLETED = 3
+  let listToUsers = "ListToUsers"
   
-    // MARK: filter variables
-    var channelName = ""
-    var friendsOnly = 0
-    var geo = false
-    var radius: Float = 5.0
-    var betType = 1
-    var fromFilter = false
-    //private var setUpOnce = DispatchOnce()
-    private let getCats = DispatchOnce()
+  // MARK: filter variables
+  var channelName = ""
+  var friendsOnly = 0
+  var geo = false
+  var radius: Float = 5.0
+  var betType = 1
+  var fromFilter = false
+  //private var setUpOnce = DispatchOnce()
+  private let getCats = DispatchOnce()
   
-    // MARK: Database references: 
-    let ref = FIRDatabase.database().reference(withPath: "Bets")
-    let refChannel = FIRDatabase.database().reference(withPath: "Categories")
-    let pRef = FIRDatabase.database().reference(withPath: "Profiles")
-    let fRef = FIRDatabase.database().reference(withPath: "Friends")
-
-  
-    // MARK: outlets
-    @IBOutlet weak var ChannelsButton: UIButton!
-    @IBOutlet weak var TypeButton: UIButton!
-  
-    // Mark: data arrays
-    var items: [BetItem] = []
-    var channels: [String] = []
-  
-    // MARK: placeholders for bet, profile, user
-    var user: User!
-    var selectedBet: BetItem?
-    var profile: Profile?
+  // MARK: Database references:
+  let ref = FIRDatabase.database().reference(withPath: "Bets")
+  let refChannel = FIRDatabase.database().reference(withPath: "Categories")
+  let pRef = FIRDatabase.database().reference(withPath: "Profiles")
+  let fRef = FIRDatabase.database().reference(withPath: "Friends")
   
   
+  // MARK: outlets
+  @IBOutlet weak var ChannelsButton: UIButton!
+  @IBOutlet weak var TypeButton: UIButton!
   
-    @IBAction func ChannelSelect(_ sender: Any) {
-      self.performSegue(withIdentifier: "applyFilter", sender: self)
-    }
+  // Mark: data arrays
+  var items: [BetItem] = []
+  var channels: [String] = []
+  
+  // MARK: placeholders for bet, profile, user
+  var user: User!
+  var selectedBet: BetItem?
+  var profile: Profile?
+  
+  
+  
+  @IBAction func ChannelSelect(_ sender: Any) {
+    self.performSegue(withIdentifier: "applyFilter", sender: self)
+  }
   
   func isKeyPresentInUserDefaults(key: String) -> Bool {
     return UserDefaults.standard.object(forKey: key) != nil
@@ -66,6 +66,20 @@ class BetListTableViewController: UITableViewController {
                    object:nil, queue:nil) {
                     notification in
                     self.reloadRows()
+    }
+    
+    tableView.allowsMultipleSelectionDuringEditing = false
+    if (appDelegate.categories.count <= 1) {
+      print("GETTING CATEGORIES")
+      channels.append("All")
+      refChannel.observe(.value, with: { snapshot in
+        for item in snapshot.children {
+          let currCat = item as! FIRDataSnapshot
+          let snapshotValue = currCat.value as! String
+          self.channels.append(snapshotValue)
+        }
+        appDelegate.categories = self.channels
+      })
     }
     
     if (!fromFilter) {
@@ -99,21 +113,6 @@ class BetListTableViewController: UITableViewController {
       }
     }
     
-    tableView.allowsMultipleSelectionDuringEditing = false
-    //channels = []
-    if (appDelegate.categories.count <= 1) {
-      print("GETTING CATEGORIES")
-      channels.append("All")
-      refChannel.observe(.value, with: { snapshot in
-        for item in snapshot.children {
-          let currCat = item as! FIRDataSnapshot
-          let snapshotValue = currCat.value as! String
-          self.channels.append(snapshotValue)
-        }
-        appDelegate.categories = self.channels
-      })
-    }
-    
     
     FIRAuth.auth()!.addStateDidChangeListener { auth, user in
       guard let user = user else { return }
@@ -136,6 +135,27 @@ class BetListTableViewController: UITableViewController {
   // MARK: UIViewController Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
+    let connectedRef = FIRDatabase.database().reference(withPath: ".info/connected")
+    connectedRef.observe(.value, with: { snapshot in
+      if snapshot.value as? Bool ?? false {
+        UIApplication.shared.endIgnoringInteractionEvents()
+      }
+      else {
+        UIApplication.shared.beginIgnoringInteractionEvents()
+        self.errorHandler()
+      }
+    })
+    self.continueViewDidLoad()
+  }
+  
+  func errorHandler() {
+    let alertController = UIAlertController(title: "Press OK to continue", message: "If you cannot press OK, then your internet connection is not good enough", preferredStyle: .alert)
+    present(alertController, animated: true, completion: nil)
+    let callOK = UIAlertAction(title: "OK", style: .default, handler: nil)
+    alertController.addAction(callOK)
+  }
+  
+  func continueViewDidLoad(){
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     if (appDelegate.profile == nil) {
@@ -156,7 +176,7 @@ class BetListTableViewController: UITableViewController {
     }
     else {self.restOfViewDidLoad()}
   }
-
+  
   // MARK: HELPER FUNCTIONS
   func reloadRows(){
     self.items = []
@@ -256,11 +276,11 @@ class BetListTableViewController: UITableViewController {
   // MARK: PREPARE FOR SEGUE
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if (segue.identifier == "toIndividualBet") {
-        let vc = segue.destination as! BetViewController
-        // Pass the selected object to the new view controller.
-        if let indexPath = self.tableView.indexPathForSelectedRow {
-          let selectedBet = items[indexPath.row]
-          vc.bet = selectedBet
+      let vc = segue.destination as! BetViewController
+      // Pass the selected object to the new view controller.
+      if let indexPath = self.tableView.indexPathForSelectedRow {
+        let selectedBet = items[indexPath.row]
+        vc.bet = selectedBet
       }
     }
     else if (segue.identifier == "toProfileController") {
@@ -274,7 +294,7 @@ class BetListTableViewController: UITableViewController {
       else {vc.gint = 0}
       vc.rad = radius
       vc.category = self.channelName
-
+      
     }
   }
 }
