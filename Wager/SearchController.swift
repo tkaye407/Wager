@@ -34,7 +34,7 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
     let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(SearchController.dismissKeyboard))
     
     //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
-    //tap.cancelsTouchesInView = false
+    tap.cancelsTouchesInView = false
     
     view.addGestureRecognizer(tap)
   }
@@ -44,6 +44,7 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
     //Causes the view (or one of its embedded text fields) to resign the first responder status.
     view.endEditing(true)
   }
+  
   func reloadRows(){
     var searchStr = SearchQuery.text!
     if (searchStr == ""){
@@ -51,6 +52,7 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
       return
     }
     searchTableView.isHidden = false
+    searchTableView.isUserInteractionEnabled = true
     
     searchStr = searchStr.uppercased()
     if (self.tablePicked == USERS_TABLE) {
@@ -134,6 +136,7 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    print("Hello")
     if(self.tablePicked == USERS_TABLE) {
       self.performSegue(withIdentifier: "toProfile", sender: self);
     }
@@ -157,7 +160,6 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
     }
   }
 
-  
   @IBAction func SearchButtonPressed(_ sender: Any) {
     reloadRows()
   }
