@@ -154,6 +154,7 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
     }
     else if (segue.identifier == "toProfile") {
       let vc = segue.destination as! ProfileViewController
+      vc.shouldShowSignout = false
       if let indexPath = self.searchTableView.indexPathForSelectedRow {
         vc.profile = items[indexPath.row]
       }
