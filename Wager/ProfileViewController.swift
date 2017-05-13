@@ -103,11 +103,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.profileImageView.image = finalImage
       }
     }
-    
-    bets = []
-    allItems = []
-    self.createBetListener(challenger_or_challengee: "challenger_uid")
-    self.createBetListener(challenger_or_challengee: "challengee_uid")
   }
   
   func createBetListener(challenger_or_challengee: String) {
@@ -115,6 +110,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     new_ref.observe(.value, with: { snapshot in
       for item in snapshot.children {
         let betItem = BetItem(snapshot: item as! FIRDataSnapshot)
+        if (self.allItems.filter{$0.key == betItem.key}.count > 0) {continue}
         self.allItems.append(betItem)
       }
       self.completedChanged(self.completedController)
@@ -168,9 +164,10 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
       self.user = appDelegate.user
     }
     
-    pRef.child((self.profile?.key)!).observe(FIRDataEventType.value, with: { (snapshot) in
+    pRef.child((self.profile?.key)!).observeSingleEvent(of: FIRDataEventType.value, with: { (snapshot) in
       self.profile = Profile(snapshot: snapshot)
       self.setProfile()
+      self.addBetListeners()
     })
     
     isFriend()
@@ -192,6 +189,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.AddFriendButton.setTitle("Delete Friend", for: .normal)
       }
     })
+  }
+  
+  func addBetListeners() {
+    self.bets = []
+    self.allItems = []
+    self.createBetListener(challenger_or_challengee: "challenger_uid")
+    self.createBetListener(challenger_or_challengee: "challengee_uid")
   }
   
     //MARK: UIImagePickerControllerDelegate
@@ -336,6 +340,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
       if let sourceViewController = sender.source as? ProfileEditorViewController, let profile = sourceViewController.profile {
           self.profile = profile
           //self.setProfile()
+          self.addBetListeners()
       }
       self.setProfile()//setProfile()
   }
